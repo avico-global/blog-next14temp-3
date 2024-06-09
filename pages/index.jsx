@@ -3,191 +3,303 @@ import FullContainer from "@/components/common/FullContainer";
 import Banner from "@/components/containers/Banner";
 import MostPopular from "@/components/containers/MostPopular";
 import Navbar from "@/components/containers/Navbar";
-import { Button } from "@/components/ui/button";
-import { Montserrat } from "next/font/google";
-import Image from "next/image";
 import Footer from "@/components/containers/Footer";
 import Rightbar from "@/components/containers/Rightbar";
+import Autoplay from "embla-carousel-autoplay";
 
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import React, { useRef } from "react";
+import {
+  callBackendApi,
+  getDomain,
+  getImagePath,
+  getProjectId,
+} from "@/lib/myFun";
+import BlogCard from "@/components/common/BlogCard";
+import GoogleTagManager from "@/lib/GoogleTagManager";
+import Head from "next/head";
+
+import { Montserrat } from "next/font/google";
+import JsonLd from "@/components/json/JsonLd";
 const myFont = Montserrat({ subsets: ["cyrillic"] });
 
-export default function Home({ logo, banner, most_popular }) {
+export default function Home({
+  logo,
+  blog_list,
+  imagePath,
+  project_id,
+  categories,
+  domain,
+  meta,
+}) {
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+
   return (
     <div className={`min-h-screen ${myFont.className}`}>
+      <Head>
+        <meta charSet="UTF-8" />
+        <title>{meta?.title}</title>
+        <meta name="description" content={meta?.description} />
+        <link rel="author" href={`http://${domain}`} />
+        <link rel="publisher" href={`http://${domain}`} />
+        <link rel="canonical" href={`http://${domain}`} />
+        <meta name="robots" content="noindex" />
+        <meta name="theme-color" content="#008DE5" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <GoogleTagManager />
+        <meta
+          name="google-site-verification"
+          content="zbriSQArMtpCR3s5simGqO5aZTDqEZZi9qwinSrsRPk"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        />
+      </Head>
       <Navbar
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/industry_template_images/${process.env.NEXT_PUBLIC_TEMPLATE_ID}/${logo.file_name}`}
+        blog_list={blog_list}
+        categories={categories}
+        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        project_id={project_id}
       />
-      <Banner
-        badge={banner.value.badge}
-        title={banner.value.title}
-        tagline={banner.value.tagline}
-        image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/industry_template_images/${process.env.NEXT_PUBLIC_TEMPLATE_ID}/${banner?.file_name}`}
-      />
-      <MostPopular blogs={most_popular} />
-      <FullContainer>
-        <Container className="py-4">
-          <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-            {/* Left Column */}
-            <div>
-              <div className="flex flex-col items-center gap-3">
-                <p className="italic text-xs w-fit text-center text-gray-400">
-                  in
-                  <span className="uppercase text-blue-700 font-medium ml-2 text-xs">
-                    Lifestyle
-                  </span>
-                </p>
-                <h2 className="text-center md:text-left font-extrabold text-3xl">
-                  A Look Inside The Work Abode
-                </h2>
-                <p className="text-xs uppercase">
-                  <span className="text-gray-400 text-xs">MAY 15, 2016</span> -
-                  3 COMMENTS
-                </p>
-              </div>
-              <div className="relative overflow-hidden w-full h-96 mt-8">
-                <Image
-                  src="https://cheerup2.theme-sphere.com/bold/wp-content/uploads/sites/8/2016/05/DSC2670-768x513.jpg"
-                  alt="Background Image"
-                  priority={true}
-                  fill={true}
-                  loading="eager"
-                  className="-z-10 w-full h-full object-cover absolute top-0"
-                />
-              </div>
-              <p className="mt-3">
-                More off this less hello salamander lied porpoise much over
-                tightly circa horse taped so innocuously outside crud mightily
-                rigorous negative one inside gorilla and drew humbly shot
-                tortoise inside opaquely. Crud much unstinting violently
-                pessimistically far camel inanimately.
-              </p>
-              <p className="mt-3">
-                Coquettish darn pernicious foresaw therefore much amongst
-                lingeringly shed much due antagonistically alongside so then
-                more and about turgid wrote so stunningly this that much slew.
-              </p>
-              <div className="flex justify-center">
-                <Button className="mt-6 rounded-full">Read More</Button>
-              </div>
+      <Carousel
+        plugins={[plugin.current]}
+        className="w-full"
+        onMouseEnter={plugin.current.stop}
+        onMouseLeave={plugin.current.reset}
+      >
+        <CarouselContent className="w-full">
+          {blog_list.map((item, index) => (
+            <CarouselItem key={index}>
+              <Banner
+                key={index}
+                title={item.title}
+                author={item.author}
+                published_at={item.published_at}
+                tagline={item.tagline}
+                description={item.articleContent}
+                image={
+                  item.image
+                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                    : "/no-image.png"
+                }
+                project_id={project_id}
+                href={
+                  project_id
+                    ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                    : `/${item?.article_category?.name}/${item.key}`
+                }
+                category={item?.article_category?.name}
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <div className="flex items-center justify-center gap-2 p-2">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
+      </Carousel>
 
-              <div className="grid md:grid-cols-2 gap-10 mt-10">
-                <div className="flex flex-col items-center text-center">
-                  <div className="relative overflow-hidden w-full h-56 mt-8">
-                    <Image
-                      src="https://cheerup2.theme-sphere.com/bold/wp-content/uploads/sites/8/2016/05/shutterstock_604112207-1024x683.jpg"
-                      alt="Background Image"
-                      priority={true}
-                      fill={true}
-                      loading="eager"
-                      className="-z-10 w-full h-full object-cover absolute top-0"
+      <MostPopular
+        blog_list={blog_list}
+        imagePath={imagePath}
+        project_id={project_id}
+      />
+
+      <FullContainer>
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+            <div>
+              {blog_list
+                ?.slice(-1)
+                .reverse()
+                .map((item, index) => (
+                  <BlogCard
+                    key={index}
+                    index={index}
+                    title={item.title}
+                    author={item.author}
+                    published_at={item.published_at}
+                    tagline={item.tagline}
+                    content={item.articleContent}
+                    image={
+                      item.image
+                        ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                        : "/no-image.png"
+                    }
+                    project_id={project_id}
+                    href={
+                      project_id
+                        ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                        : `/${item?.article_category?.name}/${item.key}`
+                    }
+                    category={item?.article_category?.name}
+                    imageHeight="h-96"
+                  />
+                ))}
+              <div className="grid grid-cols-2 gap-10 mt-12">
+                <div className="flex flex-col gap-10">
+                  {blog_list?.slice(0, 4).map((item, index) => (
+                    <BlogCard
+                      key={index}
+                      index={index}
+                      title={item.title}
+                      author={item.author}
+                      published_at={item.published_at}
+                      tagline={item.tagline}
+                      content={item.articleContent}
+                      image={
+                        item.image
+                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                          : "/no-image.png"
+                      }
+                      project_id={project_id}
+                      href={
+                        project_id
+                          ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                          : `/${item?.article_category?.name}/${item.key}`
+                      }
+                      category={item?.article_category?.name}
+                      imageHeight="h-96"
                     />
-                  </div>
-                  <div className="flex flex-col items-center gap-2 mt-5">
-                    <p className="italic text-xs w-fit text-center text-gray-400">
-                      in
-                      <span className="uppercase text-blue-700 font-medium ml-2 text-xs">
-                        Lifestyle
-                      </span>
-                    </p>
-                    <h2 className="font-extrabold text-lg">
-                      Newly Wed And Blissful Start of New Life
-                    </h2>
-                    <p className="text-xs">May 15, 2024</p>
-                  </div>
-                  <p className="my-6">
-                    More off this less hello salamander lied porpoise much over
-                    tightly circa horse taped so innocuously outside crud
-                    mightily rigorous…
-                  </p>
-                  <Button className="rounded-full">Read More</Button>
+                  ))}
                 </div>
-                <div>
-                  <div className="flex flex-col items-center text-center">
-                    <div className="relative overflow-hidden w-full h-96 mt-8">
-                      <Image
-                        src="https://cheerup2.theme-sphere.com/bold/wp-content/uploads/sites/8/2016/05/shutterstock_350435249-1024x1024.jpg"
-                        alt="Background Image"
-                        priority={true}
-                        fill={true}
-                        loading="eager"
-                        className="-z-10 w-full h-full object-cover absolute top-0"
-                      />
-                    </div>
-                    <div className="flex flex-col items-center gap-2 mt-5">
-                      <p className="italic text-xs w-fit text-center text-gray-400">
-                        in
-                        <span className="uppercase text-blue-700 font-medium ml-2 text-xs">
-                          Travel
-                        </span>
-                      </p>
-                      <h2 className="font-extrabold text-lg">
-                        Latest Style Ideas For Men in Fashion
-                      </h2>
-                      <p className="text-xs">May 15, 2024</p>
-                    </div>
-                    <p className="my-6">
-                      More off this less hello salamander lied porpoise much
-                      over tightly circa horse taped so innocuously outside crud
-                      mightily rigorous…
-                    </p>
-                    <Button className="rounded-full">Read More</Button>
-                  </div>
+                <div className="flex flex-col gap-10">
+                  {blog_list?.slice(5, 9).map((item, index) => (
+                    <BlogCard
+                      key={index}
+                      index={index}
+                      title={item.title}
+                      author={item.author}
+                      published_at={item.published_at}
+                      tagline={item.tagline}
+                      content={item.articleContent}
+                      image={
+                        item.image
+                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                          : "/no-image.png"
+                      }
+                      project_id={project_id}
+                      href={
+                        project_id
+                          ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                          : `/${item?.article_category?.name}/${item.key}`
+                      }
+                      category={item?.article_category?.name}
+                      imageHeight={index === 0 ? "h-40" : "h-96"}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
-
+            {/* Right Column */}
             <Rightbar />
           </div>
         </Container>
       </FullContainer>
-      <Footer />
+      <Footer
+        blog_list={blog_list}
+        categories={categories}
+        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+        project_id={project_id}
+        imagePath={imagePath}
+      />
+
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": `http://${domain}/`,
+              url: `http://${domain}/`,
+              name: meta?.title,
+              isPartOf: {
+                "@id": `http://${domain}`,
+              },
+              description: meta?.description,
+              inLanguage: "en-US",
+            },
+            {
+              "@type": "Organization",
+              "@id": `http://${domain}`,
+              name: domain,
+              url: `http://${domain}/`,
+              logo: {
+                "@type": "ImageObject",
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
+              },
+              sameAs: [
+                "http://www.facebook.com",
+                "http://www.twitter.com",
+                "http://instagram.com",
+              ],
+            },
+            {
+              "@type": "ItemList",
+              url: `http://${domain}`,
+              name: "blog",
+              itemListElement: blog_list?.map((blog, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "Article",
+                  url: `http://${domain}/${blog?.article_category?.name}/${blog.key}`,
+                  name: blog.title,
+                },
+              })),
+            },
+          ],
+        }}
+      />
     </div>
   );
 }
 
-export async function getStaticProps() {
-  const _logo = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_SITE_MANAGER
-    }/api/public/industry_template_data/${
-      process.env.NEXT_PUBLIC_INDUSTRY_ID
-    }/${process.env.NEXT_PUBLIC_TEMPLATE_ID}/data/${"logo"}`
-  );
-  const logo = await _logo.json();
+export async function getServerSideProps({ req, query }) {
+  const domain = getDomain(req?.headers?.host);
+  const imagePath = await getImagePath({ domain, query });
+  const project_id = getProjectId(query);
 
-  const _banner = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_SITE_MANAGER
-    }/api/public/industry_template_data/${
-      process.env.NEXT_PUBLIC_INDUSTRY_ID
-    }/${process.env.NEXT_PUBLIC_TEMPLATE_ID}/data/${"banner"}`
-  );
-  const banner = await _banner.json();
-
-  const _blog_list = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_SITE_MANAGER
-    }/api/public/industry_template_data/${
-      process.env.NEXT_PUBLIC_INDUSTRY_ID
-    }/${process.env.NEXT_PUBLIC_TEMPLATE_ID}/data/${"blog_list"}`
-  );
-  const blog_list = await _blog_list.json();
-
-  const _most_popular = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_SITE_MANAGER
-    }/api/public/industry_template_data/${
-      process.env.NEXT_PUBLIC_INDUSTRY_ID
-    }/${process.env.NEXT_PUBLIC_TEMPLATE_ID}/data/${"most_popular"}`
-  );
-  const most_popular = await _most_popular.json();
+  const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const logo = await callBackendApi({ domain, query, type: "logo" });
+  const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
+  const categories = await callBackendApi({
+    domain,
+    query,
+    type: "categories",
+  });
 
   return {
     props: {
+      domain,
+      imagePath,
+      project_id,
       logo: logo.data[0],
-      banner: banner.data[0],
       blog_list: blog_list.data[0].value,
-      most_popular: most_popular.data[0].value,
+      categories: categories?.data[0]?.value || null,
+      meta: meta?.data[0]?.value || null,
     },
   };
 }
