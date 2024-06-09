@@ -14,52 +14,56 @@ export default function Rightbar({
   return (
     <div className="h-fit sticky top-0">
       <div className="flex flex-col">
-        <div className="bg-black text-white py-2 px-4 font-semibold capitalize">
-          Latest Posts
-        </div>
-        {lastFiveBlogs?.reverse().map((item, index) => (
-          <div key={index} className="grid grid-cols-widget gap-3 py-3">
-            <Link
-              href={
-                project_id
-                  ? `/${item.article_category.name}/${item.key}?${project_id}`
-                  : `/${item.article_category.name}/${item.key}`
-              }
-            >
-              <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1">
-                <Image
-                  title={item?.imageTitle}
-                  src={
-                    item?.image
-                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                      : "/no-image.png"
-                  }
-                  fill={true}
-                  loading="lazy"
-                  alt="blog"
-                  className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
-                />
-              </div>
-            </Link>
-            <div>
-              <p className="font-bold leading-tight">{item?.title}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <p className="text-xs">
-                  <span className="text-gray-400 text-xs">By</span>:{" "}
-                  {item?.author}
-                </p>
-                <span className="text-gray-400">-</span>
-                <p className="text-xs text-gray-400 font-semibold">
-                  {item?.published_at}
-                </p>
-              </div>
+        {lastFiveBlogs?.length > 0 && (
+          <div className="mb-7">
+            <div className="bg-black text-white py-2 px-4 font-semibold capitalize">
+              Latest Posts
             </div>
+            {lastFiveBlogs?.reverse().map((item, index) => (
+              <div key={index} className="grid grid-cols-widget gap-3 py-3">
+                <Link
+                  href={
+                    project_id
+                      ? `/${item.article_category.name}/${item.key}?${project_id}`
+                      : `/${item.article_category.name}/${item.key}`
+                  }
+                >
+                  <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1">
+                    <Image
+                      title={item?.imageTitle}
+                      src={
+                        item?.image
+                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                          : "/no-image.png"
+                      }
+                      fill={true}
+                      loading="lazy"
+                      alt="blog"
+                      className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
+                    />
+                  </div>
+                </Link>
+                <div>
+                  <p className="font-bold leading-tight">{item?.title}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-xs">
+                      <span className="text-gray-400 text-xs">By</span>:{" "}
+                      {item?.author}
+                    </p>
+                    <span className="text-gray-400">-</span>
+                    <p className="text-xs text-gray-400 font-semibold">
+                      {item?.published_at}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
+        )}
 
         {tags?.length > 0 && (
           <>
-            <div className="bg-black text-white py-2 px-4 font-semibold capitalize mt-7">
+            <div className="bg-black text-white py-2 px-4 font-semibold capitalize mb-14">
               Tags
             </div>
             <div className="flex items-center gap-1 flex-wrap mt-3">
@@ -75,7 +79,7 @@ export default function Rightbar({
           </>
         )}
       </div>
-      <div className="border p-5 mt-16 flex flex-col items-center text-center">
+      <div className="border p-5 flex flex-col items-center text-center">
         <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
         <div className="relative overflow-hidden w-full h-40 mt-8">
           <Image
