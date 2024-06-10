@@ -1,3 +1,5 @@
+import React, { useRef } from "react";
+// Components
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import Banner from "@/components/containers/Banner";
@@ -5,8 +7,9 @@ import MostPopular from "@/components/containers/MostPopular";
 import Navbar from "@/components/containers/Navbar";
 import Footer from "@/components/containers/Footer";
 import Rightbar from "@/components/containers/Rightbar";
-import Autoplay from "embla-carousel-autoplay";
-
+import BlogCard from "@/components/common/BlogCard";
+import GoogleTagManager from "@/lib/GoogleTagManager";
+import JsonLd from "@/components/json/JsonLd";
 import {
   Carousel,
   CarouselContent,
@@ -14,20 +17,19 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import React, { useRef } from "react";
 import {
   callBackendApi,
   getDomain,
   getImagePath,
   getProjectId,
 } from "@/lib/myFun";
-import BlogCard from "@/components/common/BlogCard";
-import GoogleTagManager from "@/lib/GoogleTagManager";
-import Head from "next/head";
 
-import { Montserrat } from "next/font/google";
-import JsonLd from "@/components/json/JsonLd";
+import Autoplay from "embla-carousel-autoplay";
+import Head from "next/head";
 import MarkdownIt from "markdown-it";
+
+// Font
+import { Montserrat } from "next/font/google";
 const myFont = Montserrat({ subsets: ["cyrillic"] });
 
 export default function Home({
@@ -51,7 +53,7 @@ export default function Home({
         <link rel="author" href={`http://${domain}`} />
         <link rel="publisher" href={`http://${domain}`} />
         <link rel="canonical" href={`http://${domain}`} />
-        <meta name="robots" content="noindex" />
+        {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />

@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import FullContainer from "../common/FullContainer";
 import Image from "next/image";
 import Link from "next/link";
-import { Facebook, Instagram, Search, Twitter } from "lucide-react";
+import { Facebook, Instagram, Menu, Search, Twitter } from "lucide-react";
 import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 
@@ -57,15 +57,32 @@ export default function Navbar({
 
   const isActive = (path) => currentPath === path;
 
+  const [sidebar, setSidebar] = useState(false);
+  const toggleSidebar = () => {
+    setSidebar(!sidebar);
+  };
+  const addFromRef = useRef();
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (addFromRef.current && !addFromRef.current.contains(event.target)) {
+        if (sidebar) toggleSidebar();
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [sidebar, toggleSidebar]);
+
   return (
-    <FullContainer className="bg-white shadow py-3 sticky top-0 z-10">
+    <FullContainer className="bg-white shadow sticky top-0 z-10 py-3 md:py-0">
       <div className="grid grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
-        <div className="hidden md:flex items-center gap-5">
+        <div className="hidden md:flex items-center">
           <Link
             href={project_id ? `/?${project_id}` : "/"}
             className={cn(
-              "font-semibold text-gray-700 capitalize",
-              isActive("/") && "border-b-2 border-black"
+              "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-3",
+              isActive("/") && "border-black text-black"
             )}
           >
             Home
@@ -75,24 +92,26 @@ export default function Navbar({
               key={index}
               href={project_id ? `/${item}?${project_id}` : `/${item}`}
               className={cn(
-                "font-semibold text-gray-700 capitalize",
+                "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-3 px-2 border-b-2 hover:border-black",
                 (category === item || isActive(`/${item}`)) &&
-                  "border-b-2 border-black"
+                  "border-black text-black"
               )}
             >
               {item}
             </Link>
           ))}
         </div>
-        <Link href="/" className="flex items-center md:justify-center">
-          <Image
-            height={50}
-            width={180}
-            src={logo}
-            alt="logo"
-            className="h-8 md:h-10 w-auto"
-          />
-        </Link>
+        <div className="flex items-center md:justify-center">
+          <Link href="/">
+            <Image
+              height={50}
+              width={180}
+              src={logo}
+              alt="logo"
+              className="h-8 md:h-10 w-auto"
+            />
+          </Link>
+        </div>
         <div
           className="flex items-center justify-end gap-3 text-gray-500 relative"
           ref={searchContainerRef}
@@ -104,8 +123,12 @@ export default function Navbar({
             {"|"}
           </div>
           <Search
-            className="w-4 text-black cursor-pointer"
+            className="w-5 md:w-4 text-black cursor-pointer"
             onClick={handleSearchToggle}
+          />
+          <Menu
+            onClick={toggleSidebar}
+            className="w-6 h-6 md:hidden ml-1 text-black"
           />
           {openSearch && (
             <>
@@ -136,6 +159,67 @@ export default function Navbar({
               />
             </>
           )}
+        </div>
+      </div>
+
+      <div
+        ref={addFromRef}
+        className={`h-screen w-7/12 overflow-y-scroll transition-all z-50 fixed right-0 top-0 px-4 bg-white dark:bg-gray-800 capitalize ${
+          sidebar && "shadow-xl"
+        }`}
+        style={{ transform: sidebar ? "translateX(0)" : "translateX(100%)" }}
+      >
+        <div className="flex items-center justify-end gap-3 h-[52px]">
+          <Search
+            className="w-5 md:w-4 text-black cursor-pointer"
+            onClick={() => {
+              toggleSidebar();
+              handleSearchToggle();
+            }}
+          />
+          <Menu onClick={toggleSidebar} className="w-6 h-6 md:hidden ml-1" />
+        </div>
+        <div className="flex flex-col mt-5">
+          <Link
+            href={project_id ? `/?${project_id}` : "/"}
+            className={cn(
+              "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
+              isActive("/") && "border-black text-black"
+            )}
+          >
+            Home
+          </Link>
+          {categories?.map((item, index) => (
+            <Link
+              key={index}
+              href={project_id ? `/${item}?${project_id}` : `/${item}`}
+              className={cn(
+                "font-semibold text-gray-500 capitalize hover:text-black transition-all py-3 px-2 border-b hover:border-black",
+                (category === item || isActive(`/${item}`)) &&
+                  "border-black text-black"
+              )}
+            >
+              {item}
+            </Link>
+          ))}
+          <Link
+            href={project_id ? `/?${project_id}` : "/"}
+            className={cn(
+              "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
+              isActive("/about") && "border-black text-black"
+            )}
+          >
+            About
+          </Link>
+          <Link
+            href={project_id ? `/?${project_id}` : "/"}
+            className={cn(
+              "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
+              isActive("/contact") && "border-black text-black"
+            )}
+          >
+            Contact
+          </Link>
         </div>
       </div>
     </FullContainer>
