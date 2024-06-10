@@ -6,6 +6,10 @@ import LatestPosts from "./LatestPosts";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt();
 
 export default function Footer({
   category,
@@ -13,17 +17,34 @@ export default function Footer({
   project_id,
   blog_list,
   imagePath,
+  about_me,
 }) {
+  const content = md.render(about_me?.value || "");
+
   return (
     <FullContainer className="bg-black text-white py-16 mt-12">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-14 w-full">
           <div>
             <p className="font-bold">About</p>
-            <p className="text-white/90 mt-6 text-lg">
-              Sed ut in perspiciatis unde omnis iste natus error sit on i tatem
-              accusantium doloremque laudan totam rem aperiam eaque.
-            </p>
+            <div className="relative overflow-hidden w-full h-40 mt-5">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me?.file_name}`}
+                alt="Background Image"
+                fill={true}
+                loading="lazy"
+                className="w-full h-full object-cover absolute top-0"
+              />
+            </div>
+            <div
+              className="my-5 text-xs"
+              dangerouslySetInnerHTML={{
+                __html: `${content.slice(0, 100)}...`,
+              }}
+            ></div>
+            <Link href="/about" className="underline font-bold">
+              Read More
+            </Link>
           </div>
           <PopularPosts blog_list={blog_list} imagePath={imagePath} />
           <LatestPosts blog_list={blog_list} imagePath={imagePath} />
@@ -66,7 +87,7 @@ export default function Footer({
           </Link>
         </div>
         <p className="mt-8 text-white/70 text-xs">
-          © 2024 NEXT TEMPLATE DESGINED BY - ALL USAMA BHATTI
+          © 2024 NEXT TEMPLATE DESGINED BY - USAMA BHATTI
         </p>
       </Container>
     </FullContainer>

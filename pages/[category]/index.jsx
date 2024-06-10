@@ -22,6 +22,7 @@ import Navbar from "@/components/containers/Navbar";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
 
 import { Montserrat } from "next/font/google";
+import MarkdownIt from "markdown-it";
 const myFont = Montserrat({ subsets: ["cyrillic"] });
 
 export default function Categories({
@@ -32,10 +33,14 @@ export default function Categories({
   domain,
   categories,
   project_id,
+  about_me,
 }) {
   const router = useRouter();
   const { category } = router.query;
   const breadcrumbs = useBreadcrumbs();
+  const markdownIt = new MarkdownIt();
+
+  const convertMarkdown = (markdownText) => markdownIt?.render(markdownText);
 
   return (
     <div
@@ -134,8 +139,16 @@ export default function Categories({
                         {dayjs(item?.published_at)?.format("MMM D, YYYY")}
                       </p>
                     </div>
-                    <p className="text-sm mt-1">
-                      {item?.articleContent.slice(0, 200)}
+                    <p className="mt-1 markdown-content">
+                      <div
+                        style={{ fontSize: 12 }}
+                        dangerouslySetInnerHTML={{
+                          __html: convertMarkdown(item?.articleContent).slice(
+                            0,
+                            200
+                          ),
+                        }}
+                      />
                     </p>
                   </div>
                 )
@@ -149,6 +162,7 @@ export default function Categories({
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
         project_id={project_id}
         imagePath={imagePath}
+        about_me={about_me}
       />
 
       <JsonLd
@@ -246,6 +260,7 @@ export async function getServerSideProps({ req, query }) {
     type: "categories",
   });
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const about_me = await callBackendApi({ domain, query, type: "about_me" });
 
   return {
     props: {
@@ -260,6 +275,7 @@ export async function getServerSideProps({ req, query }) {
       imagePath,
       project_id,
       domain: domain === "hellospace.us" ? req?.headers?.host : domain,
+      about_me: about_me.data[0] || null,
     },
   };
 }

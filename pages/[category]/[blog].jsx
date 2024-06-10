@@ -21,6 +21,7 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
+import SocialShare from "@/components/common/SocialShare";
 
 import { Montserrat } from "next/font/google";
 const myFont = Montserrat({ subsets: ["cyrillic"] });
@@ -33,6 +34,7 @@ export default function Blog({
   imagePath,
   categories,
   domain,
+  about_me,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -44,7 +46,6 @@ export default function Blog({
       item?.article_category?.name === myblog?.value?.article_category?.name
   );
 
-  // Get the last 5 items from the filtered list
   const lastFiveBlogs = filteredBlogs.slice(-5);
 
   return (
@@ -115,19 +116,26 @@ export default function Blog({
 
       <FullContainer>
         <Container>
-          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+          <Breadcrumbs breadcrumbs={breadcrumbs} className="pt-7 pb-5" />
           <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
             <div>
-              <div
-                className="markdown-content"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
+              <article className="prose">
+                <div dangerouslySetInnerHTML={{ __html: content }} />
+              </article>
+              <div className="mt-12">
+                <h3 className="text-lg font-semibold">Share this article:</h3>
+                <SocialShare
+                  url={`http://${domain}${myblog?.article_category?.name}/${myblog?.key}`}
+                  title={myblog?.value.title}
+                />
+              </div>
             </div>
             <Rightbar
               lastFiveBlogs={lastFiveBlogs}
               imagePath={imagePath}
               project_id={project_id}
               tags={myblog?.value?.tags}
+              about_me={about_me}
             />
           </div>
         </Container>
@@ -143,6 +151,7 @@ export default function Blog({
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
         project_id={project_id}
         imagePath={imagePath}
+        about_me={about_me}
       />
 
       <JsonLd
@@ -154,9 +163,7 @@ export default function Blog({
               mainEntityOfPage: {
                 "@type": "WebPage",
                 "@id": myblog
-                  ? `http://${domain}/${myblog?.value.title
-                      ?.toLowerCase()
-                      .replaceAll(" ", "-")}`
+                  ? `http://${domain}${myblog?.article_category?.name}/${myblog?.key}`
                   : "",
               },
               headline: myblog?.value.title,
@@ -177,14 +184,14 @@ export default function Blog({
             },
             {
               "@type": "ItemList",
-              url: `http://${domain}/${myblog.key}`,
+              url: `http://${domain}${myblog?.article_category?.name}/${myblog?.key}`,
               name: "blog",
               itemListElement: blog_list?.map((blog, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${blog.key}`,
+                  url: `http://${domain}${blog?.article_category?.name}/${blog?.key}`,
                   name: blog.title,
                 },
               })),
@@ -192,7 +199,7 @@ export default function Blog({
             {
               "@type": "WebPage",
               "@id": `http://${domain}/${myblog?.key}`,
-              url: `http://${domain}/${myblog?.article}/${myblog?.key}`,
+              url: `http://${domain}/${myblog?.article_category?.name}/${myblog?.key}`,
               name: myblog?.value?.meta_title,
               description: myblog?.value?.meta_description,
               publisher: {
@@ -240,6 +247,7 @@ export async function getServerSideProps({ params, req, query }) {
     };
   }
   const logo = await callBackendApi({ domain, query, type: "logo" });
+  const about_me = await callBackendApi({ domain, query, type: "about_me" });
 
   return {
     props: {
@@ -250,6 +258,7 @@ export async function getServerSideProps({ params, req, query }) {
       myblog: blog.data[0],
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
+      about_me: about_me.data[0] || null,
     },
   };
 }

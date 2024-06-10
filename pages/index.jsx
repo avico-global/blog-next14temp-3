@@ -42,11 +42,6 @@ export default function Home({
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
-  const convertToMarkdown = (inputString) => {
-    const md = new MarkdownIt();
-    return md.render(inputString);
-  };
-
   return (
     <div className={`min-h-screen ${myFont.className}`}>
       <Head>
@@ -220,8 +215,7 @@ export default function Home({
                 </div>
               </div>
             </div>
-            {/* Right Column */}
-            <Rightbar about_me={about_me} />
+            <Rightbar about_me={about_me} imagePath={imagePath} />
           </div>
         </Container>
       </FullContainer>
@@ -231,6 +225,7 @@ export default function Home({
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
         project_id={project_id}
         imagePath={imagePath}
+        about_me={about_me}
       />
 
       <JsonLd

@@ -70,10 +70,10 @@ export default function Rightbar({
 
         {tags?.length > 0 && (
           <>
-            <div className="bg-black text-white py-2 px-4 font-semibold capitalize mb-14">
+            <div className="bg-black text-white py-2 px-4 font-semibold capitalize">
               Tags
             </div>
-            <div className="flex items-center gap-1 flex-wrap mt-3">
+            <div className="flex items-center gap-1 flex-wrap mt-3 mb-14">
               {tags?.map((item, index) => (
                 <p
                   key={index}
@@ -91,7 +91,7 @@ export default function Rightbar({
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
           <div className="relative overflow-hidden w-full h-40 mt-8">
             <Image
-              src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
+              src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me?.file_name}`}
               alt="Background Image"
               priority={true}
               fill={true}
@@ -103,7 +103,9 @@ export default function Rightbar({
             className="mt-3"
             dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
           ></div>
-          <p className="mt-3 underline text-sm font-bold">Read More</p>
+          <Link href="/about" className="mt-3 underline text-sm font-bold">
+            Read More
+          </Link>
         </div>
       )}
 

@@ -23,6 +23,7 @@ export default function Contact({
   project_id,
   imagePath,
   blog_list,
+  about_me,
   categories,
 }) {
   return (
@@ -67,6 +68,7 @@ export default function Contact({
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
         project_id={project_id}
         imagePath={imagePath}
+        about_me={about_me}
       />
     </div>
   );
@@ -83,6 +85,7 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "categories",
   });
+  const about_me = await callBackendApi({ domain, query, type: "about_me" });
 
   return {
     props: {
@@ -91,6 +94,7 @@ export async function getServerSideProps({ req, query }) {
       project_id,
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
+      about_me: about_me.data[0] || null,
     },
   };
 }

@@ -120,7 +120,7 @@ export default function Navbar({
                           : `/${item.article_category.name}/${item.key}`
                       }
                     >
-                      <div className="p-2 hover:bg-gray-200 border-b">
+                      <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                         {item.title}
                       </div>
                     </Link>

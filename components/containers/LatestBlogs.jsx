@@ -3,6 +3,9 @@ import FullContainer from "../common/FullContainer";
 import Container from "../common/Container";
 import Image from "next/image";
 import Link from "next/link";
+import MarkdownIt from "markdown-it";
+
+const markdownIt = new MarkdownIt();
 
 export default function LatestBlogs({ blogs, imagePath, project_id }) {
   return (
@@ -17,7 +20,7 @@ export default function LatestBlogs({ blogs, imagePath, project_id }) {
               author={item.author}
               date={item.published_at}
               tagline={item.tagline}
-              description={item.articleContent}
+              content={item.articleContent}
               image={
                 item.image
                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
@@ -36,10 +39,11 @@ export default function LatestBlogs({ blogs, imagePath, project_id }) {
   );
 }
 
-function BlogCard({ title, image, description, href }) {
+function BlogCard({ title, image, content, href }) {
+  const convertMarkdown = (markdownText) => markdownIt?.render(markdownText);
   return (
     <Link href={href || ""}>
-      <div className="relative overflow-hidden w-full h-96 hover:opacity-80 transition-all">
+      <div className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all">
         <Image
           src={image}
           alt="Background Image"
@@ -51,7 +55,9 @@ function BlogCard({ title, image, description, href }) {
         />
       </div>
       <h3 className="font-semibold text-lg mt-4 leading-5">{title}</h3>
-      <p className="text-gray-500 mt-3 text-sm">{description}</p>
+      <p className="text-gray-500 mt-2 text-sm">
+        {convertMarkdown(content).slice(0, 170)}
+      </p>
     </Link>
   );
 }
