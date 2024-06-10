@@ -27,6 +27,7 @@ import Head from "next/head";
 
 import { Montserrat } from "next/font/google";
 import JsonLd from "@/components/json/JsonLd";
+import MarkdownIt from "markdown-it";
 const myFont = Montserrat({ subsets: ["cyrillic"] });
 
 export default function Home({
@@ -37,8 +38,14 @@ export default function Home({
   categories,
   domain,
   meta,
+  about_me,
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+
+  const convertToMarkdown = (inputString) => {
+    const md = new MarkdownIt();
+    return md.render(inputString);
+  };
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -214,7 +221,7 @@ export default function Home({
               </div>
             </div>
             {/* Right Column */}
-            <Rightbar />
+            <Rightbar about_me={about_me} />
           </div>
         </Container>
       </FullContainer>
@@ -290,6 +297,7 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "categories",
   });
+  const about_me = await callBackendApi({ domain, query, type: "about_me" });
 
   return {
     props: {
@@ -300,6 +308,7 @@ export async function getServerSideProps({ req, query }) {
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
+      about_me: about_me.data[0] || null,
     },
   };
 }

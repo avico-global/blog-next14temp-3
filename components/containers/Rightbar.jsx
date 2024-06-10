@@ -4,13 +4,20 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt();
 
 export default function Rightbar({
   project_id,
   lastFiveBlogs,
   imagePath,
   tags,
+  page,
+  about_me,
 }) {
+  const content = md.render(about_me?.value || "");
+
   return (
     <div className="h-fit sticky top-0">
       <div className="flex flex-col">
@@ -79,27 +86,28 @@ export default function Rightbar({
           </>
         )}
       </div>
-      <div className="border p-5 flex flex-col items-center text-center">
-        <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
-        <div className="relative overflow-hidden w-full h-40 mt-8">
-          <Image
-            src="https://cheerup2.theme-sphere.com/bold/wp-content/uploads/sites/8/2017/07/about-side.jpg"
-            alt="Background Image"
-            priority={true}
-            fill={true}
-            loading="eager"
-            className="-z-10 w-full h-full object-cover absolute top-0"
-          />
+      {page !== "about" && (
+        <div className="border p-5 flex flex-col items-center text-center mb-10">
+          <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
+          <div className="relative overflow-hidden w-full h-40 mt-8">
+            <Image
+              src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
+              alt="Background Image"
+              priority={true}
+              fill={true}
+              loading="eager"
+              className="-z-10 w-full h-full object-cover absolute top-0"
+            />
+          </div>
+          <div
+            className="mt-3"
+            dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
+          ></div>
+          <p className="mt-3 underline text-sm font-bold">Read More</p>
         </div>
-        <p className="mt-3 text-sm">
-          {
-            " I'm Shane, a girly girl and lover of life. Join me on the journey to find latest in fashion."
-          }
-        </p>
-        <p className="mt-3 underline text-sm font-bold">Read More</p>
-      </div>
+      )}
 
-      <div className="border p-5 mt-16 flex flex-col items-center text-center">
+      <div className="border p-5 mt-6 flex flex-col items-center text-center">
         <h2 className="bg-white px-5 text-lg font-bold -mt-9">
           Connect & Follow
         </h2>

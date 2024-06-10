@@ -115,7 +115,7 @@ export default function Blog({
 
       <FullContainer>
         <Container>
-          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-5" />
+          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
           <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
             <div>
               <div

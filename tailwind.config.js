@@ -74,6 +74,7 @@ module.exports = {
       gridTemplateColumns: {
         home: "1fr 0.4fr",
         widget: "0.5fr 1fr",
+        about: "1fr 0.4fr",
       },
     },
   },

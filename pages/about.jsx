@@ -86,20 +86,12 @@ export default function About({
         <Container className="py-16">
           <div className="grid grid-cols-about gap-16 w-full">
             <div className={font2.className}>
-              <p
-                className={cn(
-                  "text-xs uppercase text-yellow-600",
-                  myFont.className
-                )}
-              >
-                LIFESTYLE BLOGGER
-              </p>
               <div
-                className="markdown-content about_me prose"
+                className="markdown-content about_me prose max-w-full"
                 dangerouslySetInnerHTML={{ __html: content }}
               />
             </div>
-            <Rightbar />
+            <Rightbar page="about" />
           </div>
         </Container>
       </FullContainer>
@@ -168,7 +160,6 @@ export async function getServerSideProps({ req, query }) {
   const project_id = getProjectId(query);
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
-  console.log("About", about_me);
   const categories = await callBackendApi({
     domain,
     query,

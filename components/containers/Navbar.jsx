@@ -84,7 +84,7 @@ export default function Navbar({
             </Link>
           ))}
         </div>
-        <Link href="/" className="flex items-center md:justify-end">
+        <Link href="/" className="flex items-center md:justify-center">
           <Image
             height={50}
             width={180}
