@@ -158,7 +158,7 @@ export default function Home({
                     imageHeight="h-96"
                   />
                 ))}
-              <div className="grid grid-cols-2 gap-10 mt-12">
+              <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
                 <div className="flex flex-col gap-10">
                   {blog_list?.slice(0, 4).map((item, index) => (
                     <BlogCard
@@ -181,7 +181,7 @@ export default function Home({
                           : `/${item?.article_category?.name}/${item.key}`
                       }
                       category={item?.article_category?.name}
-                      imageHeight="h-96"
+                      imageHeight="h-72 md:h-96"
                     />
                   ))}
                 </div>
@@ -207,7 +207,7 @@ export default function Home({
                           : `/${item?.article_category?.name}/${item.key}`
                       }
                       category={item?.article_category?.name}
-                      imageHeight={index === 0 ? "h-40" : "h-96"}
+                      imageHeight={index === 0 ? "h-40" : "h-72 md:h-96"}
                     />
                   ))}
                 </div>

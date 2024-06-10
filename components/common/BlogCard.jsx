@@ -38,11 +38,12 @@ const BlogCard = ({
             {category}
           </span>
         </p>
-        <h2 className="font-extrabold text-lg">{title}</h2>
+        <h2 className="font-extrabold md:text-lg leading-tight">{title}</h2>
         <p className="text-xs font-medium text-gray-400">{published_at}</p>
       </div>
-      <p className="my-3 text-sm">{content}…</p>
-      <Link href={href || ""}>
+      <p className="mt-3 text-xs md:hidden">{content.slice(0, 100)}</p>
+      <p className="mt-3 text-sm hidden md:block">{content}</p>
+      <Link href={href || ""} className="mt-3">
         <Button className="rounded-full">Read More</Button>
       </Link>
     </div>

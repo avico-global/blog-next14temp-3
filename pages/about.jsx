@@ -31,9 +31,10 @@ export default function About({
   categories,
   blog_list,
   domain,
+  meta,
 }) {
   const markdownIt = new MarkdownIt();
-  const content = markdownIt?.render(about_me.value || "");
+  const content = markdownIt?.render(about_me?.value);
 
   return (
     <div className={myFont.className}>
@@ -167,12 +168,14 @@ export async function getServerSideProps({ req, query }) {
   const project_id = getProjectId(query);
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
+  console.log("About", about_me);
   const categories = await callBackendApi({
     domain,
     query,
     type: "categories",
   });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
+  const meta = await callBackendApi({ domain, query, type: "meta_home" });
 
   return {
     props: {
@@ -183,6 +186,7 @@ export async function getServerSideProps({ req, query }) {
       project_id,
       categories: categories?.data[0]?.value || null,
       domain,
+      meta: meta?.data[0]?.value || null,
     },
   };
 }

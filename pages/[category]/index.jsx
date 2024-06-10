@@ -94,7 +94,7 @@ export default function Categories({
               Browsing: {category}
             </p>
           </div>
-          <div className="w-full grid grid-cols-2 gap-10">
+          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
             {blog_list.map(
               (item, index) =>
                 item?.article_category?.name === category && (

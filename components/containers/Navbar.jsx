@@ -59,7 +59,7 @@ export default function Navbar({
 
   return (
     <FullContainer className="bg-white shadow py-3 sticky top-0 z-10">
-      <div className="grid grid-cols-3 w-10/12 mx-auto">
+      <div className="grid grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
         <div className="hidden md:flex items-center gap-5">
           <Link
             href={project_id ? `/?${project_id}` : "/"}
@@ -84,36 +84,31 @@ export default function Navbar({
             </Link>
           ))}
         </div>
-        <Link href="/" className="flex items-center md:justify-center">
+        <Link href="/" className="flex items-center md:justify-end">
           <Image
             height={50}
             width={180}
             src={logo}
             alt="logo"
-            className="h-10 md:w-auto"
+            className="h-8 md:h-10 w-auto"
           />
         </Link>
         <div
           className="flex items-center justify-end gap-3 text-gray-500 relative"
           ref={searchContainerRef}
         >
-          <Facebook className="w-4" />
-          <Twitter className="w-4" />
-          <Instagram className="w-4" />
-          {"|"}
+          <div className="hidden md:flex items-center gap-3">
+            <Facebook className="w-4" />
+            <Twitter className="w-4" />
+            <Instagram className="w-4" />
+            {"|"}
+          </div>
           <Search
             className="w-4 text-black cursor-pointer"
             onClick={handleSearchToggle}
           />
           {openSearch && (
             <>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
-                placeholder="Search..."
-              />
               {searchQuery && (
                 <div className="absolute top-full p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
                   {filteredBlogs?.map((item, index) => (
@@ -132,6 +127,13 @@ export default function Navbar({
                   ))}
                 </div>
               )}
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
+                placeholder="Search..."
+              />
             </>
           )}
         </div>
