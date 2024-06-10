@@ -164,7 +164,7 @@ export default function Navbar({
 
       <div
         ref={addFromRef}
-        className={`h-screen w-7/12 overflow-y-scroll transition-all z-50 fixed right-0 top-0 px-4 bg-white dark:bg-gray-800 capitalize ${
+        className={`h-screen w-7/12 transition-all z-50 fixed right-0 top-0 px-4 bg-white dark:bg-gray-800 capitalize ${
           sidebar && "shadow-xl"
         }`}
         style={{ transform: sidebar ? "translateX(0)" : "translateX(100%)" }}
