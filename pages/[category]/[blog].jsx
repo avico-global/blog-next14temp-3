@@ -14,7 +14,6 @@ import {
   getImagePath,
   getProjectId,
 } from "@/lib/myFun";
-
 import JsonLd from "@/components/json/JsonLd";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
@@ -22,8 +21,8 @@ import useBreadcrumbs from "@/lib/useBreadcrumbs";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import SocialShare from "@/components/common/SocialShare";
-
 import { Montserrat } from "next/font/google";
+
 const myFont = Montserrat({ subsets: ["cyrillic"] });
 
 export default function Blog({
@@ -35,6 +34,8 @@ export default function Blog({
   categories,
   domain,
   about_me,
+  contact_details,
+  copyright,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -45,7 +46,6 @@ export default function Blog({
     (item) =>
       item?.article_category?.name === myblog?.value?.article_category?.name
   );
-
   const lastFiveBlogs = filteredBlogs.slice(-5);
 
   return (
@@ -92,6 +92,7 @@ export default function Blog({
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
         project_id={project_id}
+        contact_details={contact_details}
       />
       <FullContainer className="h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
         <Image
@@ -152,6 +153,8 @@ export default function Blog({
         project_id={project_id}
         imagePath={imagePath}
         about_me={about_me}
+        contact_details={contact_details}
+        copyright={copyright}
       />
 
       <JsonLd
@@ -248,6 +251,12 @@ export async function getServerSideProps({ params, req, query }) {
   }
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
+  const contact_details = await callBackendApi({
+    domain,
+    query,
+    type: "contact_details",
+  });
+  const copyright = await callBackendApi({ domain, query, type: "copyright" });
 
   return {
     props: {
@@ -259,6 +268,8 @@ export async function getServerSideProps({ params, req, query }) {
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
       about_me: about_me.data[0] || null,
+      contact_details: contact_details.data[0].value,
+      copyright: copyright.data[0].value || null,
     },
   };
 }

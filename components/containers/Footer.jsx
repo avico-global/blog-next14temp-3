@@ -11,6 +11,12 @@ import MarkdownIt from "markdown-it";
 
 const md = new MarkdownIt();
 
+const socialIcons = {
+  Facebook: <Facebook className="w-5 h-5" />,
+  Instagram: <Instagram className="w-5 h-5" />,
+  Twitter: <Twitter className="w-5 h-5" />,
+};
+
 export default function Footer({
   category,
   categories,
@@ -18,6 +24,8 @@ export default function Footer({
   blog_list,
   imagePath,
   about_me,
+  contact_details,
+  copyright,
 }) {
   const content = md.render(about_me?.value || "");
 
@@ -49,17 +57,24 @@ export default function Footer({
           <PopularPosts blog_list={blog_list} imagePath={imagePath} />
           <LatestPosts blog_list={blog_list} imagePath={imagePath} />
         </div>
-        <div className="flex items-center justify-center gap-2 text-gray-400 mt-14">
-          <Facebook className="w-5" />
-          <Twitter className="w-5" />
-          <Instagram className="w-5" />
+        <div className="flex items-center justify-center gap-4 text-gray-400 mt-14">
+          {contact_details?.socials?.map((item, index) => (
+            <Link
+              key={index}
+              href={item.link}
+              aria-label={item.name}
+              className="flex items-center gap-1"
+            >
+              {socialIcons[item.name]}
+            </Link>
+          ))}
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center mt-8 font-semibold uppercase">
           <Link
             href={project_id ? `/?${project_id}` : "/"}
             className="uppercase text-sm p-3"
           >
-            home
+            Home
           </Link>
           {categories?.map((item, index) => (
             <Link
@@ -83,12 +98,10 @@ export default function Footer({
             href={project_id ? `/${"contact"}?${project_id}` : `/${"contact"}`}
             className="uppercase text-sm p-3"
           >
-            contact
+            Contact
           </Link>
         </div>
-        <p className="mt-8 text-white/70 text-xs">
-          © 2024 NEXT TEMPLATE DESGINED BY - USAMA BHATTI
-        </p>
+        <p className="mt-8 text-white/70 text-xs">{copyright}</p>
       </Container>
     </FullContainer>
   );

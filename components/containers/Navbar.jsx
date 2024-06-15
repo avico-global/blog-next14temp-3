@@ -12,6 +12,7 @@ export default function Navbar({
   blog_list,
   categories,
   category,
+  contact_details,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
@@ -74,14 +75,20 @@ export default function Navbar({
     };
   }, [sidebar, toggleSidebar]);
 
+  const socialIcons = {
+    Facebook: <Facebook className="w-5 h-5" />,
+    Instagram: <Instagram className="w-5 h-5" />,
+    Twitter: <Twitter className="w-5 h-5" />,
+  };
+
   return (
-    <FullContainer className="bg-white shadow sticky top-0 z-10 py-3 md:py-0">
+    <FullContainer className="bg-white shadow sticky top-0 z-10 py-4 md:py-0">
       <div className="grid grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
         <div className="hidden md:flex items-center">
           <Link
             href={project_id ? `/?${project_id}` : "/"}
             className={cn(
-              "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-3",
+              "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
               isActive("/") && "border-black text-black"
             )}
           >
@@ -92,7 +99,7 @@ export default function Navbar({
               key={index}
               href={project_id ? `/${item}?${project_id}` : `/${item}`}
               className={cn(
-                "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-3 px-2 border-b-2 hover:border-black",
+                "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black",
                 (category === item || isActive(`/${item}`)) &&
                   "border-black text-black"
               )}
@@ -117,9 +124,11 @@ export default function Navbar({
           ref={searchContainerRef}
         >
           <div className="hidden md:flex items-center gap-3">
-            <Facebook className="w-4" />
-            <Twitter className="w-4" />
-            <Instagram className="w-4" />
+            {contact_details?.socials?.map((item, index) => (
+              <Link key={index} href={item.link} aria-label={item.name}>
+                {socialIcons[item.name]}
+              </Link>
+            ))}
             {"|"}
           </div>
           <Search

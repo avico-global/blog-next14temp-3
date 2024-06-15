@@ -34,6 +34,8 @@ export default function Categories({
   categories,
   project_id,
   about_me,
+  contact_details,
+  copyright,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -90,6 +92,7 @@ export default function Categories({
         blog_list={blog_list}
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        contact_details={contact_details}
       />
       <FullContainer className="mb-12">
         <Container>
@@ -139,17 +142,16 @@ export default function Categories({
                         {dayjs(item?.published_at)?.format("MMM D, YYYY")}
                       </p>
                     </div>
-                    <p className="mt-1 markdown-content">
-                      <div
-                        style={{ fontSize: 12 }}
-                        dangerouslySetInnerHTML={{
-                          __html: convertMarkdown(item?.articleContent).slice(
-                            0,
-                            200
-                          ),
-                        }}
-                      />
-                    </p>
+                    <div
+                      className="mt-1 markdown-content"
+                      style={{ fontSize: 12 }}
+                      dangerouslySetInnerHTML={{
+                        __html: convertMarkdown(item?.articleContent).slice(
+                          0,
+                          200
+                        ),
+                      }}
+                    />
                   </div>
                 )
             )}
@@ -163,6 +165,8 @@ export default function Categories({
         project_id={project_id}
         imagePath={imagePath}
         about_me={about_me}
+        contact_details={contact_details}
+        copyright={copyright}
       />
 
       <JsonLd
@@ -248,6 +252,11 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "footer_text",
   });
+  const contact_details = await callBackendApi({
+    domain,
+    query,
+    type: "contact_details",
+  });
   const copyright = await callBackendApi({
     domain,
     query,
@@ -276,6 +285,7 @@ export async function getServerSideProps({ req, query }) {
       project_id,
       domain: domain === "hellospace.us" ? req?.headers?.host : domain,
       about_me: about_me.data[0] || null,
+      contact_details: contact_details.data[0].value,
     },
   };
 }

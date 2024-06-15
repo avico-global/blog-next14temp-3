@@ -17,7 +17,7 @@ export default function Banner({
 }) {
   return (
     <Link href={href || ""}>
-      <FullContainer className="min-h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
+      <FullContainer className="min-h-[63vh] overflow-hidden p-10 bg-black/30 text-white text-center">
         <Image
           src={image}
           alt="Background Image"
