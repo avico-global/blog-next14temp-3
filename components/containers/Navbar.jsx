@@ -19,6 +19,7 @@ export default function Navbar({
   const searchContainerRef = useRef(null);
   const router = useRouter();
   const currentPath = router.asPath;
+  const isActive = (path) => currentPath === path;
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -55,8 +56,6 @@ export default function Navbar({
   const filteredBlogs = blog_list?.filter((item) =>
     item?.title?.toLowerCase()?.includes(searchQuery?.toLowerCase())
   );
-
-  const isActive = (path) => currentPath === path;
 
   const [sidebar, setSidebar] = useState(false);
   const toggleSidebar = () => {

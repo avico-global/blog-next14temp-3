@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import Footer from "@/components/containers/Footer";
 import {
@@ -44,6 +44,16 @@ export default function Categories({
 
   const convertMarkdown = (markdownText) => markdownIt?.render(markdownText);
 
+  const filteredBlogList = blog_list.filter((item) => {
+    const searchContent = category?.replace("-", " ");
+    return (
+      item.title.toLowerCase().includes(searchContent) ||
+      item.article_category.name.toLowerCase().includes(searchContent) ||
+      item.tags.some((tag) => tag.toLowerCase().includes(searchContent)) ||
+      item.articleContent.toLowerCase().includes(searchContent)
+    );
+  });
+
   return (
     <div
       className={cn(
@@ -86,6 +96,7 @@ export default function Categories({
           href={`https://api15.ecommcube.com/${domain}/favicon-16x16.png`}
         />
       </Head>
+
       <Navbar
         category={category}
         project_id={project_id}
@@ -99,62 +110,56 @@ export default function Categories({
           <div className="w-full">
             <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
             <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7">
-              Browsing: {category}
+              Browsing: {category?.replace("-", " ")}
             </p>
           </div>
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
-            {blog_list.map(
-              (item, index) =>
-                item?.article_category?.name === category && (
-                  <div key={index}>
-                    <Link
-                      href={
-                        project_id
-                          ? `/${category}/${item.key}?${project_id}`
-                          : `/${category}/${item.key}`
+            {filteredBlogList.map((item, index) => (
+              <div key={index}>
+                <Link
+                  href={
+                    project_id
+                      ? `/${category}/${item.key}?${project_id}`
+                      : `/${category}/${item.key}`
+                  }
+                >
+                  <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
+                    <Image
+                      title={item.imageTitle}
+                      src={
+                        item.image
+                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                          : "/no-image.png"
                       }
-                    >
-                      <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
-                        <Image
-                          title={item.imageTitle}
-                          src={
-                            item.image
-                              ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                              : "/no-image.png"
-                          }
-                          fill={true}
-                          loading="lazy"
-                          alt="blog"
-                          className="w-full h-full object-cover absolute top-0 scale-125"
-                        />
-                      </div>
-                    </Link>
-                    <p className="mt-2 lg:mt-3 font-bold text-lg text-inherit leading-tight">
-                      {item.title}
-                    </p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <p className="text-sm font-semibold">
-                        <span className="text-gray-400 text-sm">By</span>:{" "}
-                        {item.author}
-                      </p>
-                      <span className="text-gray-400">--</span>
-                      <p className="text-sm text-gray-400 font-semibold">
-                        {dayjs(item?.published_at)?.format("MMM D, YYYY")}
-                      </p>
-                    </div>
-                    <div
-                      className="mt-1 markdown-content"
-                      style={{ fontSize: 12 }}
-                      dangerouslySetInnerHTML={{
-                        __html: convertMarkdown(item?.articleContent).slice(
-                          0,
-                          200
-                        ),
-                      }}
+                      fill={true}
+                      loading="lazy"
+                      alt="blog"
+                      className="w-full h-full object-cover absolute top-0 scale-125"
                     />
                   </div>
-                )
-            )}
+                </Link>
+                <p className="mt-2 lg:mt-3 font-bold text-lg text-inherit leading-tight">
+                  {item.title}
+                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  <p className="text-sm font-semibold">
+                    <span className="text-gray-400 text-sm">By</span>:{" "}
+                    {item.author}
+                  </p>
+                  <span className="text-gray-400">--</span>
+                  <p className="text-sm text-gray-400 font-semibold">
+                    {dayjs(item?.published_at)?.format("MMM D, YYYY")}
+                  </p>
+                </div>
+                <div
+                  className="mt-1 markdown-content"
+                  style={{ fontSize: 12 }}
+                  dangerouslySetInnerHTML={{
+                    __html: convertMarkdown(item?.articleContent).slice(0, 200),
+                  }}
+                />
+              </div>
+            ))}
           </div>
         </Container>
       </FullContainer>

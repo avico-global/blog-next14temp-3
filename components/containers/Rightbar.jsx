@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Circle, Facebook, Instagram, Twitter } from "lucide-react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
 import MarkdownIt from "markdown-it";
+import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
 
 const md = new MarkdownIt();
 
@@ -12,11 +14,16 @@ export default function Rightbar({
   project_id,
   lastFiveBlogs,
   imagePath,
-  tags,
+  tag_list,
   page,
   about_me,
+  categories,
+  category,
 }) {
   const content = md.render(about_me?.value || "");
+  const router = useRouter();
+  const currentPath = router.asPath;
+  const isActive = (path) => currentPath === path;
 
   return (
     <div className="h-fit sticky top-0">
@@ -68,19 +75,25 @@ export default function Rightbar({
           </div>
         )}
 
-        {tags?.length > 0 && (
+        {tag_list?.length > 0 && (
           <>
             <div className="bg-black text-white py-2 px-4 font-semibold capitalize">
               Tags
             </div>
             <div className="flex items-center gap-1 flex-wrap mt-3 mb-14">
-              {tags?.map((item, index) => (
-                <p
+              {tag_list?.map((item, index) => (
+                <Link
                   key={index}
-                  className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-xs px-3"
+                  href={`/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`}
+                  className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-xs px-2"
                 >
-                  {item}
-                </p>
+                  {item.tag}{" "}
+                  {item.article_ids?.length > 1 && (
+                    <span className="bg-black text-white px-1 ml-1 text-xs rounded-full">
+                      {item.article_ids?.length}
+                    </span>
+                  )}
+                </Link>
               ))}
             </div>
           </>
@@ -129,6 +142,26 @@ export default function Rightbar({
         </p>
         <Input placeholder="Email" className="mt-5" />
         <Button className="w-full mt-2">Subscribe</Button>
+      </div>
+
+      <div className="border p-5 flex flex-col items-center text-center mt-10">
+        <h2 className="bg-white px-5 font-bold text-lg -mt-9">Categories</h2>
+        <div className="flex flex-col w-full text-left px-2 py-4">
+          {categories?.map((item, index) => (
+            <Link
+              key={index}
+              href={project_id ? `/${item}?${project_id}` : `/${item}`}
+              className={cn(
+                " text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
+                (category === item || isActive(`/${item}`)) &&
+                  "border-black text-black"
+              )}
+            >
+              <Circle className="w-2 h-2" />
+              {item}
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   );

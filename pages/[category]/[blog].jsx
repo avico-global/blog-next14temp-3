@@ -36,6 +36,7 @@ export default function Blog({
   about_me,
   contact_details,
   copyright,
+  tag_list,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -135,7 +136,7 @@ export default function Blog({
               lastFiveBlogs={lastFiveBlogs}
               imagePath={imagePath}
               project_id={project_id}
-              tags={myblog?.value?.tags}
+              tag_list={tag_list}
               about_me={about_me}
             />
           </div>
@@ -249,6 +250,8 @@ export async function getServerSideProps({ params, req, query }) {
       notFound: true,
     };
   }
+
+  const tag_list = await callBackendApi({ domain, query, type: "tag_list" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const contact_details = await callBackendApi({
@@ -263,9 +266,10 @@ export async function getServerSideProps({ params, req, query }) {
       domain,
       imagePath,
       project_id,
-      logo: logo.data[0],
-      myblog: blog.data[0],
-      blog_list: blog_list.data[0].value,
+      logo: logo?.data[0] || null,
+      myblog: blog?.data[0] || null,
+      blog_list: blog_list.data[0]?.value || null,
+      tag_list: tag_list?.data[0]?.value || null,
       categories: categories?.data[0]?.value || null,
       about_me: about_me.data[0] || null,
       contact_details: contact_details.data[0].value,

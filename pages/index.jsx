@@ -28,8 +28,10 @@ import Autoplay from "embla-carousel-autoplay";
 import Head from "next/head";
 
 // Font
-import { Montserrat } from "next/font/google";
-const myFont = Montserrat({ subsets: ["cyrillic"] });
+import { Raleway } from "next/font/google";
+const myFont = Raleway({
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+});
 
 export default function Home({
   logo,
@@ -219,7 +221,11 @@ export default function Home({
                 </div>
               </div>
             </div>
-            <Rightbar about_me={about_me} imagePath={imagePath} />
+            <Rightbar
+              about_me={about_me}
+              imagePath={imagePath}
+              categories={categories}
+            />
           </div>
         </Container>
       </FullContainer>
