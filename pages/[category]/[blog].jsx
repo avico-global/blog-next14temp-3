@@ -120,7 +120,7 @@ export default function Blog({
           <Breadcrumbs breadcrumbs={breadcrumbs} className="pt-7 pb-5" />
           <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
             <div>
-              <article className="prose">
+              <article className="prose lg:prose-xl max-w-full">
                 <div dangerouslySetInnerHTML={{ __html: content }} />
               </article>
               <div className="mt-12">
