@@ -18,12 +18,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Navbar from "@/components/containers/Navbar";
-
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
-
-import { Montserrat } from "next/font/google";
 import MarkdownIt from "markdown-it";
-const myFont = Montserrat({ subsets: ["cyrillic"] });
+
+// Font
+import { Raleway } from "next/font/google";
+const myFont = Raleway({
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+});
 
 export default function Categories({
   logo,

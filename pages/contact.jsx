@@ -12,8 +12,11 @@ import {
   getProjectId,
 } from "@/lib/myFun";
 
-import { Montserrat } from "next/font/google";
-const myFont = Montserrat({ subsets: ["cyrillic"] });
+// Font
+import { Raleway } from "next/font/google";
+const myFont = Raleway({
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+});
 
 export default function Contact({
   logo,

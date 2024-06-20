@@ -1,11 +1,9 @@
+import React from "react";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import AboutBanner from "@/components/containers/AboutBanner";
 import Footer from "@/components/containers/Footer";
 import Navbar from "@/components/containers/Navbar";
-import React from "react";
-import { Cormorant } from "next/font/google";
-import { cn } from "@/lib/utils";
 import Rightbar from "@/components/containers/Rightbar";
 import Head from "next/head";
 import MarkdownIt from "markdown-it";
@@ -19,9 +17,11 @@ import {
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
 
-import { Montserrat } from "next/font/google";
-const myFont = Montserrat({ subsets: ["cyrillic"] });
-const font2 = Cormorant({ subsets: ["cyrillic"] });
+// Font
+import { Raleway } from "next/font/google";
+const myFont = Raleway({
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+});
 
 export default function About({
   logo,
@@ -88,13 +88,11 @@ export default function About({
       <FullContainer>
         <Container className="py-16">
           <div className="grid grid-cols-about gap-16 w-full">
-            <div className={font2.className}>
-              <div
-                className="markdown-content about_me prose max-w-full"
-                dangerouslySetInnerHTML={{ __html: content }}
-              />
-            </div>
-            <Rightbar page="about" />
+            <div
+              className="markdown-content about_me prose max-w-full"
+              dangerouslySetInnerHTML={{ __html: content }}
+            />
+            <Rightbar page="about" contact_details={contact_details} />
           </div>
         </Container>
       </FullContainer>

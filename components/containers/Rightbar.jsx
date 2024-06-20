@@ -19,11 +19,18 @@ export default function Rightbar({
   about_me,
   categories,
   category,
+  contact_details,
 }) {
   const content = md.render(about_me?.value || "");
   const router = useRouter();
   const currentPath = router.asPath;
   const isActive = (path) => currentPath === path;
+
+  const socialIcons = {
+    Facebook: <Facebook className="w-5 h-5" />,
+    Instagram: <Instagram className="w-5 h-5" />,
+    Twitter: <Twitter className="w-5 h-5" />,
+  };
 
   return (
     <div className="h-fit sticky top-0">
@@ -95,6 +102,7 @@ export default function Rightbar({
           </>
         )}
       </div>
+ 
       {page !== "about" && (
         <div className="border p-5 flex flex-col items-center text-center mb-10">
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
@@ -123,9 +131,11 @@ export default function Rightbar({
           Connect & Follow
         </h2>
         <div className="flex items-center justify-center gap-2 text-gray-400 mt-3">
-          <Facebook className="w-5" />
-          <Twitter className="w-5" />
-          <Instagram className="w-5" />
+          {contact_details?.socials?.map((item, index) => (
+            <Link key={index} href={item.link} aria-label={item.name}>
+              {socialIcons[item.name]}
+            </Link>
+          ))}
         </div>
       </div>
 
@@ -140,25 +150,27 @@ export default function Rightbar({
         <Button className="w-full mt-2">Subscribe</Button>
       </div>
 
-      <div className="border p-5 flex flex-col items-center text-center mt-10">
-        <h2 className="bg-white px-5 font-bold text-lg -mt-9">Categories</h2>
-        <div className="flex flex-col w-full text-left px-2 py-4">
-          {categories?.map((item, index) => (
-            <Link
-              key={index}
-              href={project_id ? `/${item}?${project_id}` : `/${item}`}
-              className={cn(
-                " text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
-                (category === item || isActive(`/${item}`)) &&
-                  "border-black text-black"
-              )}
-            >
-              <Circle className="w-2 h-2" />
-              {item}
-            </Link>
-          ))}
+      {categories?.length > 0 && (
+        <div className="border p-5 flex flex-col items-center text-center mt-10">
+          <h2 className="bg-white px-5 font-bold text-lg -mt-9">Categories</h2>
+          <div className="flex flex-col w-full text-left px-2 py-4">
+            {categories?.map((item, index) => (
+              <Link
+                key={index}
+                href={project_id ? `/${item}?${project_id}` : `/${item}`}
+                className={cn(
+                  "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
+                  (category === item || isActive(`/${item}`)) &&
+                    "border-black text-black"
+                )}
+              >
+                <Circle className="w-2 h-2 text-blue-800" />
+                {item}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -163,7 +163,7 @@ export default function Home({
                         : `/${item?.article_category?.name}/${item.key}`
                     }
                     category={item?.article_category?.name}
-                    imageHeight="h-96"
+                    imageHeight="h-96 lg:h-[420px]"
                   />
                 ))}
               <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
@@ -189,7 +189,7 @@ export default function Home({
                           : `/${item?.article_category?.name}/${item.key}`
                       }
                       category={item?.article_category?.name}
-                      imageHeight="h-72 md:h-96"
+                      imageHeight="h-72 md:h-[420px]"
                     />
                   ))}
                 </div>
@@ -215,7 +215,7 @@ export default function Home({
                           : `/${item?.article_category?.name}/${item.key}`
                       }
                       category={item?.article_category?.name}
-                      imageHeight={index === 0 ? "h-40" : "h-72 md:h-96"}
+                      imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
                     />
                   ))}
                 </div>
@@ -225,6 +225,7 @@ export default function Home({
               about_me={about_me}
               imagePath={imagePath}
               categories={categories}
+              contact_details={contact_details}
             />
           </div>
         </Container>

@@ -3,7 +3,6 @@ import FullContainer from "../common/FullContainer";
 import Container from "../common/Container";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
 
 export default function Banner({
@@ -26,15 +25,13 @@ export default function Banner({
           loading="eager"
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
-        <Container className="gap-6">
+        <Container className="gap-8">
           {badge && <Badge>{badge}</Badge>}
           <h1 className="font-bold text-3xl md:text-6xl capitalize max-w-screen-md">
             {title}
           </h1>
           {tagline && (
-            <p className="leading-tight md:leading-none md:text-xl">
-              {tagline}
-            </p>
+            <p className="leading-tight md:leading-none">{tagline}</p>
           )}
           {author && (
             <div className="flex items-center justify-center gap-4">

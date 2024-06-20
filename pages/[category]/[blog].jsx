@@ -21,9 +21,12 @@ import useBreadcrumbs from "@/lib/useBreadcrumbs";
 import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import SocialShare from "@/components/common/SocialShare";
-import { Montserrat } from "next/font/google";
 
-const myFont = Montserrat({ subsets: ["cyrillic"] });
+// Font
+import { Raleway } from "next/font/google";
+const myFont = Raleway({
+  subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
+});
 
 export default function Blog({
   logo,
@@ -100,12 +103,12 @@ export default function Blog({
           loading="eager"
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
-        <Container className="gap-6">
+        <Container className="gap-8">
           <Badge>{myblog?.value?.article_category?.name}</Badge>
           <h1 className="font-bold text-6xl capitalize max-w-screen-md">
             {myblog?.value.title}
           </h1>
-          <p className="text-xl">{myblog?.value.tagline}</p>
+          <p>{myblog?.value.tagline}</p>
           <div className="flex items-center justify-center gap-4">
             <p>{myblog?.value.author}</p> -<p>{myblog?.value.published_at}</p>
           </div>
@@ -136,10 +139,12 @@ export default function Blog({
               about_me={about_me}
               categories={categories}
               category={category}
+              contact_details={contact_details}
             />
           </div>
         </Container>
       </FullContainer>
+
       <LatestBlogs
         blogs={blog_list}
         imagePath={imagePath}
