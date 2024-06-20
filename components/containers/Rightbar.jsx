@@ -59,13 +59,9 @@ export default function Rightbar({
                 </Link>
                 <div>
                   <p className="font-bold leading-tight">{item?.title}</p>
-                  <div className="flex items-center gap-2 mt-1">
-                    <p className="text-xs">
-                      <span className="text-gray-400 text-xs">By</span>:{" "}
-                      {item?.author}
-                    </p>
-                    <span className="text-gray-400">-</span>
-                    <p className="text-xs text-gray-400 font-semibold">
+                  <div className="flex items-center gap-2 mt-1 justify-between text-gray-400">
+                    <p className="text-xs">{item?.author}</p>
+                    <p className="text-xs whitespace-nowrap">
                       {item?.published_at}
                     </p>
                   </div>

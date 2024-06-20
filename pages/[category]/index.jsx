@@ -49,7 +49,7 @@ export default function Categories({
     return (
       item.title.toLowerCase().includes(searchContent) ||
       item.article_category.name.toLowerCase().includes(searchContent) ||
-      item.tags.some((tag) => tag.toLowerCase().includes(searchContent)) ||
+      item.tags?.some((tag) => tag.toLowerCase().includes(searchContent)) ||
       item.articleContent.toLowerCase().includes(searchContent)
     );
   });

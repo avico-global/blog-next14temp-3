@@ -43,11 +43,7 @@ export default function Blog({
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(myblog?.value.articleContent);
   const breadcrumbs = useBreadcrumbs();
-  const filteredBlogs = blog_list.filter(
-    (item) =>
-      item?.article_category?.name === myblog?.value?.article_category?.name
-  );
-  const lastFiveBlogs = filteredBlogs.slice(-5);
+  const lastFiveBlogs = blog_list.slice(-5);
 
   return (
     <div className={myFont.className}>
@@ -138,6 +134,8 @@ export default function Blog({
               project_id={project_id}
               tag_list={tag_list}
               about_me={about_me}
+              categories={categories}
+              category={category}
             />
           </div>
         </Container>
