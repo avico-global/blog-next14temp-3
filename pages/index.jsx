@@ -44,6 +44,7 @@ export default function Home({
   about_me,
   copyright,
   contact_details,
+  banner,
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
@@ -91,7 +92,7 @@ export default function Home({
         project_id={project_id}
         contact_details={contact_details}
       />
-      <Carousel
+      {/* <Carousel
         plugins={[plugin.current]}
         className="w-full"
         onMouseEnter={plugin.current.stop}
@@ -127,7 +128,13 @@ export default function Home({
           <CarouselPrevious />
           <CarouselNext />
         </div>
-      </Carousel>
+      </Carousel> */}
+      <Banner
+        imageTitle={banner.value.imageTitle}
+        title={banner.value.title}
+        tagline={banner.value.tagline}
+        image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
+      />
 
       <MostPopular
         blog_list={blog_list}
@@ -312,6 +319,7 @@ export async function getServerSideProps({ req, query }) {
   });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
+  const banner = await callBackendApi({ domain, query, type: "banner" });
 
   return {
     props: {
@@ -324,6 +332,7 @@ export async function getServerSideProps({ req, query }) {
       meta: meta?.data[0]?.value || null,
       copyright: copyright.data[0].value || null,
       about_me: about_me.data[0] || null,
+      banner: banner.data[0],
       contact_details: contact_details.data[0].value,
     },
   };

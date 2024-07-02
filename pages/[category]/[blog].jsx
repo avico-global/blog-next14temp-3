@@ -97,7 +97,8 @@ export default function Blog({
       <FullContainer className="h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
         <Image
           src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
-          alt="Background Image"
+          alt="Article banner"
+          title={myblog?.value.imageTitle || myblog?.value.title}
           priority={true}
           fill={true}
           loading="eager"
