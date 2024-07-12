@@ -47,7 +47,7 @@ export default function Home({
   banner,
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-  console.log("domain", domain);
+  console.log("Project Id", project_id);
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
