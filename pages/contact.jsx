@@ -71,8 +71,6 @@ export default function Contact({
 
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
-  const imagePath = await getImagePath({ domain, query });
-  const project_id = getProjectId(query);
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
   const contact_details = await callBackendApi({
@@ -88,11 +86,23 @@ export async function getServerSideProps({ req, query }) {
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
 
+  let project_id = null;
+  let imagePath = null;
+
+  const queryKeys = Object.keys(query);
+  if (logo.project_id) {
+    project_id = logo.project_id;
+  } else if (queryKeys.length > 0) {
+    project_id = queryKeys[0].replace("/", "");
+  }
+
+  imagePath = await getImagePath(project_id);
+
   return {
     props: {
+      project_id: queryKeys.length > 0 ? project_id : null,
       logo: logo.data[0] || null,
       imagePath,
-      project_id,
       blog_list: blog_list.data[0].value,
       contact_details: contact_details.data[0].value,
       categories: categories?.data[0]?.value || null,
