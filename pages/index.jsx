@@ -323,10 +323,11 @@ export async function getServerSideProps({ req, query }) {
   let project_id = null;
   let imagePath = null;
 
+  const queryKeys = Object.keys(query);
   if (logo.project_id) {
     project_id = logo.project_id;
-  } else if (query) {
-    project_id = getProjectId(query);
+  } else if (queryKeys.length > 0) {
+    project_id = queryKeys[0].replace("/", "");
   }
 
   imagePath = await getImagePath(project_id);
@@ -335,7 +336,7 @@ export async function getServerSideProps({ req, query }) {
     props: {
       domain,
       imagePath,
-      project_id: query ? project_id : null,
+      project_id: queryKeys.length > 0 ? project_id : null,
       logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
