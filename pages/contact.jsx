@@ -14,6 +14,7 @@ import {
 
 // Font
 import { Raleway } from "next/font/google";
+import GoogleTagManager from "@/lib/GoogleTagManager";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -27,11 +28,45 @@ export default function Contact({
   categories,
   copyright,
   contact_details,
+  meta,
+  domain,
 }) {
   return (
     <div className={myFont.className}>
       <Head>
-        <title>Next 14 Template</title>
+        <meta charSet="UTF-8" />
+        <title>{meta?.title}</title>
+        <meta name="description" content={meta?.description} />
+        <link rel="author" href={`http://${domain}`} />
+        <link rel="publisher" href={`http://${domain}`} />
+        <link rel="canonical" href={`http://${domain}`} />
+        <meta name="robots" content="noindex" />
+        <meta name="theme-color" content="#008DE5" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <GoogleTagManager />
+        <meta
+          name="google-site-verification"
+          content="zbriSQArMtpCR3s5simGqO5aZTDqEZZi9qwinSrsRPk"
+        />
+        <link
+          rel="apple-touch-icon"
+          sizes="180x180"
+          href={`https://api15.ecommcube.com/${domain}/apple-touch-icon.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="32x32"
+          href={`https://api15.ecommcube.com/${domain}/favicon-32x32.png`}
+        />
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href={`https://api15.ecommcube.com/${domain}/favicon-16x16.png`}
+        />
       </Head>
       <Navbar
         blog_list={blog_list}
@@ -85,29 +120,31 @@ export async function getServerSideProps({ req, query }) {
   });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
+  const meta = await callBackendApi({ domain, query, type: "meta_home" });
 
   let project_id = null;
   let imagePath = null;
 
-  const queryKeys = Object.keys(query);
   if (logo.project_id) {
     project_id = logo.project_id;
-  } else if (queryKeys.length > 0) {
-    project_id = queryKeys[0].replace("/", "");
+  } else if (query.project_id) {
+    project_id = query.project_id;
   }
 
   imagePath = await getImagePath(project_id);
 
   return {
     props: {
-      project_id: queryKeys.length > 0 ? project_id : null,
-      logo: logo.data[0] || null,
+      domain,
       imagePath,
+      project_id: query.project_id ? project_id : null,
+      logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       contact_details: contact_details.data[0].value,
       categories: categories?.data[0]?.value || null,
       about_me: about_me.data[0] || null,
       copyright: copyright.data[0].value || null,
+      meta: meta?.data[0]?.value || null,
     },
   };
 }

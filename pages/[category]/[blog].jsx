@@ -231,8 +231,6 @@ export default function Blog({
 
 export async function getServerSideProps({ params, req, query }) {
   const domain = getDomain(req?.headers?.host);
-  const imagePath = await getImagePath({ domain, query });
-  const project_id = getProjectId(query);
   const blog = await callBackendApi({
     domain,
     query,
@@ -264,6 +262,17 @@ export async function getServerSideProps({ params, req, query }) {
     type: "contact_details",
   });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
+
+  let project_id = null;
+  let imagePath = null;
+
+  if (logo.project_id) {
+    project_id = logo.project_id;
+  } else if (query.project_id) {
+    project_id = query.project_id;
+  }
+
+  imagePath = await getImagePath(project_id);
 
   return {
     props: {

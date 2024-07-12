@@ -160,8 +160,6 @@ export default function About({
 
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
-  const imagePath = await getImagePath({ domain, query });
-  const project_id = getProjectId(query);
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const categories = await callBackendApi({
@@ -181,6 +179,17 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "copyright",
   });
+
+  let project_id = null;
+  let imagePath = null;
+
+  if (logo.project_id) {
+    project_id = logo.project_id;
+  } else if (query.project_id) {
+    project_id = query.project_id;
+  }
+
+  imagePath = await getImagePath(project_id);
 
   return {
     props: {

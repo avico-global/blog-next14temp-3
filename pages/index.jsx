@@ -47,10 +47,6 @@ export default function Home({
   banner,
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-  console.log(
-    "Banner Image",
-    `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`
-  );
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
