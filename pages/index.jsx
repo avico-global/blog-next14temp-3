@@ -322,10 +322,10 @@ export async function getServerSideProps({ req, query }) {
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const banner = await callBackendApi({ domain, query, type: "banner" });
 
-  let project_id;
+  let project_id = null;
   if (logo.project_id) {
     project_id = logo.project_id;
-  } else {
+  } else if (query) {
     project_id = getProjectId(query);
   }
   const imagePath = await getImagePath(project_id);
@@ -334,7 +334,7 @@ export async function getServerSideProps({ req, query }) {
     props: {
       domain,
       imagePath,
-      project_id,
+      project_id: project_id || null,
       logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
