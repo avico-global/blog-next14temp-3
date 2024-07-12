@@ -328,7 +328,7 @@ export async function getServerSideProps({ req, query }) {
   } else {
     project_id = getProjectId(query);
   }
-  const imagePath = await getImagePath({ domain, query, project_id });
+  const imagePath = await getImagePath(project_id);
 
   return {
     props: {
