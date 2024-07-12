@@ -303,7 +303,6 @@ export default function Home({
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const imagePath = await getImagePath({ domain, query });
-  const project_id = getProjectId(query);
 
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
@@ -321,6 +320,13 @@ export async function getServerSideProps({ req, query }) {
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const banner = await callBackendApi({ domain, query, type: "banner" });
+
+  let project_id;
+  if (logo.project_id) {
+    project_id = logo.project_id;
+  } else {
+    project_id = getProjectId(query);
+  }
 
   return {
     props: {
