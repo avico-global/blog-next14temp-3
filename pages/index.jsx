@@ -331,7 +331,7 @@ export async function getServerSideProps({ req, query }) {
     props: {
       domain,
       imagePath,
-      project_id: project_id || null,
+      project_id: query ? project_id : null,
       logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
