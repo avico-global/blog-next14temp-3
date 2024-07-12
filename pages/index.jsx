@@ -47,6 +47,7 @@ export default function Home({
   banner,
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  console.log("domain", domain);
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -326,7 +327,7 @@ export async function getServerSideProps({ req, query }) {
       domain,
       imagePath,
       project_id,
-      logo: logo.data[0],
+      logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
