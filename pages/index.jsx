@@ -47,7 +47,10 @@ export default function Home({
   banner,
 }) {
   const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-  console.log("Project Id", project_id);
+  console.log(
+    "Banner Image",
+    `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`
+  );
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -323,11 +326,10 @@ export async function getServerSideProps({ req, query }) {
   let project_id = null;
   let imagePath = null;
 
-  const queryKeys = Object.keys(query);
   if (logo.project_id) {
     project_id = logo.project_id;
-  } else if (queryKeys.length > 0) {
-    project_id = queryKeys[0].replace("/", "");
+  } else if (query.project_id) {
+    project_id = query.project_id;
   }
 
   imagePath = await getImagePath(project_id);
@@ -336,7 +338,7 @@ export async function getServerSideProps({ req, query }) {
     props: {
       domain,
       imagePath,
-      project_id: queryKeys.length > 0 ? project_id : null,
+      project_id: query.project_id ? project_id : null,
       logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
