@@ -85,7 +85,7 @@ export default function Navbar({
       <div className="grid grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
         <div className="hidden md:flex items-center">
           <Link
-            href={project_id ? `/?${project_id}` : "/"}
+            href={project_id ? `/?project_id=${project_id}` : "/"}
             className={cn(
               "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
               isActive("/") && "border-black text-black"
@@ -96,7 +96,9 @@ export default function Navbar({
           {categories?.map((item, index) => (
             <Link
               key={index}
-              href={project_id ? `/${item}?project_id=${project_id}` : `/${item}`}
+              href={
+                project_id ? `/${item}?project_id=${project_id}` : `/${item}`
+              }
               className={cn(
                 "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black",
                 (category === item || isActive(`/${item}`)) &&
@@ -108,7 +110,7 @@ export default function Navbar({
           ))}
         </div>
         <div className="flex items-center md:justify-center">
-          <Link href="/">
+          <Link href={project_id ? `/?project_id=${project_id}` : "/"}>
             <Image
               height={50}
               width={180}

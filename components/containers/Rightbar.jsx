@@ -45,7 +45,7 @@ export default function Rightbar({
                 <Link
                   href={
                     project_id
-                      ? `/${item.article_category.name}/${item.key}?${project_id}`
+                      ? `/${item.article_category.name}/${item.key}?projct_id=${project_id}`
                       : `/${item.article_category.name}/${item.key}`
                   }
                 >
@@ -87,7 +87,13 @@ export default function Rightbar({
               {tag_list?.map((item, index) => (
                 <Link
                   key={index}
-                  href={`/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`}
+                  href={
+                    project_id
+                      ? `/${item.tag
+                          ?.replaceAll(" ", "-")
+                          ?.toLowerCase()}?project_id=${project_id}`
+                      : `/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`
+                  }
                   className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-xs px-2"
                 >
                   {item.tag}{" "}
@@ -102,7 +108,7 @@ export default function Rightbar({
           </>
         )}
       </div>
- 
+
       {page !== "about" && (
         <div className="border p-5 flex flex-col items-center text-center mb-10">
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
@@ -120,7 +126,10 @@ export default function Rightbar({
             className="mt-3"
             dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
           ></div>
-          <Link href="/about" className="mt-3 underline text-sm font-bold">
+          <Link
+            href={project_id ? `/about?project_id=${project_id}` : "/about"}
+            className="mt-3 underline text-sm font-bold"
+          >
             Read More
           </Link>
         </div>
@@ -157,7 +166,9 @@ export default function Rightbar({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                href={project_id ? `/${item}?${project_id}` : `/${item}`}
+                href={
+                  project_id ? `/${item}?project_id=${project_id}` : `/${item}`
+                }
                 className={cn(
                   "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
                   (category === item || isActive(`/${item}`)) &&

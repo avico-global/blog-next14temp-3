@@ -123,7 +123,7 @@ export default function Categories({
                 <Link
                   href={
                     project_id
-                      ? `/${category}/${item.key}?${project_id}`
+                      ? `/${category}/${item.key}?project_id=${project_id}`
                       : `/${category}/${item.key}`
                   }
                 >

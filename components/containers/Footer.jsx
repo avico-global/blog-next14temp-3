@@ -50,7 +50,10 @@ export default function Footer({
                 __html: `${content.slice(0, 100)}...`,
               }}
             ></div>
-            <Link href="/about" className="underline font-bold">
+            <Link
+              href={project_id ? `/about?project_id=${project_id}` : "/about"}
+              className="underline font-bold"
+            >
               Read More
             </Link>
           </div>

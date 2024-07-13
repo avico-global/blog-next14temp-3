@@ -166,7 +166,7 @@ export default function Home({
                     project_id={project_id}
                     href={
                       project_id
-                        ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                        ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
                         : `/${item?.article_category?.name}/${item.key}`
                     }
                     category={item?.article_category?.name}
@@ -192,7 +192,7 @@ export default function Home({
                       project_id={project_id}
                       href={
                         project_id
-                          ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                          ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
                           : `/${item?.article_category?.name}/${item.key}`
                       }
                       category={item?.article_category?.name}
@@ -218,7 +218,7 @@ export default function Home({
                       project_id={project_id}
                       href={
                         project_id
-                          ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                          ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
                           : `/${item?.article_category?.name}/${item.key}`
                       }
                       category={item?.article_category?.name}
@@ -233,6 +233,7 @@ export default function Home({
               imagePath={imagePath}
               categories={categories}
               contact_details={contact_details}
+              project_id={project_id}
             />
           </div>
         </Container>

@@ -30,7 +30,7 @@ export default function MostPopular({ blog_list, imagePath, project_id }) {
                   project_id={project_id}
                   href={
                     project_id
-                      ? `/${item?.article_category?.name}/${item.key}?${project_id}`
+                      ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
                       : `/${item?.article_category?.name}/${item.key}`
                   }
                   category={item.article_category.name}
