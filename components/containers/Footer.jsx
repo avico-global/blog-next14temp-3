@@ -54,8 +54,16 @@ export default function Footer({
               Read More
             </Link>
           </div>
-          <PopularPosts blog_list={blog_list} imagePath={imagePath} />
-          <LatestPosts blog_list={blog_list} imagePath={imagePath} />
+          <PopularPosts
+            blog_list={blog_list}
+            imagePath={imagePath}
+            project_id={project_id}
+          />
+          <LatestPosts
+            blog_list={blog_list}
+            imagePath={imagePath}
+            project_id={project_id}
+          />
         </div>
         <div className="flex items-center justify-center gap-4 text-gray-400 mt-14">
           {contact_details?.socials?.map((item, index) => (
@@ -71,7 +79,7 @@ export default function Footer({
         </div>
         <div className="flex flex-col md:flex-row items-center justify-center mt-8 font-semibold uppercase">
           <Link
-            href={project_id ? `/?${project_id}` : "/"}
+            href={project_id ? `/?project_id=${project_id}` : "/"}
             className="uppercase text-sm p-3"
           >
             Home
@@ -79,7 +87,9 @@ export default function Footer({
           {categories?.map((item, index) => (
             <Link
               key={index}
-              href={project_id ? `/${item}?${project_id}` : `/${item}`}
+              href={
+                project_id ? `/${item}?project_id=${project_id}` : `/${item}`
+              }
               className={cn(
                 "uppercase text-sm p-3",
                 category === item && "border-b-2 border-purple-500"
@@ -89,13 +99,21 @@ export default function Footer({
             </Link>
           ))}
           <Link
-            href={project_id ? `/${"about"}?${project_id}` : `/${"about"}`}
+            href={
+              project_id
+                ? `/${"about"}?project_id=${project_id}`
+                : `/${"about"}`
+            }
             className="uppercase text-sm p-3"
           >
             About
           </Link>
           <Link
-            href={project_id ? `/${"contact"}?${project_id}` : `/${"contact"}`}
+            href={
+              project_id
+                ? `/${"contact"}?project_id=${project_id}`
+                : `/${"contact"}`
+            }
             className="uppercase text-sm p-3"
           >
             Contact

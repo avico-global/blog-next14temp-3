@@ -56,6 +56,8 @@ export default function Categories({
     );
   });
 
+  console.log("project_id", project_id);
+
   return (
     <div
       className={cn(
