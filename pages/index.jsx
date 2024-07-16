@@ -323,7 +323,7 @@ export async function getServerSideProps({ req, query }) {
   let project_id = null;
   let imagePath = null;
 
-  if (logo.project_id) {
+  if (logo?.project_id) {
     project_id = logo.project_id;
   } else if (query.project_id) {
     project_id = query.project_id;
@@ -337,13 +337,13 @@ export async function getServerSideProps({ req, query }) {
       imagePath,
       project_id: query.project_id ? project_id : null,
       logo: logo?.data[0],
-      blog_list: blog_list.data[0].value,
+      blog_list: blog_list?.data[0].value,
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
-      copyright: copyright.data[0].value || null,
-      about_me: about_me.data[0] || null,
-      banner: banner.data[0],
-      contact_details: contact_details.data[0].value,
+      copyright: copyright?.data[0].value || null,
+      about_me: about_me?.data[0] || null,
+      banner: banner?.data[0],
+      contact_details: contact_details?.data[0].value,
     },
   };
 }
