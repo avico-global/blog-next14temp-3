@@ -3,7 +3,7 @@ import { getDomain, getSitemaps } from "@/lib/myFun";
 
 const Sitemap = () => {};
 
-export const getServerSideProps = async ({ req, res, params }) => {
+export const getServerSideProps = async ({ req, res, params,query }) => {
   try {
     const id = +params.id;
     const baseUrl = getDomain(req?.headers?.host);
@@ -41,18 +41,6 @@ export const getServerSideProps = async ({ req, res, params }) => {
                       }`
                 }
               </loc>
-              ${url.images
-                .map(
-                  (image) =>
-                    `
-                  <image:image>
-                    <image:loc>
-                      ${image}
-                    </image:loc>
-                  </image:image>
-                `
-                )
-                .join("")}
               <lastmod>${url.lastmod}</lastmod>
             </url>
           `
