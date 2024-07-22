@@ -14,8 +14,7 @@ export const getServerSideProps = async ({ req, res, params,query }) => {
       "%DOMAIN%",
       `${baseUrl.startsWith("https://") ? "" : "https://"}${baseUrl}`
     )
-    ?.replaceAll("%CITY_NAME%", "city")
-    ?.replaceAll("%INDUSTRY_NAME%", "industry_name");
+    ?.replaceAll("%TITLE%", "TITLE")
 
     if (!sitemaps[id - 1]) {
       res.setHeader("Location", "/");

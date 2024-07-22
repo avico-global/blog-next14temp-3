@@ -21,8 +21,7 @@ export const getServerSideProps = async ({ req, res, query }) => {
       "%DOMAIN%",
       `${baseUrl.startsWith("https://") ? "" : "https://"}${baseUrl}`
     )
-    ?.replaceAll("%CITY_NAME%", "city")
-    ?.replaceAll("%INDUSTRY_NAME%", "industry_name");
+    ?.replaceAll("%TITLE%", "TITLE");
 
   const sitemapindex = `<?xml version="1.0" encoding="UTF-8"?>
   
