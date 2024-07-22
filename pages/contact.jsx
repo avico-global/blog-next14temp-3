@@ -93,9 +93,9 @@ export default function Contact({
       <Footer
         blog_list={blog_list}
         categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        project_id={project_id}
+        logo={logo}
         imagePath={imagePath}
+        project_id={project_id}
         about_me={about_me}
         copyright={copyright}
         contact_details={contact_details}

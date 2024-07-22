@@ -102,11 +102,12 @@ export default function Categories({
       </Head>
 
       <Navbar
+        logo={logo}
         category={category}
-        project_id={project_id}
+        imagePath={imagePath}
         blog_list={blog_list}
         categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        project_id={project_id}
         contact_details={contact_details}
       />
       <FullContainer className="mb-12">

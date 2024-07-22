@@ -86,9 +86,10 @@ export default function Home({
         />
       </Head>
       <Navbar
+        imagePath={imagePath}
         blog_list={blog_list}
         categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        logo={logo}
         project_id={project_id}
         contact_details={contact_details}
       />

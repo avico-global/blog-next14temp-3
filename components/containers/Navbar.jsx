@@ -13,6 +13,7 @@ export default function Navbar({
   categories,
   category,
   contact_details,
+  imagePath,
 }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
@@ -28,7 +29,7 @@ export default function Navbar({
   const handleSearchToggle = () => {
     setOpenSearch((prev) => !prev);
     if (!openSearch) {
-      setSearchQuery(""); // Reset search query when toggling off
+      setSearchQuery("");
     }
   };
 
@@ -38,7 +39,7 @@ export default function Navbar({
       !searchContainerRef.current.contains(event.target)
     ) {
       setOpenSearch(false);
-      setSearchQuery(""); // Reset search query when clicking outside
+      setSearchQuery("");
     }
   };
 
@@ -111,13 +112,19 @@ export default function Navbar({
         </div>
         <div className="flex items-center md:justify-center">
           <Link href={project_id ? `/?project_id=${project_id}` : "/"}>
-            <Image
-              height={50}
-              width={180}
-              src={logo}
-              alt="logo"
-              className="h-8 md:h-10 w-auto"
-            />
+            {logo?.value?.logoType === "image" ? (
+              <Image
+                height={50}
+                width={180}
+                src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+                alt="logo"
+                className="h-8 md:h-10 w-auto"
+              />
+            ) : (
+              logo?.value?.logoType === "text" && (
+                <h2 className="text-3xl font-bold">{logo?.value?.logoText}</h2>
+              )
+            )}
           </Link>
         </div>
         <div

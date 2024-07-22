@@ -90,7 +90,8 @@ export default function Blog({
         blog_list={blog_list}
         category={category}
         categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+        logo={logo}
+        imagePath={imagePath}
         project_id={project_id}
         contact_details={contact_details}
       />

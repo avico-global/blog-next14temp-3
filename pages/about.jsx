@@ -78,8 +78,9 @@ export default function About({
       <Navbar
         blog_list={blog_list}
         categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
         project_id={project_id}
+        logo={logo}
+        imagePath={imagePath}
         contact_details={contact_details}
       />
       <AboutBanner
