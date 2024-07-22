@@ -148,6 +148,7 @@ export default function Rightbar({
         </div>
       </div>
 
+      {/* 
       <div className="bg-gray-50 p-6 mt-10 text-center flex flex-col items-center">
         <h2 className="font-bold text-lg">Newsletter</h2>
         <div className="border-2 w-14 my-3 border-black"></div>
@@ -157,7 +158,7 @@ export default function Rightbar({
         </p>
         <Input placeholder="Email" className="mt-5" />
         <Button className="w-full mt-2">Subscribe</Button>
-      </div>
+      </div> */}
 
       {categories?.length > 0 && (
         <div className="border p-5 flex flex-col items-center text-center mt-10">
