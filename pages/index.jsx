@@ -301,8 +301,14 @@ export default function Home({
   );
 }
 
+import fs from "fs";
+import path from "path";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
+
+  const robotxt = await callBackendApi({ domain, query, type: "robotxt" });
+  const filePath = path.join(process.cwd(), "public", "robots.txt");
+  fs.writeFileSync(filePath, robotxt.data[0].value, "utf8");
 
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
@@ -345,6 +351,7 @@ export async function getServerSideProps({ req, query }) {
       about_me: about_me?.data[0] || null,
       banner: banner?.data[0],
       contact_details: contact_details?.data[0].value,
+      robotxt: robotxt?.data[0].value || null,
     },
   };
 }
