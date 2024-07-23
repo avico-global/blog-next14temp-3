@@ -8,12 +8,7 @@ import MarkdownIt from "markdown-it";
 import LatestBlogs from "@/components/containers/LatestBlogs";
 import Footer from "@/components/containers/Footer";
 import Head from "next/head";
-import {
-  callBackendApi,
-  getDomain,
-  getImagePath,
-  getProjectId,
-} from "@/lib/myFun";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 import JsonLd from "@/components/json/JsonLd";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
@@ -39,6 +34,7 @@ export default function Blog({
   about_me,
   contact_details,
   copyright,
+  favicon,
   tag_list,
 }) {
   const router = useRouter();
@@ -70,19 +66,19 @@ export default function Blog({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
 
@@ -256,6 +252,7 @@ export async function getServerSideProps({ params, req, query }) {
 
   const tag_list = await callBackendApi({ domain, query, type: "tag_list" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
+  const favicon = await callBackendApi({ domain, query, type: "favicon" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const contact_details = await callBackendApi({
     domain,
@@ -288,6 +285,7 @@ export async function getServerSideProps({ params, req, query }) {
       about_me: about_me.data[0] || null,
       contact_details: contact_details.data[0].value,
       copyright: copyright.data[0].value || null,
+      favicon: favicon?.data[0]?.file_name || null,
     },
   };
 }

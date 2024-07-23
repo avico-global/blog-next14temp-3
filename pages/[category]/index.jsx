@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import Footer from "@/components/containers/Footer";
-import {
-  callBackendApi,
-  getDomain,
-  getImagePath,
-  getProjectId,
-} from "@/lib/myFun";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
 import Image from "next/image";
@@ -38,6 +33,7 @@ export default function Categories({
   about_me,
   contact_details,
   copyright,
+  favicon,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -85,19 +81,19 @@ export default function Categories({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`https://api15.ecommcube.com/${domain}/apple-touch-icon.png`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`https://api15.ecommcube.com/${domain}/favicon-32x32.png`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`https://api15.ecommcube.com/${domain}/favicon-16x16.png`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
 
@@ -247,6 +243,7 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "logo",
   });
+  const favicon = await callBackendApi({ domain, query, type: "favicon" });
 
   const banner = await callBackendApi({ domain, query, type: "banner" });
   const footer_text = await callBackendApi({
@@ -291,6 +288,7 @@ export async function getServerSideProps({ req, query }) {
       project_id: query.project_id ? project_id : null,
       logo: logo?.data[0],
       banner: banner.data[0] || null,
+      favicon: favicon?.data[0]?.file_name || null,
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
       footer_text: footer_text?.data[0]?.value || null,

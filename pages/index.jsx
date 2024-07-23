@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+import React from "react";
+
 // Components
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
@@ -10,21 +11,8 @@ import Rightbar from "@/components/containers/Rightbar";
 import BlogCard from "@/components/common/BlogCard";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import {
-  callBackendApi,
-  getDomain,
-  getImagePath,
-  getProjectId,
-} from "@/lib/myFun";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
-import Autoplay from "embla-carousel-autoplay";
 import Head from "next/head";
 
 // Font
@@ -32,6 +20,15 @@ import { Raleway } from "next/font/google";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
+
+// import {
+//   Carousel,
+//   CarouselContent,
+//   CarouselItem,
+//   CarouselNext,
+//   CarouselPrevious,
+// } from "@/components/ui/carousel";
+// import Autoplay from "embla-carousel-autoplay";
 
 export default function Home({
   logo,
@@ -45,8 +42,9 @@ export default function Home({
   copyright,
   contact_details,
   banner,
+  favicon,
 }) {
-  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+  // const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -70,19 +68,19 @@ export default function Home({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
       <Navbar
@@ -130,6 +128,7 @@ export default function Home({
           <CarouselNext />
         </div>
       </Carousel> */}
+
       <Banner
         imageTitle={banner.value.imageTitle}
         title={banner.value.title}
@@ -239,6 +238,7 @@ export default function Home({
           </div>
         </Container>
       </FullContainer>
+
       <Footer
         blog_list={blog_list}
         categories={categories}
@@ -306,6 +306,7 @@ export async function getServerSideProps({ req, query }) {
 
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
+  const favicon = await callBackendApi({ domain, query, type: "favicon" });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
   const categories = await callBackendApi({
     domain,
@@ -337,14 +338,15 @@ export async function getServerSideProps({ req, query }) {
       domain,
       imagePath,
       project_id: query.project_id ? project_id : null,
-      logo: logo?.data[0],
-      blog_list: blog_list?.data[0].value,
+      logo: logo?.data[0] || null,
+      favicon: favicon?.data[0]?.file_name || null,
+      blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
       copyright: copyright?.data[0].value || null,
       about_me: about_me?.data[0] || null,
       banner: banner?.data[0],
-      contact_details: contact_details?.data[0].value,
+      contact_details: contact_details?.data[0]?.value,
     },
   };
 }
