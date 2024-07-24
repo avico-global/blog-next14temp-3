@@ -130,7 +130,7 @@ export default function Rightbar({
             href={project_id ? `/about?project_id=${project_id}` : "/about"}
             className="mt-3 underline text-sm font-bold"
           >
-            Read More
+            Who am i?
           </Link>
         </div>
       )}

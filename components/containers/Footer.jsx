@@ -54,7 +54,7 @@ export default function Footer({
               href={project_id ? `/about?project_id=${project_id}` : "/about"}
               className="underline font-bold"
             >
-              Read More
+              who am i?
             </Link>
           </div>
           <PopularPosts
