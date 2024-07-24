@@ -7,12 +7,7 @@ import Navbar from "@/components/containers/Navbar";
 import Rightbar from "@/components/containers/Rightbar";
 import Head from "next/head";
 import MarkdownIt from "markdown-it";
-import {
-  callBackendApi,
-  getDomain,
-  getImagePath,
-  getProjectId,
-} from "@/lib/myFun";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
@@ -34,6 +29,7 @@ export default function About({
   meta,
   contact_details,
   copyright,
+  favicon,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(about_me?.value);
@@ -60,19 +56,19 @@ export default function About({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
       <Navbar
@@ -162,6 +158,7 @@ export default function About({
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const logo = await callBackendApi({ domain, query, type: "logo" });
+  const favicon = await callBackendApi({ domain, query, type: "favicon" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const categories = await callBackendApi({
     domain,
@@ -196,6 +193,7 @@ export async function getServerSideProps({ req, query }) {
     props: {
       logo: logo.data[0] || null,
       about_me: about_me.data[0] || null,
+      favicon: favicon?.data[0]?.file_name || null,
       imagePath,
       blog_list: blog_list.data[0].value,
       project_id,

@@ -81,6 +81,8 @@ export default function Navbar({
     Twitter: <Twitter className="w-5 h-5" />,
   };
 
+  console.log("logo", logo);
+
   return (
     <FullContainer className="bg-white shadow sticky top-0 z-10 py-4 md:py-0">
       <div className="grid grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto">

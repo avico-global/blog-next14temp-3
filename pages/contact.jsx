@@ -5,12 +5,7 @@ import Navbar from "@/components/containers/Navbar";
 import Head from "next/head";
 import React from "react";
 import Map from "@/components/containers/Map";
-import {
-  callBackendApi,
-  getDomain,
-  getImagePath,
-  getProjectId,
-} from "@/lib/myFun";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
 // Font
 import { Raleway } from "next/font/google";
@@ -30,6 +25,7 @@ export default function Contact({
   contact_details,
   meta,
   domain,
+  favicon,
 }) {
   return (
     <div className={myFont.className}>
@@ -53,19 +49,19 @@ export default function Contact({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`https://api15.ecommcube.com/${domain}/apple-touch-icon.png`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`https://api15.ecommcube.com/${domain}/favicon-32x32.png`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`https://api15.ecommcube.com/${domain}/favicon-16x16.png`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
       <Navbar
@@ -107,6 +103,7 @@ export default function Contact({
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const logo = await callBackendApi({ domain, query, type: "logo" });
+  const favicon = await callBackendApi({ domain, query, type: "favicon" });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
   const contact_details = await callBackendApi({
     domain,
@@ -145,6 +142,7 @@ export async function getServerSideProps({ req, query }) {
       about_me: about_me.data[0] || null,
       copyright: copyright.data[0].value || null,
       meta: meta?.data[0]?.value || null,
+      favicon: favicon?.data[0]?.file_name || null,
     },
   };
 }
