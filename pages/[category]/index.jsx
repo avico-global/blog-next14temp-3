@@ -43,7 +43,7 @@ export default function Categories({
   const convertMarkdown = (markdownText) => markdownIt?.render(markdownText);
 
   const filteredBlogList = blog_list.filter((item) => {
-    const searchContent = category?.replace("-", " ");
+    const searchContent = category?.replace("-", " ")?.toLowerCase();
     return (
       item.title.toLowerCase().includes(searchContent) ||
       item.article_category.name.toLowerCase().includes(searchContent) ||

@@ -91,7 +91,7 @@ export default function Blog({
         project_id={project_id}
         contact_details={contact_details}
       />
-      <FullContainer className="h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
+      <FullContainer className="min-h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
         <Image
           src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
           alt="Article banner"
@@ -103,7 +103,7 @@ export default function Blog({
         />
         <Container className="gap-8">
           <Badge>{myblog?.value?.article_category?.name}</Badge>
-          <h1 className="font-bold text-6xl capitalize max-w-screen-md">
+          <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl capitalize max-w-screen-md">
             {myblog?.value.title}
           </h1>
           <p>{myblog?.value.tagline}</p>

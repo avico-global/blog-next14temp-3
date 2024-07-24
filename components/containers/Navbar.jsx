@@ -81,12 +81,14 @@ export default function Navbar({
     Twitter: <Twitter className="w-5 h-5" />,
   };
 
-  console.log("logo", logo);
-
   return (
     <FullContainer className="bg-white shadow sticky top-0 z-10 py-4 md:py-0">
-      <div className="grid grid-cols-2 md:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
-        <div className="hidden md:flex items-center">
+      <div className="grid grid-cols-2 lg:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
+        <div
+          className={`items-center hidden ${
+            categories?.length > 5 ? "2xl:flex" : "lg:flex"
+          }`}
+        >
           <Link
             href={project_id ? `/?project_id=${project_id}` : "/"}
             className={cn(
@@ -114,7 +116,7 @@ export default function Navbar({
             </Link>
           ))}
         </div>
-        <div className="flex items-center md:justify-center">
+        <div className="flex items-center xl:justify-center">
           <Link href={project_id ? `/?project_id=${project_id}` : "/"}>
             {logo?.value?.logoType === "image" ? (
               <Image
@@ -126,7 +128,9 @@ export default function Navbar({
               />
             ) : (
               logo?.value?.logoType === "text" && (
-                <h2 className="text-3xl font-bold">{logo?.value?.logoText}</h2>
+                <h2 className="text-4xl font-extrabold py-1">
+                  {logo?.value?.logoText}
+                </h2>
               )
             )}
           </Link>
@@ -149,7 +153,9 @@ export default function Navbar({
           />
           <Menu
             onClick={toggleSidebar}
-            className="w-6 h-6 md:hidden ml-1 text-black"
+            className={`w-6 h-6 ml-1 text-black ${
+              categories?.length > 5 ? "2xl:hidden" : "lg:hidden"
+            }`}
           />
           {openSearch && (
             <>
@@ -185,7 +191,7 @@ export default function Navbar({
 
       <div
         ref={addFromRef}
-        className={`h-screen w-7/12 transition-all z-50 fixed right-0 top-0 px-4 bg-white dark:bg-gray-800 capitalize ${
+        className={`h-screen w-7/12 transition-all overflow-y-scroll z-50 fixed right-0 top-0 px-4 bg-white dark:bg-gray-800 capitalize ${
           sidebar && "shadow-xl"
         }`}
         style={{ transform: sidebar ? "translateX(0)" : "translateX(100%)" }}
