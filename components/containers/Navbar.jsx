@@ -83,8 +83,8 @@ export default function Navbar({
 
   return (
     <FullContainer className="bg-white shadow sticky top-0 z-10 py-4 md:py-0">
-      <div className="grid grid-cols-2 lg:grid-cols-3 w-11/12 md:w-10/12 mx-auto">
-        <div
+      <div className="flex items-center justify-between w-11/12 md:w-10/12 mx-auto">
+        {/* <div
           className={`items-center hidden ${
             categories?.length > 5 ? "2xl:flex" : "lg:flex"
           }`}
@@ -98,24 +98,7 @@ export default function Navbar({
           >
             Home
           </Link>
-          {categories?.map((item, index) => (
-            <Link
-              key={index}
-              href={
-                project_id
-                  ? `/${item?.toLowerCase()}?project_id=${project_id}`
-                  : `/${item?.toLowerCase()}`
-              }
-              className={cn(
-                "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black",
-                (category === item || isActive(`/${item}`)) &&
-                  "border-black text-black"
-              )}
-            >
-              {item}
-            </Link>
-          ))}
-        </div>
+        </div> */}
         <div className="flex items-center xl:justify-center">
           <Link href={project_id ? `/?project_id=${project_id}` : "/"}>
             {logo?.value?.logoType === "image" ? (
@@ -139,13 +122,67 @@ export default function Navbar({
           className="flex items-center justify-end gap-3 text-gray-500 relative"
           ref={searchContainerRef}
         >
-          <div className="hidden md:flex items-center gap-3">
+          {/* <div className="hidden md:flex items-center gap-3">
             {contact_details?.socials?.map((item, index) => (
               <Link key={index} href={item.link} aria-label={item.name}>
                 {socialIcons[item.name]}
               </Link>
             ))}
             {"|"}
+          </div> */}
+          <div className="hidden lg:flex items-center justify-end">
+            <Link
+              href={project_id ? `/?project_id=${project_id}` : "/"}
+              className={cn(
+                "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
+                isActive("/") && "border-black text-black"
+              )}
+            >
+              Home
+            </Link>
+            <Link
+              href={
+                project_id
+                  ? `/${"about"}?project_id=${project_id}`
+                  : `/${"about"}`
+              }
+              className={cn(
+                "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
+                isActive("/about") && "border-black text-black"
+              )}
+            >
+              About
+            </Link>
+            <Link
+              href={
+                project_id
+                  ? `/${"contact"}?project_id=${project_id}`
+                  : `/${"contact"}`
+              }
+              className={cn(
+                "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
+                isActive("/contact") && "border-black text-black"
+              )}
+            >
+              Contact
+            </Link>
+            {categories?.map((item, index) => (
+              <Link
+                key={index}
+                href={
+                  project_id
+                    ? `/${item?.toLowerCase()}?project_id=${project_id}`
+                    : `/${item?.toLowerCase()}`
+                }
+                className={cn(
+                  "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black w-fit",
+                  (category === item || isActive(`/${item}`)) &&
+                    "border-black text-black"
+                )}
+              >
+                {item}
+              </Link>
+            ))}
           </div>
           <Search
             className="w-5 md:w-4 text-black cursor-pointer"
@@ -153,9 +190,10 @@ export default function Navbar({
           />
           <Menu
             onClick={toggleSidebar}
-            className={`w-6 h-6 ml-1 text-black ${
-              categories?.length > 5 ? "2xl:hidden" : "lg:hidden"
-            }`}
+            className="w-6 h-6 ml-1 text-black lg:hidden"
+            // className={`w-6 h-6 ml-1 text-black ${
+            //   categories?.length > 5 ? "lg:hidden" : "md:hidden"
+            // }`}
           />
           {openSearch && (
             <>
