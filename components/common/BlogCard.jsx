@@ -32,14 +32,14 @@ const BlogCard = ({
         />
       </Link>
       <div className="flex flex-col items-center gap-2 mt-3">
-        <p className="italic text-xs w-fit text-center text-gray-400">
+        {/* <p className="italic text-xs w-fit text-center text-gray-400">
           in
           <span className="uppercase text-blue-700 font-medium ml-2 text-xs">
             {category}
           </span>
-        </p>
+        </p> */}
         <h2 className="font-extrabold md:text-lg leading-tight">{title}</h2>
-        <p className="text-xs font-medium text-gray-400">{published_at}</p>
+        <p className="text-sm font-medium text-gray-700">{published_at}</p>
       </div>
       <p className="mt-3 text-xs md:hidden">{content.slice(0, 100)}</p>
       <p className="mt-3 text-sm hidden md:block">{content}</p>

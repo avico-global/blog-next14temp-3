@@ -31,7 +31,9 @@ export default function Banner({ image, data }) {
           {data.title}
         </h1>
         {data.tagline && (
-          <p className="leading-tight md:leading-none">{data.tagline}</p>
+          <p className="leading-tight md:leading-none 2xl:text-xl">
+            {data.tagline}
+          </p>
         )}
       </Container>
     </FullContainer>

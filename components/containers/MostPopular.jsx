@@ -3,6 +3,7 @@ import FullContainer from "../common/FullContainer";
 import Container from "../common/Container";
 import Image from "next/image";
 import Link from "next/link";
+import { Badge } from "../ui/badge";
 
 export default function MostPopular({ blog_list, imagePath, project_id }) {
   return (
@@ -57,13 +58,8 @@ function BlogCard({ title, image, href, category }) {
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
       </Link>
-      <p className="italic text-sm w-fit text-gray-400 mt-4">
-        in
-        <span className="uppercase text-gray-600 font-medium ml-2 text-sm">
-          {category}
-        </span>
-      </p>
-      <p className="font-semibold mt-2 leading-5 text-lg">{title}</p>
+      <Badge className="text-center whitespace-nowrap my-2">{category}</Badge>
+      <p className="font-semibold leading-5 text-lg">{title}</p>
     </div>
   );
 }
