@@ -51,9 +51,9 @@ function BlogCard({ title, image, href, category }) {
         <Image
           src={image}
           alt="Background Image"
-          priority={true}
+          priority={false}
           fill={true}
-          loading="eager"
+          loading="lazy"
           sizes="400px, 300px"
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
