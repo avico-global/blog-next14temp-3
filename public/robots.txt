@@ -1,3 +1,3 @@
-User-agent: *
-Disallow: /api/
-Allow: /
+user-agent: *
+disallow: /downloads/
+sitemap: https://custom-wheels-car-rims.com/sitemap.xml

@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { Circle, Facebook, Instagram, Twitter } from "lucide-react";
 import Image from "next/image";
-import { Input } from "@/components/ui/input";
 import React from "react";
 import Link from "next/link";
 import MarkdownIt from "markdown-it";
@@ -19,18 +17,18 @@ export default function Rightbar({
   about_me,
   categories,
   category,
-  contact_details,
+  // contact_details,
 }) {
   const content = md.render(about_me?.value || "");
   const router = useRouter();
   const currentPath = router.asPath;
   const isActive = (path) => currentPath === path;
 
-  const socialIcons = {
-    Facebook: <Facebook className="w-5 h-5" />,
-    Instagram: <Instagram className="w-5 h-5" />,
-    Twitter: <Twitter className="w-5 h-5" />,
-  };
+  // const socialIcons = {
+  //   Facebook: <Facebook className="w-5 h-5" />,
+  //   Instagram: <Instagram className="w-5 h-5" />,
+  //   Twitter: <Twitter className="w-5 h-5" />,
+  // };
 
   return (
     <div className="h-fit sticky top-0">
@@ -135,7 +133,7 @@ export default function Rightbar({
         </div>
       )}
 
-      <div className="border p-5 mt-6 flex flex-col items-center text-center">
+      {/* <div className="border p-5 mt-6 flex flex-col items-center text-center">
         <h2 className="bg-white px-5 text-lg font-bold -mt-9">
           Connect & Follow
         </h2>
@@ -146,7 +144,7 @@ export default function Rightbar({
             </Link>
           ))}
         </div>
-      </div>
+      </div> */}
 
       {/* 
       <div className="bg-gray-50 p-6 mt-10 text-center flex flex-col items-center">
