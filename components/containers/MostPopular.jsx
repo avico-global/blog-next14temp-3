@@ -57,13 +57,13 @@ function BlogCard({ title, image, href, category }) {
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
       </Link>
-      <p className="italic text-xs w-fit text-gray-400 mt-4">
+      <p className="italic text-sm w-fit text-gray-400 mt-4">
         in
-        <span className="uppercase text-yellow-600 font-medium ml-2 text-xs">
+        <span className="uppercase text-gray-600 font-medium ml-2 text-sm">
           {category}
         </span>
       </p>
-      <h4 className="font-semibold mt-1 leading-5">{title}</h4>
+      <p className="font-semibold mt-2 leading-5 text-lg">{title}</p>
     </div>
   );
 }

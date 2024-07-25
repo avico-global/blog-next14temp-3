@@ -54,7 +54,7 @@ export default function Footer({
               href={project_id ? `/about?project_id=${project_id}` : "/about"}
               className="underline font-bold"
             >
-              who am i?
+              More about me?
             </Link>
           </div>
           <PopularPosts
@@ -120,6 +120,16 @@ export default function Footer({
             className="uppercase text-sm p-3"
           >
             Contact
+          </Link>
+          <Link
+            href={
+              project_id
+                ? `/${"sitemap.xml"}?project_id=${project_id}`
+                : `/${"sitemap.xml"}`
+            }
+            className="uppercase text-sm p-3"
+          >
+            Sitemap
           </Link>
         </div>
         <p className="mt-8 text-white/70 text-xs">{copyright}</p>

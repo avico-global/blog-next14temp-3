@@ -130,9 +130,7 @@ export default function Home({
       </Carousel> */}
 
       <Banner
-        imageTitle={banner.value.imageTitle}
-        title={banner.value.title}
-        tagline={banner.value.tagline}
+        data={banner.value}
         image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
       />
 
