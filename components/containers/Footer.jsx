@@ -21,6 +21,16 @@ export default function Footer({
     <FullContainer className="bg-black text-white py-16 mt-12">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-footer gap-10 w-full">
+          <LatestPosts
+            blog_list={blog_list}
+            imagePath={imagePath}
+            project_id={project_id}
+          />
+          <PopularPosts
+            blog_list={blog_list}
+            imagePath={imagePath}
+            project_id={project_id}
+          />
           <div className="grid grid-cols-2 gap-5">
             <div className="flex flex-col">
               <p className="font-bold mb-5">Categories</p>
@@ -72,25 +82,35 @@ export default function Footer({
               <Link
                 href={
                   project_id
-                    ? `/${"contact"}?project_id=${project_id}`
-                    : `/${"contact"}`
+                    ? `/${"terms-and-condtions"}?project_id=${project_id}`
+                    : `/${"terms-and-condtions"}`
                 }
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
-                Contact
+                Terms & Conditions
+              </Link>
+              <Link
+                href={
+                  project_id
+                    ? `/${"privacy-policy"}?project_id=${project_id}`
+                    : `/${"privacy-policy"}`
+                }
+                className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
+              >
+                Privacy Policy
+              </Link>
+              <Link
+                href={
+                  project_id
+                    ? `/${"sitemap.xml"}?project_id=${project_id}`
+                    : `/${"sitemap.xml"}`
+                }
+                className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
+              >
+                Sitemap
               </Link>
             </div>
           </div>
-          <PopularPosts
-            blog_list={blog_list}
-            imagePath={imagePath}
-            project_id={project_id}
-          />
-          <LatestPosts
-            blog_list={blog_list}
-            imagePath={imagePath}
-            project_id={project_id}
-          />
         </div>
 
         {/* <p className="mt-8 text-white/70 text-xs">{copyright}</p> */}
