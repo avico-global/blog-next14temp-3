@@ -151,12 +151,6 @@ export default function Navbar({
             className="w-5 md:w-4 text-black cursor-pointer"
             onClick={handleSearchToggle}
           />
-          <Menu
-            onClick={toggleSidebar}
-            className={`w-6 h-6 ml-1 text-black ${
-              categories?.length > 5 ? "2xl:hidden" : "lg:hidden"
-            }`}
-          />
           {openSearch && (
             <>
               {searchQuery && (
@@ -186,6 +180,12 @@ export default function Navbar({
               />
             </>
           )}
+          <Menu
+            onClick={toggleSidebar}
+            className={`w-6 h-6 ml-1 text-black ${
+              categories?.length > 5 ? "2xl:hidden" : "lg:hidden"
+            }`}
+          />
         </div>
       </div>
 
@@ -204,7 +204,7 @@ export default function Navbar({
               handleSearchToggle();
             }}
           />
-          <Menu onClick={toggleSidebar} className="w-6 h-6 md:hidden ml-1" />
+          <Menu onClick={toggleSidebar} className="w-6 h-6 lg:hidden ml-1" />
         </div>
         <div className="flex flex-col mt-5">
           <Link
