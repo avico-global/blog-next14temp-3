@@ -66,7 +66,7 @@ export default function Contact({
       </Head>
       <Navbar
         blog_list={blog_list}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+        logo={logo}
         project_id={project_id}
         categories={categories}
         contact_details={contact_details}
