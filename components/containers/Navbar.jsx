@@ -204,7 +204,7 @@ export default function Navbar({
                       key={index}
                       href={
                         project_id
-                          ? `/${item.article_category.name}/${item.key}?${project_id}`
+                          ? `/${item.article_category.name}/${item.key}?project_id=${project_id}`
                           : `/${item.article_category.name}/${item.key}`
                       }
                     >
@@ -246,7 +246,7 @@ export default function Navbar({
         </div>
         <div className="flex flex-col mt-5">
           <Link
-            href={project_id ? `/?${project_id}` : "/"}
+            href={project_id ? `/?project_id=${project_id}` : "/"}
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
               isActive("/") && "border-black text-black"
@@ -257,7 +257,11 @@ export default function Navbar({
           {categories?.map((item, index) => (
             <Link
               key={index}
-              href={project_id ? `/${item}?${project_id}` : `/${item}`}
+              href={
+                project_id
+                  ? `/${item?.toLowerCase()}?project_id=${project_id}`
+                  : `/${item}`
+              }
               className={cn(
                 "font-semibold text-gray-500 capitalize hover:text-black transition-all py-3 px-2 border-b hover:border-black",
                 (category === item || isActive(`/${item}`)) &&
@@ -268,7 +272,7 @@ export default function Navbar({
             </Link>
           ))}
           <Link
-            href={project_id ? `/?${project_id}` : "/"}
+            href={project_id ? `/about/?project_id=${project_id}` : "/about"}
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
               isActive("/about") && "border-black text-black"
@@ -277,7 +281,9 @@ export default function Navbar({
             About
           </Link>
           <Link
-            href={project_id ? `/?${project_id}` : "/"}
+            href={
+              project_id ? `/contact/?project_id=${project_id}` : "/contact"
+            }
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
               isActive("/contact") && "border-black text-black"
