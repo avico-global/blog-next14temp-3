@@ -46,6 +46,8 @@ export default function Home({
 }) {
   // const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
 
+  console.log("banner", banner);
+
   return (
     <div className={`min-h-screen ${myFont.className}`}>
       <Head>
@@ -299,14 +301,14 @@ export default function Home({
   );
 }
 
-// import fs from "fs";
-// import path from "path";
+import fs from "fs";
+import path from "path";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
 
-  // const robotxt = await callBackendApi({ domain, query, type: "robotxt" });
-  // const filePath = path.join(process.cwd(), "public", "robots.txt");
-  // fs.writeFileSync(filePath, robotxt?.data[0]?.value, "utf8");
+  const robotxt = await callBackendApi({ domain, query, type: "robotxt" });
+  const filePath = path.join(process.cwd(), "public", "robots.txt");
+  fs.writeFileSync(filePath, robotxt?.data[0]?.value, "utf8");
 
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
@@ -326,22 +328,16 @@ export async function getServerSideProps({ req, query }) {
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const banner = await callBackendApi({ domain, query, type: "banner" });
 
-  let project_id = null;
+  let project_id = logo?.data[0]?.project_id;
   let imagePath = null;
 
-  if (logo?.project_id) {
-    project_id = logo.project_id;
-  } else if (query.project_id) {
-    project_id = query.project_id;
-  }
-
-  imagePath = await getImagePath(project_id);
+  imagePath = await getImagePath(logo?.data[0]?.project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
-      project_id: query.project_id ? project_id : null,
+      project_id,
       logo: logo?.data[0] || null,
       favicon: favicon?.data[0]?.file_name || null,
       blog_list: blog_list?.data[0]?.value || [],

@@ -83,7 +83,7 @@ export default function Navbar({
 
   return (
     <FullContainer className="bg-white shadow sticky top-0 z-10 py-4 md:py-0">
-      <div className="flex items-center justify-between w-11/12 md:w-10/12 mx-auto">
+      <div className="grid grid-cols-nav w-11/12 md:w-10/12 mx-auto items-center">
         {/* <div
           className={`items-center hidden ${
             categories?.length > 5 ? "2xl:flex" : "lg:flex"
@@ -99,27 +99,7 @@ export default function Navbar({
             Home
           </Link>
         </div> */}
-        <div className="flex items-center xl:justify-center">
-          <Link
-            href={project_id ? `/?project_id=${project_id}` : "/"}
-            className="mr-6"
-          >
-            {logo?.value?.logoType === "image" ? (
-              <Image
-                height={50}
-                width={180}
-                src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
-                alt="logo"
-                className="h-8 md:h-10 w-auto"
-              />
-            ) : (
-              logo?.value?.logoType === "text" && (
-                <h2 className="text-4xl font-extrabold py-1 whitespace-nowrap">
-                  {logo?.value?.logoText}
-                </h2>
-              )
-            )}
-          </Link>
+        <div className="flex items-center">
           <Link
             href={project_id ? `/?project_id=${project_id}` : "/"}
             className={cn(
@@ -156,6 +136,26 @@ export default function Navbar({
             Contact
           </Link>
         </div>
+        <Link
+          href={project_id ? `/?project_id=${project_id}` : "/"}
+          className="flex items-center justify-center"
+        >
+          {logo?.value?.logoType === "image" ? (
+            <Image
+              height={50}
+              width={180}
+              src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`}
+              alt="logo"
+              className="h-8 md:h-10 w-auto"
+            />
+          ) : (
+            logo?.value?.logoType === "text" && (
+              <h2 className="text-4xl font-extrabold py-1 whitespace-nowrap">
+                {logo?.value?.logoText}
+              </h2>
+            )
+          )}
+        </Link>
         <div
           className="flex items-center justify-end gap-3 text-gray-500 relative"
           ref={searchContainerRef}
