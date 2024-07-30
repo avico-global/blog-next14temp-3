@@ -323,10 +323,9 @@ export async function getServerSideProps({ req }) {
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });
 
-  let project_id = logo?.data[0]?.project_id;
+  let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
-
-  imagePath = await getImagePath(logo?.data[0]?.project_id, domain);
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
