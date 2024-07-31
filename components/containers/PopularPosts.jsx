@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-export default function PopularPosts({ blog_list, imagePath, project_id }) {
+export default function PopularPosts({ blog_list, imagePath }) {
   return (
     <div className="flex flex-col">
       <p className="font-bold">Popular Posts</p>
@@ -12,11 +12,7 @@ export default function PopularPosts({ blog_list, imagePath, project_id }) {
             <Blog
               key={index}
               title={item.title}
-              href={
-                project_id
-                  ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
-                  : `/${item?.article_category?.name}/${item.key}`
-              }
+              href={`/${item?.article_category?.name}/${item.key}`}
               image={
                 item.image
                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`

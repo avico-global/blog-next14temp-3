@@ -8,7 +8,6 @@ import { cn } from "@/lib/utils";
 
 export default function Navbar({
   logo,
-  project_id,
   blog_list,
   categories,
   category,
@@ -84,24 +83,9 @@ export default function Navbar({
   return (
     <FullContainer className="bg-white shadow sticky top-0 z-10 py-4 md:py-0">
       <div className="grid grid-cols-nav w-11/12 md:w-10/12 mx-auto items-center">
-        {/* <div
-          className={`items-center hidden ${
-            categories?.length > 5 ? "2xl:flex" : "lg:flex"
-          }`}
-        >
+        <div className="hidden lg:flex items-center">
           <Link
-            href={project_id ? `/?project_id=${project_id}` : "/"}
-            className={cn(
-              "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
-              isActive("/") && "border-black text-black"
-            )}
-          >
-            Home
-          </Link>
-        </div> */}
-        <div className="flex items-center">
-          <Link
-            href={project_id ? `/?project_id=${project_id}` : "/"}
+            href="/"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
               isActive("/") && "border-black text-black"
@@ -110,11 +94,7 @@ export default function Navbar({
             Home
           </Link>
           <Link
-            href={
-              project_id
-                ? `/${"about"}?project_id=${project_id}`
-                : `/${"about"}`
-            }
+            href="/about"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
               isActive("/about") && "border-black text-black"
@@ -123,11 +103,7 @@ export default function Navbar({
             About
           </Link>
           <Link
-            href={
-              project_id
-                ? `/${"contact"}?project_id=${project_id}`
-                : `/${"contact"}`
-            }
+            href="/contact"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
               isActive("/contact") && "border-black text-black"
@@ -136,10 +112,7 @@ export default function Navbar({
             Contact
           </Link>
         </div>
-        <Link
-          href={project_id ? `/?project_id=${project_id}` : "/"}
-          className="flex items-center justify-center"
-        >
+        <Link href="/" className="flex items-center justify-center">
           {logo?.value?.logoType === "image" ? (
             <Image
               height={50}
@@ -172,11 +145,7 @@ export default function Navbar({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                href={
-                  project_id
-                    ? `/${item?.toLowerCase()}?project_id=${project_id}`
-                    : `/${item?.toLowerCase()}`
-                }
+                href={`/${item?.toLowerCase()}`}
                 className={cn(
                   "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black w-fit",
                   (category === item || isActive(`/${item}`)) &&
@@ -205,11 +174,7 @@ export default function Navbar({
                   {filteredBlogs?.map((item, index) => (
                     <Link
                       key={index}
-                      href={
-                        project_id
-                          ? `/${item.article_category.name}/${item.key}?project_id=${project_id}`
-                          : `/${item.article_category.name}/${item.key}`
-                      }
+                      href={`/${item.article_category.name}/${item.key}`}
                     >
                       <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                         {item.title}
@@ -249,7 +214,7 @@ export default function Navbar({
         </div>
         <div className="flex flex-col mt-5">
           <Link
-            href={project_id ? `/?project_id=${project_id}` : "/"}
+            href="/"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
               isActive("/") && "border-black text-black"
@@ -260,11 +225,7 @@ export default function Navbar({
           {categories?.map((item, index) => (
             <Link
               key={index}
-              href={
-                project_id
-                  ? `/${item?.toLowerCase()}?project_id=${project_id}`
-                  : `/${item}`
-              }
+              href={`/${item}`}
               className={cn(
                 "font-semibold text-gray-500 capitalize hover:text-black transition-all py-3 px-2 border-b hover:border-black",
                 (category === item || isActive(`/${item}`)) &&
@@ -275,7 +236,7 @@ export default function Navbar({
             </Link>
           ))}
           <Link
-            href={project_id ? `/about/?project_id=${project_id}` : "/about"}
+            href="/about"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
               isActive("/about") && "border-black text-black"
@@ -284,9 +245,7 @@ export default function Navbar({
             About
           </Link>
           <Link
-            href={
-              project_id ? `/contact/?project_id=${project_id}` : "/contact"
-            }
+            href="/contact"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
               isActive("/contact") && "border-black text-black"

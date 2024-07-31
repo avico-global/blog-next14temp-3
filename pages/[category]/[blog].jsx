@@ -27,7 +27,6 @@ export default function Blog({
   logo,
   myblog,
   blog_list,
-  project_id,
   imagePath,
   categories,
   domain,
@@ -88,7 +87,6 @@ export default function Blog({
         categories={categories}
         logo={logo}
         imagePath={imagePath}
-        project_id={project_id}
         contact_details={contact_details}
       />
       <FullContainer className="min-h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
@@ -132,7 +130,6 @@ export default function Blog({
             <Rightbar
               lastFiveBlogs={lastFiveBlogs}
               imagePath={imagePath}
-              project_id={project_id}
               tag_list={tag_list}
               about_me={about_me}
               categories={categories}
@@ -143,16 +140,11 @@ export default function Blog({
         </Container>
       </FullContainer>
 
-      <LatestBlogs
-        blogs={blog_list}
-        imagePath={imagePath}
-        project_id={project_id}
-      />
+      <LatestBlogs blogs={blog_list} imagePath={imagePath} />
       <Footer
         blog_list={blog_list}
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        project_id={project_id}
         imagePath={imagePath}
         about_me={about_me}
         contact_details={contact_details}
@@ -261,22 +253,14 @@ export async function getServerSideProps({ params, req, query }) {
   });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
 
-  let project_id = null;
+  let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
-
-  if (logo.project_id) {
-    project_id = logo.project_id;
-  } else if (query.project_id) {
-    project_id = query.project_id;
-  }
-
-  imagePath = await getImagePath(project_id);
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
-      project_id,
       logo: logo?.data[0] || null,
       myblog: blog?.data[0] || null,
       blog_list: blog_list.data[0]?.value || null,

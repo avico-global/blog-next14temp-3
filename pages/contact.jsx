@@ -16,7 +16,6 @@ const myFont = Raleway({
 
 export default function Contact({
   logo,
-  project_id,
   imagePath,
   blog_list,
   about_me,
@@ -64,11 +63,12 @@ export default function Contact({
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
+
       <Navbar
         blog_list={blog_list}
-        logo={logo}
-        project_id={project_id}
         categories={categories}
+        logo={logo}
+        imagePath={imagePath}
         contact_details={contact_details}
       />
 
@@ -91,7 +91,6 @@ export default function Contact({
         categories={categories}
         logo={logo}
         imagePath={imagePath}
-        project_id={project_id}
         about_me={about_me}
         copyright={copyright}
         contact_details={contact_details}
@@ -119,22 +118,14 @@ export async function getServerSideProps({ req, query }) {
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
 
-  let project_id = null;
+  let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
-
-  if (logo.project_id) {
-    project_id = logo.project_id;
-  } else if (query.project_id) {
-    project_id = query.project_id;
-  }
-
-  imagePath = await getImagePath(project_id);
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
-      project_id: query.project_id ? project_id : null,
       logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
       contact_details: contact_details.data[0].value,

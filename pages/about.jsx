@@ -22,7 +22,6 @@ export default function About({
   logo,
   about_me,
   imagePath,
-  project_id,
   categories,
   blog_list,
   domain,
@@ -71,10 +70,10 @@ export default function About({
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
+      
       <Navbar
         blog_list={blog_list}
         categories={categories}
-        project_id={project_id}
         logo={logo}
         imagePath={imagePath}
         contact_details={contact_details}
@@ -97,7 +96,6 @@ export default function About({
         blog_list={blog_list}
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        project_id={project_id}
         imagePath={imagePath}
         contact_details={contact_details}
         copyright={copyright}
@@ -178,16 +176,9 @@ export async function getServerSideProps({ req, query }) {
     type: "copyright",
   });
 
-  let project_id = null;
+  let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
-
-  if (logo.project_id) {
-    project_id = logo.project_id;
-  } else if (query.project_id) {
-    project_id = query.project_id;
-  }
-
-  imagePath = await getImagePath(project_id);
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
@@ -196,7 +187,6 @@ export async function getServerSideProps({ req, query }) {
       favicon: favicon?.data[0]?.file_name || null,
       imagePath,
       blog_list: blog_list.data[0].value,
-      project_id,
       categories: categories?.data[0]?.value || null,
       domain,
       meta: meta?.data[0]?.value || null,

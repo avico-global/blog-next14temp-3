@@ -20,7 +20,6 @@ const myFont = Raleway({
 export default function PriavcyPolicy({
   domain,
   imagePath,
-  project_id,
   logo,
   favicon,
   blog_list,
@@ -35,7 +34,9 @@ export default function PriavcyPolicy({
   const content = markdownIt.render(policy);
 
   return (
-    <div className={`min-h-screen ${myFont.className}`}>
+    <div
+      className={`min-h-screen flex flex-col justify-between ${myFont.className}`}
+    >
       <Head>
         <meta charSet="UTF-8" />
         <title>{meta?.title}</title>
@@ -76,7 +77,6 @@ export default function PriavcyPolicy({
         blog_list={blog_list}
         categories={categories}
         logo={logo}
-        project_id={project_id}
         contact_details={contact_details}
       />
 
@@ -93,7 +93,6 @@ export default function PriavcyPolicy({
         blog_list={blog_list}
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        project_id={project_id}
         imagePath={imagePath}
         about_me={about_me}
         copyright={copyright}
@@ -131,22 +130,14 @@ export async function getServerSideProps({ req, query }) {
   const terms = await callBackendApi({ domain, query, type: "terms" });
   const policy = await callBackendApi({ domain, query, type: "policy" });
 
-  let project_id = null;
+  let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
-
-  if (logo?.project_id) {
-    project_id = logo.project_id;
-  } else if (query.project_id) {
-    project_id = query.project_id;
-  }
-
-  imagePath = await getImagePath(project_id);
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
-      project_id: query.project_id ? project_id : null,
       logo: logo?.data[0] || null,
       favicon: favicon?.data[0]?.file_name || null,
       blog_list: blog_list?.data[0]?.value || [],

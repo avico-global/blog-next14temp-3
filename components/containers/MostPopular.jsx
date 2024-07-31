@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 
-export default function MostPopular({ blog_list, imagePath, project_id }) {
+export default function MostPopular({ blog_list, imagePath }) {
   return (
     <FullContainer className="py-16 text-center">
       <Container className="border border-gray-100 px-3 py-9 md:px-9">
@@ -28,12 +28,7 @@ export default function MostPopular({ blog_list, imagePath, project_id }) {
                       ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                       : "/no-image.png"
                   }
-                  project_id={project_id}
-                  href={
-                    project_id
-                      ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
-                      : `/${item?.article_category?.name}/${item.key}`
-                  }
+                  href={`/${item?.article_category?.name}/${item.key}`}
                   category={item.article_category.name}
                 />
               )

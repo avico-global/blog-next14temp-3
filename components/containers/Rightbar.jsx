@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 const md = new MarkdownIt();
 
 export default function Rightbar({
-  project_id,
   lastFiveBlogs,
   imagePath,
   tag_list,
@@ -40,13 +39,7 @@ export default function Rightbar({
             </div>
             {lastFiveBlogs?.reverse().map((item, index) => (
               <div key={index} className="grid grid-cols-widget gap-3 py-3">
-                <Link
-                  href={
-                    project_id
-                      ? `/${item.article_category.name}/${item.key}?projct_id=${project_id}`
-                      : `/${item.article_category.name}/${item.key}`
-                  }
-                >
+                <Link href={`/${item.article_category.name}/${item.key}`}>
                   <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1">
                     <Image
                       title={item?.imageTitle}
@@ -85,13 +78,7 @@ export default function Rightbar({
               {tag_list?.map((item, index) => (
                 <Link
                   key={index}
-                  href={
-                    project_id
-                      ? `/${item.tag
-                          ?.replaceAll(" ", "-")
-                          ?.toLowerCase()}?project_id=${project_id}`
-                      : `/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`
-                  }
+                  href={`/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`}
                   className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-xs px-2"
                 >
                   {item.tag}{" "}
@@ -124,10 +111,7 @@ export default function Rightbar({
             className="mt-3"
             dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
           ></div>
-          <Link
-            href={project_id ? `/about?project_id=${project_id}` : "/about"}
-            className="mt-3 underline text-sm font-bold"
-          >
+          <Link href="/about" className="mt-3 underline text-sm font-bold">
             More about me?
           </Link>
         </div>
@@ -165,9 +149,7 @@ export default function Rightbar({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                href={
-                  project_id ? `/${item}?project_id=${project_id}` : `/${item}`
-                }
+                href={`/${item}`}
                 className={cn(
                   "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
                   (category === item || isActive(`/${item}`)) &&

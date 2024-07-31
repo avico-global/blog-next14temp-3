@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
 
-export default function LatestBlogs({ blogs, imagePath, project_id }) {
+export default function LatestBlogs({ blogs, imagePath }) {
   const [visibleBlogs, setVisibleBlogs] = useState(6);
 
   const handleSeeMore = () => {
@@ -30,11 +30,7 @@ export default function LatestBlogs({ blogs, imagePath, project_id }) {
                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                   : "/no-image.png"
               }
-              href={
-                project_id
-                  ? `/${item.article_category.name}/${item.key}?project_id=${project_id}`
-                  : `/${item.article_category.name}/${item.key}`
-              }
+              href={`/${item.article_category.name}/${item.key}`}
             />
           ))}
         </div>

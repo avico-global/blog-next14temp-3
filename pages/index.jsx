@@ -21,20 +21,10 @@ const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
 
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from "@/components/ui/carousel";
-// import Autoplay from "embla-carousel-autoplay";
-
 export default function Home({
   logo,
   blog_list,
   imagePath,
-  project_id,
   categories,
   domain,
   meta,
@@ -44,10 +34,6 @@ export default function Home({
   banner,
   favicon,
 }) {
-  // const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
-
-  console.log("banner", banner);
-
   return (
     <div className={`min-h-screen ${myFont.className}`}>
       <Head>
@@ -90,57 +76,15 @@ export default function Home({
         blog_list={blog_list}
         categories={categories}
         logo={logo}
-        project_id={project_id}
         contact_details={contact_details}
       />
-      {/* <Carousel
-        plugins={[plugin.current]}
-        className="w-full"
-        onMouseEnter={plugin.current.stop}
-        onMouseLeave={plugin.current.reset}
-      >
-        <CarouselContent className="w-full">
-          {blog_list.map((item, index) => (
-            <CarouselItem key={index}>
-              <Banner
-                key={index}
-                title={item.title}
-                author={item.author}
-                published_at={item.published_at}
-                tagline={item.tagline}
-                description={item.articleContent}
-                image={
-                  item.image
-                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                    : "/no-image.png"
-                }
-                project_id={project_id}
-                href={
-                  project_id
-                    ? `/${item?.article_category?.name}/${item.key}?${project_id}`
-                    : `/${item?.article_category?.name}/${item.key}`
-                }
-                category={item?.article_category?.name}
-              />
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <div className="flex items-center justify-center gap-2 p-2">
-          <CarouselPrevious />
-          <CarouselNext />
-        </div>
-      </Carousel> */}
 
       <Banner
         data={banner.value}
         image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
       />
 
-      <MostPopular
-        blog_list={blog_list}
-        imagePath={imagePath}
-        project_id={project_id}
-      />
+      <MostPopular blog_list={blog_list} imagePath={imagePath} />
 
       <FullContainer>
         <Container>
@@ -163,16 +107,12 @@ export default function Home({
                         ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                         : "/no-image.png"
                     }
-                    project_id={project_id}
-                    href={
-                      project_id
-                        ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
-                        : `/${item?.article_category?.name}/${item.key}`
-                    }
+                    href={`/${item?.article_category?.name}/${item.key}`}
                     category={item?.article_category?.name}
                     imageHeight="h-96 lg:h-[420px]"
                   />
                 ))}
+
               <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
                 <div className="flex flex-col gap-10">
                   {blog_list?.slice(0, 4).map((item, index) => (
@@ -189,12 +129,7 @@ export default function Home({
                           ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                           : "/no-image.png"
                       }
-                      project_id={project_id}
-                      href={
-                        project_id
-                          ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
-                          : `/${item?.article_category?.name}/${item.key}`
-                      }
+                      href={`/${item?.article_category?.name}/${item.key}`}
                       category={item?.article_category?.name}
                       imageHeight="h-72 md:h-[420px]"
                     />
@@ -215,12 +150,7 @@ export default function Home({
                           ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                           : "/no-image.png"
                       }
-                      project_id={project_id}
-                      href={
-                        project_id
-                          ? `/${item?.article_category?.name}/${item.key}?project_id=${project_id}`
-                          : `/${item?.article_category?.name}/${item.key}`
-                      }
+                      href={`/${item?.article_category?.name}/${item.key}`}
                       category={item?.article_category?.name}
                       imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
                     />
@@ -233,7 +163,6 @@ export default function Home({
               imagePath={imagePath}
               categories={categories}
               contact_details={contact_details}
-              project_id={project_id}
             />
           </div>
         </Container>
@@ -243,7 +172,6 @@ export default function Home({
         blog_list={blog_list}
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        project_id={project_id}
         imagePath={imagePath}
         about_me={about_me}
         copyright={copyright}
@@ -331,7 +259,6 @@ export async function getServerSideProps({ req }) {
     props: {
       domain,
       imagePath,
-      project_id,
       logo: logo?.data[0] || null,
       favicon: favicon?.data[0]?.file_name || null,
       blog_list: blog_list?.data[0]?.value || [],

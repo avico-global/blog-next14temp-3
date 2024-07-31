@@ -29,7 +29,6 @@ export default function Categories({
   meta,
   domain,
   categories,
-  project_id,
   about_me,
   contact_details,
   copyright,
@@ -101,7 +100,6 @@ export default function Categories({
         imagePath={imagePath}
         blog_list={blog_list}
         categories={categories}
-        project_id={project_id}
         contact_details={contact_details}
       />
       <FullContainer className="mb-12">
@@ -115,13 +113,7 @@ export default function Categories({
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
             {filteredBlogList.map((item, index) => (
               <div key={index}>
-                <Link
-                  href={
-                    project_id
-                      ? `/${category}/${item.key}?project_id=${project_id}`
-                      : `/${category}/${item.key}`
-                  }
-                >
+                <Link href={`/${category}/${item.key}`}>
                   <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
                     <Image
                       title={item.imageTitle}
@@ -166,7 +158,6 @@ export default function Categories({
         blog_list={blog_list}
         categories={categories}
         logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        project_id={project_id}
         imagePath={imagePath}
         about_me={about_me}
         contact_details={contact_details}
@@ -268,22 +259,14 @@ export async function getServerSideProps({ req, query }) {
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
 
-  let project_id = null;
+  let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
-
-  if (logo.project_id) {
-    project_id = logo.project_id;
-  } else if (query.project_id) {
-    project_id = query.project_id;
-  }
-
-  imagePath = await getImagePath(project_id);
+  imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
-      project_id: query.project_id ? project_id : null,
       logo: logo?.data[0],
       banner: banner.data[0] || null,
       favicon: favicon?.data[0]?.file_name || null,
