@@ -28,7 +28,7 @@ const BlogCard = ({
           priority={true}
           fill={true}
           loading="eager"
-          className="-z-10 w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
+          className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
         />
       </Link>
       <div className="flex flex-col items-center gap-2 mt-3">
@@ -38,7 +38,11 @@ const BlogCard = ({
             {category}
           </span>
         </p> */}
-        <h2 className="font-extrabold md:text-lg leading-tight">{title}</h2>
+        <Link href={href || ""}>
+          <h2 className="font-extrabold md:text-lg leading-tight hover:underline">
+            {title}
+          </h2>
+        </Link>
         <p className="text-sm font-medium text-gray-700">{published_at}</p>
       </div>
       <p className="mt-3 text-xs md:hidden">{content.slice(0, 100)}</p>

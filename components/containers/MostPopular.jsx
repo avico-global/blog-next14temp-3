@@ -28,7 +28,9 @@ export default function MostPopular({ blog_list, imagePath }) {
                       ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                       : "/no-image.png"
                   }
-                  href={`/${item?.article_category?.name}/${item.key}`}
+                  href={`/${item?.article_category?.name}/${item?.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}`}
                   category={item.article_category.name}
                 />
               )
@@ -50,11 +52,17 @@ function BlogCard({ title, image, href, category }) {
           fill={true}
           loading="lazy"
           sizes="400px, 300px"
-          className="-z-10 w-full h-full object-cover absolute top-0"
+          className="w-full h-full object-cover absolute top-0 hover:scale-110 transition-all"
         />
       </Link>
-      <Badge className="text-center whitespace-nowrap my-2">{category}</Badge>
-      <p className="font-semibold leading-5 text-lg">{title}</p>
+      <Link href={`/${category?.toLowerCase().replaceAll(" ", "-")}`}>
+        <Badge className="text-center whitespace-nowrap my-2">{category}</Badge>
+      </Link>
+      <Link href={href || ""}>
+        <p className="font-semibold leading-5 text-lg hover:underline">
+          {title}
+        </p>
+      </Link>
     </div>
   );
 }

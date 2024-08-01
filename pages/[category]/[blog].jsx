@@ -39,7 +39,7 @@ export default function Blog({
   const router = useRouter();
   const { category } = router.query;
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(myblog?.value.articleContent);
+  const content = markdownIt.render(myblog?.value?.articleContent);
   const breadcrumbs = useBreadcrumbs();
   const lastFiveBlogs = blog_list.slice(-5);
 
@@ -122,7 +122,9 @@ export default function Blog({
               <div className="mt-12">
                 <h3 className="text-lg font-semibold">Share this article:</h3>
                 <SocialShare
-                  url={`http://${domain}${myblog?.article_category?.name}/${myblog?.key}`}
+                  url={`http://${domain}${
+                    myblog?.article_category?.name
+                  }/${myblog?.title?.replaceAll(" ", "-")?.toLowerCase()}}`}
                   title={myblog?.value.title}
                 />
               </div>
@@ -218,43 +220,39 @@ export default function Blog({
   );
 }
 
-export async function getServerSideProps({ params, req, query }) {
+export async function getServerSideProps({ params, req }) {
   const domain = getDomain(req?.headers?.host);
-  const blog = await callBackendApi({
-    domain,
-    query,
-    type: params.blog,
-  });
-  const categories = await callBackendApi({
-    domain,
-    query,
-    type: "categories",
-  });
-  const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
+  const categories = await callBackendApi({ domain, type: "categories" });
+  const blog_list = await callBackendApi({ domain, type: "blog_list" });
 
-  const isValidBlog = blog_list.data[0].value.some(
-    (item) => item.key === params.blog
+  // console.log("My blog", blog_list.data[0].value);
+  console.log("params", params.blog);
+
+  const isValidBlog = blog_list?.data[0]?.value?.find(
+    (item) => item.title?.replaceAll(" ", "-")?.toLowerCase() === params.blog
   );
 
-  if (!isValidBlog) {
-    return {
-      notFound: true,
-    };
-  }
+  // if (!isValidBlog) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 
-  const tag_list = await callBackendApi({ domain, query, type: "tag_list" });
-  const logo = await callBackendApi({ domain, query, type: "logo" });
-  const favicon = await callBackendApi({ domain, query, type: "favicon" });
-  const about_me = await callBackendApi({ domain, query, type: "about_me" });
+  const blog = await callBackendApi({ domain, type: isValidBlog?.key });
+  
+  const tag_list = await callBackendApi({ domain, type: "tag_list" });
+  const logo = await callBackendApi({ domain, type: "logo" });
+  const favicon = await callBackendApi({ domain, type: "favicon" });
+  const about_me = await callBackendApi({ domain, type: "about_me" });
   const contact_details = await callBackendApi({
     domain,
-    query,
     type: "contact_details",
   });
-  const copyright = await callBackendApi({ domain, query, type: "copyright" });
+  const copyright = await callBackendApi({ domain, type: "copyright" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
+
   imagePath = await getImagePath(project_id, domain);
 
   return {

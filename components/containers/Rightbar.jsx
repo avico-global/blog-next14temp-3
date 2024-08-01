@@ -39,7 +39,11 @@ export default function Rightbar({
             </div>
             {lastFiveBlogs?.reverse().map((item, index) => (
               <div key={index} className="grid grid-cols-widget gap-3 py-3">
-                <Link href={`/${item.article_category.name}/${item.key}`}>
+                <Link
+                  href={`/${item.article_category.name}/${item?.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}`}
+                >
                   <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1">
                     <Image
                       title={item?.imageTitle}
@@ -56,7 +60,15 @@ export default function Rightbar({
                   </div>
                 </Link>
                 <div>
-                  <p className="font-bold leading-tight">{item?.title}</p>
+                  <Link
+                    href={`/${item.article_category.name}/${item?.title
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}`}
+                  >
+                    <p className="font-bold leading-tight hover:underline">
+                      {item?.title}
+                    </p>
+                  </Link>
                   <div className="flex items-center gap-2 mt-1 justify-between text-gray-400">
                     <p className="text-xs">{item?.author}</p>
                     <p className="text-xs whitespace-nowrap">
@@ -95,7 +107,10 @@ export default function Rightbar({
       </div>
 
       {page !== "about" && (
-        <div className="border p-5 flex flex-col items-center text-center mb-10">
+        <Link
+          href="/about"
+          className="border p-5 flex flex-col items-center text-center mb-10"
+        >
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
           <div className="relative overflow-hidden w-full h-40 mt-8">
             <Image
@@ -111,10 +126,8 @@ export default function Rightbar({
             className="mt-3"
             dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
           ></div>
-          <Link href="/about" className="mt-3 underline text-sm font-bold">
-            More about me?
-          </Link>
-        </div>
+          <p className="mt-3 underline text-sm font-bold">More about me?</p>
+        </Link>
       )}
 
       {/* <div className="border p-5 mt-6 flex flex-col items-center text-center">

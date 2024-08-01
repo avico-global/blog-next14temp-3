@@ -12,7 +12,9 @@ export default function PopularPosts({ blog_list, imagePath }) {
             <Blog
               key={index}
               title={item.title}
-              href={`/${item?.article_category?.name}/${item.key}`}
+              href={`/${item?.article_category?.name}/${item?.title
+                ?.replaceAll(" ", "-")
+                ?.toLowerCase()}`}
               image={
                 item.image
                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
@@ -42,7 +44,9 @@ function Blog({ image, title, href, author, date }) {
         />
       </Link>
       <div className="flex-1">
-        <p className="font-bold text-sm">{title}</p>
+        <Link href={href || ""}>
+          <p className="font-bold text-sm hover:underline">{title}</p>
+        </Link>
         <div className="flex items-center gap-2">
           <p className="text-xs mt-2 text-gray-400">{author}</p>
           <span className="text-xs text-gray-400">_</span>

@@ -30,7 +30,9 @@ export default function LatestBlogs({ blogs, imagePath }) {
                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                   : "/no-image.png"
               }
-              href={`/${item.article_category.name}/${item.key}`}
+              href={`/${item.article_category.name}/${item?.title
+                ?.replaceAll(" ", "-")
+                ?.toLowerCase()}`}
             />
           ))}
         </div>
@@ -58,7 +60,11 @@ function BlogCard({ title, image, tagline, href }) {
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
       </div>
-      <h3 className="font-semibold text-lg mt-4 leading-5">{title}</h3>
+      <Link href={href || ""}>
+        <h3 className="font-semibold text-lg mt-4 leading-5 hover:underline">
+          {title}
+        </h3>
+      </Link>
       <p className="text-gray-500 mt-2 text-sm">{tagline.slice(0, 200)}</p>
     </Link>
   );

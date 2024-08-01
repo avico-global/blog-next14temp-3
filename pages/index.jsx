@@ -129,7 +129,11 @@ export default function Home({
                                 ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                 : "/no-image.png"
                             }
-                            href={`/${item?.article_category?.name}/${item.key}`}
+                            href={`/${
+                              item?.article_category?.name
+                            }/${item?.title
+                              ?.replaceAll(" ", "-")
+                              ?.toLowerCase()}`}
                             category={item?.article_category?.name}
                             imageHeight="h-96 lg:h-[420px]"
                           />
@@ -151,7 +155,11 @@ export default function Home({
                                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                   : "/no-image.png"
                               }
-                              href={`/${item?.article_category?.name}/${item.key}`}
+                              href={`/${
+                                item?.article_category?.name
+                              }/${item?.title
+                                ?.replaceAll(" ", "-")
+                                ?.toLowerCase()}`}
                               category={item?.article_category?.name}
                               imageHeight="h-72 md:h-[420px]"
                             />
@@ -172,7 +180,11 @@ export default function Home({
                                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                   : "/no-image.png"
                               }
-                              href={`/${item?.article_category?.name}/${item.key}`}
+                              href={`/${
+                                item?.article_category?.name
+                              }/${item?.title
+                                ?.replaceAll(" ", "-")
+                                ?.toLowerCase()}`}
                               category={item?.article_category?.name}
                               imageHeight={
                                 index === 0 ? "h-40" : "h-72 md:h-[410px]"
