@@ -33,6 +33,7 @@ export default function Home({
   contact_details,
   banner,
   favicon,
+  sections,
 }) {
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -43,7 +44,6 @@ export default function Home({
         <link rel="author" href={`http://${domain}`} />
         <link rel="publisher" href={`http://${domain}`} />
         <link rel="canonical" href={`http://${domain}`} />
-        {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
@@ -71,112 +71,141 @@ export default function Home({
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
-      <Navbar
-        imagePath={imagePath}
-        blog_list={blog_list}
-        categories={categories}
-        logo={logo}
-        contact_details={contact_details}
-      />
 
-      <Banner
-        data={banner.value}
-        image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
-      />
+      {sections?.map((item, index) => {
+        if (!item.enable) return null;
 
-      <MostPopular blog_list={blog_list} imagePath={imagePath} />
+        switch (item.section) {
+          case "Navbar":
+            return (
+              <Navbar
+                key={index}
+                logo={logo}
+                imagePath={imagePath}
+                blog_list={blog_list}
+                categories={categories}
+                contact_details={contact_details}
+              />
+            );
+          case "Banner":
+            return (
+              <Banner
+                key={index}
+                data={banner.value}
+                image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
+              />
+            );
+          case "Most Popular":
+            return (
+              <MostPopular
+                key={index}
+                blog_list={blog_list}
+                imagePath={imagePath}
+              />
+            );
+          case "Articles List":
+            return (
+              <FullContainer key={index}>
+                <Container>
+                  <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+                    <div>
+                      {blog_list
+                        ?.slice(-1)
+                        .reverse()
+                        .map((item, index) => (
+                          <BlogCard
+                            key={index}
+                            index={index}
+                            title={item.title}
+                            author={item.author}
+                            published_at={item.published_at}
+                            tagline={item.tagline}
+                            content={item.articleContent}
+                            image={
+                              item.image
+                                ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                : "/no-image.png"
+                            }
+                            href={`/${item?.article_category?.name}/${item.key}`}
+                            category={item?.article_category?.name}
+                            imageHeight="h-96 lg:h-[420px]"
+                          />
+                        ))}
 
-      <FullContainer>
-        <Container>
-          <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-            <div>
-              {blog_list
-                ?.slice(-1)
-                .reverse()
-                .map((item, index) => (
-                  <BlogCard
-                    key={index}
-                    index={index}
-                    title={item.title}
-                    author={item.author}
-                    published_at={item.published_at}
-                    tagline={item.tagline}
-                    content={item.articleContent}
-                    image={
-                      item.image
-                        ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                        : "/no-image.png"
-                    }
-                    href={`/${item?.article_category?.name}/${item.key}`}
-                    category={item?.article_category?.name}
-                    imageHeight="h-96 lg:h-[420px]"
-                  />
-                ))}
-
-              <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
-                <div className="flex flex-col gap-10">
-                  {blog_list?.slice(0, 4).map((item, index) => (
-                    <BlogCard
-                      key={index}
-                      index={index}
-                      title={item.title}
-                      author={item.author}
-                      published_at={item.published_at}
-                      tagline={item.tagline}
-                      content={item.articleContent}
-                      image={
-                        item.image
-                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                          : "/no-image.png"
-                      }
-                      href={`/${item?.article_category?.name}/${item.key}`}
-                      category={item?.article_category?.name}
-                      imageHeight="h-72 md:h-[420px]"
+                      <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
+                        <div className="flex flex-col gap-10">
+                          {blog_list?.slice(0, 4).map((item, index) => (
+                            <BlogCard
+                              key={index}
+                              index={index}
+                              title={item.title}
+                              author={item.author}
+                              published_at={item.published_at}
+                              tagline={item.tagline}
+                              content={item.articleContent}
+                              image={
+                                item.image
+                                  ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                  : "/no-image.png"
+                              }
+                              href={`/${item?.article_category?.name}/${item.key}`}
+                              category={item?.article_category?.name}
+                              imageHeight="h-72 md:h-[420px]"
+                            />
+                          ))}
+                        </div>
+                        <div className="flex flex-col gap-10">
+                          {blog_list?.slice(5, 9).map((item, index) => (
+                            <BlogCard
+                              key={index}
+                              index={index}
+                              title={item.title}
+                              author={item.author}
+                              published_at={item.published_at}
+                              tagline={item.tagline}
+                              content={item.articleContent}
+                              image={
+                                item.image
+                                  ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                  : "/no-image.png"
+                              }
+                              href={`/${item?.article_category?.name}/${item.key}`}
+                              category={item?.article_category?.name}
+                              imageHeight={
+                                index === 0 ? "h-40" : "h-72 md:h-[410px]"
+                              }
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                    <Rightbar
+                      about_me={about_me}
+                      imagePath={imagePath}
+                      categories={categories}
+                      contact_details={contact_details}
                     />
-                  ))}
-                </div>
-                <div className="flex flex-col gap-10">
-                  {blog_list?.slice(5, 9).map((item, index) => (
-                    <BlogCard
-                      key={index}
-                      index={index}
-                      title={item.title}
-                      author={item.author}
-                      published_at={item.published_at}
-                      tagline={item.tagline}
-                      content={item.articleContent}
-                      image={
-                        item.image
-                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                          : "/no-image.png"
-                      }
-                      href={`/${item?.article_category?.name}/${item.key}`}
-                      category={item?.article_category?.name}
-                      imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
-            <Rightbar
-              about_me={about_me}
-              imagePath={imagePath}
-              categories={categories}
-              contact_details={contact_details}
-            />
-          </div>
-        </Container>
-      </FullContainer>
-
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        imagePath={imagePath}
-        about_me={about_me}
-        copyright={copyright}
-        contact_details={contact_details}
-      />
+                  </div>
+                </Container>
+              </FullContainer>
+            );
+          case "Footer":
+            return (
+              <Footer
+                key={index}
+                blog_list={blog_list}
+                categories={categories}
+                logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+                imagePath={imagePath}
+                about_me={about_me}
+                copyright={copyright}
+                contact_details={contact_details}
+              />
+            );
+          default:
+            return null;
+        }
+      })}
 
       <JsonLd
         data={{
@@ -229,20 +258,15 @@ export default function Home({
   );
 }
 
-import fs from "fs";
-import path from "path";
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-
-  const robotxt = await callBackendApi({ domain, type: "robotxt" });
-  const filePath = path.join(process.cwd(), "public", "robots.txt");
-  fs.writeFileSync(filePath, robotxt?.data[0]?.value, "utf8");
 
   const meta = await callBackendApi({ domain, type: "meta_home" });
   const logo = await callBackendApi({ domain, type: "logo" });
   const favicon = await callBackendApi({ domain, type: "favicon" });
   const blog_list = await callBackendApi({ domain, type: "blog_list" });
   const categories = await callBackendApi({ domain, type: "categories" });
+  const sections = await callBackendApi({ domain, type: "sections" });
   const contact_details = await callBackendApi({
     domain,
     type: "contact_details",
@@ -263,6 +287,7 @@ export async function getServerSideProps({ req }) {
       favicon: favicon?.data[0]?.file_name || null,
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
+      sections: sections?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
       copyright: copyright?.data[0].value || null,
       about_me: about_me?.data[0] || null,
