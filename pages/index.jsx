@@ -87,6 +87,7 @@ export default function Home({
                 contact_details={contact_details}
               />
             );
+
           case "Banner":
             return (
               <Banner
@@ -95,6 +96,7 @@ export default function Home({
                 image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
               />
             );
+
           case "Most Popular":
             return (
               <MostPopular
@@ -103,7 +105,8 @@ export default function Home({
                 imagePath={imagePath}
               />
             );
-          case "Articles List":
+
+          case "Articles":
             return (
               <FullContainer key={index}>
                 <Container>
@@ -189,6 +192,7 @@ export default function Home({
                 </Container>
               </FullContainer>
             );
+
           case "Footer":
             return (
               <Footer
