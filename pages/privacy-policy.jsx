@@ -86,7 +86,7 @@ export default function PriavcyPolicy({
         <Container>
           <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
           <div
-            className="prose max-w-full w-full mt-16 mb-5"
+            className="prose max-w-full w-full mb-5"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </Container>
