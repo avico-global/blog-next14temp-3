@@ -31,7 +31,8 @@ export default function PriavcyPolicy({
   policy,
 }) {
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(policy);
+  const content = markdownIt.render(policy || "");
+  const breadcrumbs = useBreadcrumbs();
 
   return (
     <div
@@ -72,6 +73,7 @@ export default function PriavcyPolicy({
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
+
       <Navbar
         imagePath={imagePath}
         blog_list={blog_list}
@@ -82,6 +84,7 @@ export default function PriavcyPolicy({
 
       <FullContainer>
         <Container>
+          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
           <div
             className="prose max-w-full w-full mt-16 mb-5"
             dangerouslySetInnerHTML={{ __html: content }}
@@ -104,6 +107,8 @@ export default function PriavcyPolicy({
 
 import fs from "fs";
 import path from "path";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import useBreadcrumbs from "@/lib/useBreadcrumbs";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
 

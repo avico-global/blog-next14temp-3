@@ -174,7 +174,9 @@ export default function Navbar({
                   {filteredBlogs?.map((item, index) => (
                     <Link
                       key={index}
-                      href={`/${item.article_category.name}/${item.key}`}
+                      href={`/${item.article_category.name}/${item?.title
+                        ?.replaceAll(" ", "-")
+                        ?.toLowerCase()}`}
                     >
                       <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                         {item.title}

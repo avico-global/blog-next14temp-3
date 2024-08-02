@@ -113,7 +113,11 @@ export default function Categories({
           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
             {filteredBlogList.map((item, index) => (
               <div key={index}>
-                <Link href={`/${category}/${item.key}`}>
+                <Link
+                  href={`/${category}/${item?.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}`}
+                >
                   <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
                     <Image
                       title={item.imageTitle}
@@ -125,14 +129,20 @@ export default function Categories({
                       fill={true}
                       loading="lazy"
                       alt="blog"
-                      className="w-full h-full object-cover absolute top-0 scale-125"
+                      className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
                     />
                   </div>
                 </Link>
-                <p className="mt-2 lg:mt-3 font-bold text-lg text-inherit leading-tight">
-                  {item.title}
-                </p>
-                <div className="flex items-center gap-2 mt-1">
+                <Link
+                  href={`/${category}/${item?.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}`}
+                >
+                  <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
+                    {item.title}
+                  </p>
+                </Link>
+                <div className="flex items-center gap-2 mt-2">
                   <p className="text-sm font-semibold">
                     <span className="text-gray-400 text-sm">By</span>:{" "}
                     {item.author}
@@ -142,13 +152,7 @@ export default function Categories({
                     {dayjs(item?.published_at)?.format("MMM D, YYYY")}
                   </p>
                 </div>
-                <div
-                  className="mt-1 markdown-content"
-                  style={{ fontSize: 12 }}
-                  dangerouslySetInnerHTML={{
-                    __html: convertMarkdown(item?.articleContent).slice(0, 200),
-                  }}
-                />
+                <p className="text-gray-500 mt-4">{item.tagline}</p>
               </div>
             ))}
           </div>
@@ -212,7 +216,9 @@ export default function Categories({
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category?.name}/${blog.key}`,
+                  url: `http://${domain}/${
+                    blog?.article_category?.name
+                  }/${blog?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
                   name: blog.title,
                 },
               })),

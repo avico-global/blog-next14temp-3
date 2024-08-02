@@ -31,7 +31,8 @@ export default function Terms({
   terms,
 }) {
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(terms);
+  const content = markdownIt?.render(terms || "");
+  const breadcrumbs = useBreadcrumbs();
 
   return (
     <div
@@ -83,8 +84,9 @@ export default function Terms({
 
       <FullContainer>
         <Container>
+          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
           <div
-            className="prose max-w-full w-full mt-16 mb-5"
+            className="prose max-w-full w-full mb-5"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </Container>
@@ -105,6 +107,8 @@ export default function Terms({
 
 import fs from "fs";
 import path from "path";
+import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
 
@@ -145,8 +149,8 @@ export async function getServerSideProps({ req, query }) {
       meta: meta?.data[0]?.value || null,
       copyright: copyright?.data[0].value || null,
       about_me: about_me?.data[0] || null,
-      contact_details: contact_details?.data[0]?.value,
-      terms: terms?.data[0]?.value,
+      contact_details: contact_details?.data[0]?.value || null,
+      terms: terms?.data[0]?.value || "",
     },
   };
 }

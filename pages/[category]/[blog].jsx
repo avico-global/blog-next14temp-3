@@ -39,7 +39,7 @@ export default function Blog({
   const router = useRouter();
   const { category } = router.query;
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(myblog?.value?.articleContent);
+  const content = markdownIt.render(myblog?.value?.articleContent || "");
   const breadcrumbs = useBreadcrumbs();
   const lastFiveBlogs = blog_list.slice(-5);
 
@@ -162,13 +162,17 @@ export default function Blog({
               mainEntityOfPage: {
                 "@type": "WebPage",
                 "@id": myblog
-                  ? `http://${domain}${myblog?.article_category?.name}/${myblog?.key}`
+                  ? `http://${domain}${
+                      myblog?.article_category?.name
+                    }/${myblog?.value?.title
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}`
                   : "",
               },
-              headline: myblog?.value.title,
-              description: myblog?.value.articleContent,
-              datePublished: myblog?.value.published_at,
-              author: myblog?.value.author,
+              headline: myblog?.value?.title,
+              description: myblog?.value?.articleContent,
+              datePublished: myblog?.value?.published_at,
+              author: myblog?.value?.author,
               image: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`,
               publisher: "Site Manager",
             },
@@ -183,14 +187,18 @@ export default function Blog({
             },
             {
               "@type": "ItemList",
-              url: `http://${domain}${myblog?.article_category?.name}/${myblog?.key}`,
+              url: `http://${domain}${
+                myblog?.article_category?.name
+              }/${myblog?.value?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
               name: "blog",
               itemListElement: blog_list?.map((blog, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}${blog?.article_category?.name}/${blog?.key}`,
+                  url: `http://${domain}${
+                    blog?.article_category?.name
+                  }/${blog?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
                   name: blog.title,
                 },
               })),
@@ -198,7 +206,9 @@ export default function Blog({
             {
               "@type": "WebPage",
               "@id": `http://${domain}/${myblog?.key}`,
-              url: `http://${domain}/${myblog?.article_category?.name}/${myblog?.key}`,
+              url: `http://${domain}/${
+                myblog?.article_category?.name
+              }/${myblog?.value?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
               name: myblog?.value?.meta_title,
               description: myblog?.value?.meta_description,
               publisher: {
@@ -210,8 +220,8 @@ export default function Blog({
                 "@type": "ImageObject",
                 url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`,
               },
-              datePublished: myblog?.value.published_at,
-              dateModified: myblog?.value.published_at,
+              datePublished: myblog?.value?.published_at,
+              dateModified: myblog?.value?.published_at,
             },
           ],
         }}
@@ -239,7 +249,7 @@ export async function getServerSideProps({ params, req }) {
   // }
 
   const blog = await callBackendApi({ domain, type: isValidBlog?.key });
-  
+
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const logo = await callBackendApi({ domain, type: "logo" });
   const favicon = await callBackendApi({ domain, type: "favicon" });
@@ -260,7 +270,7 @@ export async function getServerSideProps({ params, req }) {
       domain,
       imagePath,
       logo: logo?.data[0] || null,
-      myblog: blog?.data[0] || null,
+      myblog: blog?.data[0] || {},
       blog_list: blog_list.data[0]?.value || null,
       tag_list: tag_list?.data[0]?.value || null,
       categories: categories?.data[0]?.value || null,

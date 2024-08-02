@@ -70,7 +70,7 @@ export default function About({
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
-      
+
       <Navbar
         blog_list={blog_list}
         categories={categories}
@@ -141,7 +141,9 @@ export default function About({
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category?.name}/${blog.key}`,
+                  url: `http://${domain}/${
+                    blog?.article_category?.name
+                  }/${blog.title?.replaceAll(" ", "-")?.toLowerCase()}`,
                   name: blog.title,
                 },
               })),
