@@ -11,7 +11,12 @@ import Rightbar from "@/components/containers/Rightbar";
 import BlogCard from "@/components/common/BlogCard";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
-import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
+import {
+  callBackendApi,
+  getDomain,
+  getImagePath,
+  robotsTxt,
+} from "@/lib/myFun";
 
 import Head from "next/head";
 
@@ -294,6 +299,8 @@ export async function getServerSideProps({ req }) {
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
   imagePath = await getImagePath(project_id, domain);
+
+  robotsTxt({ domain });
 
   return {
     props: {
