@@ -6,6 +6,7 @@ import LatestPosts from "./LatestPosts";
 import MarkdownIt from "markdown-it";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/router";
 
 const md = new MarkdownIt();
 
@@ -16,6 +17,13 @@ export default function Footer({
   copyright,
   category,
 }) {
+  const router = useRouter();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    // Use window.location.href to force a full page reload
+    window.location.href = "/sitemap.xml";
+  };
   return (
     <FullContainer className="bg-black text-white py-16 mt-12">
       <Container>
@@ -70,11 +78,13 @@ export default function Footer({
               >
                 Privacy Policy
               </Link>
-              <Link
-                href="/sitemap.xml"
-                className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
-              >
-                Sitemap
+              <Link href="/sitemap.xml" legacyBehavior>
+                <a
+                  onClick={handleClick}
+                  className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
+                >
+                  Sitemap
+                </a>
               </Link>
             </div>
           </div>
