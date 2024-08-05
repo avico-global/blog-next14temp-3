@@ -78,8 +78,8 @@ export default function About({
       {page?.enable
         ? page?.sections?.map((item, index) => {
             if (!item.enable) return null;
-            switch (item.section) {
-              case "Navbar":
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
                 return (
                   <Navbar
                     key={index}
@@ -90,13 +90,13 @@ export default function About({
                     contact_details={contact_details}
                   />
                 );
-              case "Banner":
+              case "banner":
                 return (
                   <AboutBanner
                     image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
                   />
                 );
-              case "Text":
+              case "text":
                 return (
                   <FullContainer>
                     <Container className="py-16">
@@ -113,7 +113,8 @@ export default function About({
                     </Container>
                   </FullContainer>
                 );
-              case "Footer":
+
+              case "footer":
                 return (
                   <Footer
                     blog_list={blog_list}

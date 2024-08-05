@@ -83,8 +83,8 @@ export default function Home({
         ? page?.sections?.map((item, index) => {
             if (!item.enable) return null;
 
-            switch (item.section) {
-              case "Navbar":
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
                 return (
                   <Navbar
                     key={index}
@@ -96,7 +96,7 @@ export default function Home({
                   />
                 );
 
-              case "Banner":
+              case "banner":
                 return (
                   <Banner
                     key={index}
@@ -105,7 +105,7 @@ export default function Home({
                   />
                 );
 
-              case "Most Popular":
+              case "most popular":
                 return (
                   <MostPopular
                     key={index}
@@ -114,7 +114,7 @@ export default function Home({
                   />
                 );
 
-              case "Articles":
+              case "articles":
                 return (
                   <FullContainer key={index}>
                     <Container>
@@ -213,7 +213,7 @@ export default function Home({
                   </FullContainer>
                 );
 
-              case "Footer":
+              case "footer":
                 return (
                   <Footer
                     key={index}

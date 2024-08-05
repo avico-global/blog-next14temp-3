@@ -24,8 +24,11 @@ export default function Contact({
   contact_details,
   meta,
   domain,
+  layout,
   favicon,
 }) {
+  const page = layout?.find((item) => item.page === "contact");
+
   return (
     <div className={myFont.className}>
       <Head>
@@ -64,37 +67,58 @@ export default function Contact({
         />
       </Head>
 
-      <Navbar
-        blog_list={blog_list}
-        categories={categories}
-        logo={logo}
-        imagePath={imagePath}
-        contact_details={contact_details}
-      />
-
-      <FullContainer>
-        <Container className="mt-16">
-          <Map location="united states" />
-          <div className="flex flex-col items-center text-center text-gray-500 text-xs gap-3">
-            <p className="text-xl mt-3 font-bold text-black">
-              {contact_details?.name}
-            </p>
-            <p>{contact_details?.email}</p>
-            <p>{contact_details?.address}</p>
-            <p>{contact_details?.phone}</p>
-          </div>
-        </Container>
-      </FullContainer>
-
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={logo}
-        imagePath={imagePath}
-        about_me={about_me}
-        copyright={copyright}
-        contact_details={contact_details}
-      />
+      {page?.enable
+        ? page?.sections?.map((item, index) => {
+            if (!item.enable) return null;
+            switch (item.section) {
+              case "navbar":
+                return (
+                  <Navbar
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={logo}
+                    imagePath={imagePath}
+                    contact_details={contact_details}
+                  />
+                );
+              case "map":
+                return (
+                  <FullContainer>
+                    <Container className="mt-16">
+                      <Map location="united states" />
+                    </Container>
+                  </FullContainer>
+                );
+              case "contact info":
+                return (
+                  <FullContainer>
+                    <Container className="mt-10 text-center text-gray-500 text-xs gap-3">
+                      <p className="text-xl mt-3 font-bold text-black">
+                        {contact_details?.name}
+                      </p>
+                      <p>{contact_details?.email}</p>
+                      <p>{contact_details?.address}</p>
+                      <p>{contact_details?.phone}</p>
+                    </Container>
+                  </FullContainer>
+                );
+              case "footer":
+                return (
+                  <Footer
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={logo}
+                    imagePath={imagePath}
+                    about_me={about_me}
+                    copyright={copyright}
+                    contact_details={contact_details}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
+        : "Page Disabled, under maintenance"}
     </div>
   );
 }
@@ -117,6 +141,7 @@ export async function getServerSideProps({ req, query }) {
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const layout = await callBackendApi({ domain, type: "layout" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -128,6 +153,7 @@ export async function getServerSideProps({ req, query }) {
       imagePath,
       logo: logo?.data[0],
       blog_list: blog_list.data[0].value,
+      layout: layout?.data[0]?.value || null,
       contact_details: contact_details.data[0].value,
       categories: categories?.data[0]?.value || null,
       about_me: about_me.data[0] || null,
