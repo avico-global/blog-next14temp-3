@@ -33,13 +33,11 @@ export default function Categories({
   contact_details,
   copyright,
   favicon,
+  layout,
 }) {
   const router = useRouter();
   const { category } = router.query;
   const breadcrumbs = useBreadcrumbs();
-  const markdownIt = new MarkdownIt();
-
-  const convertMarkdown = (markdownText) => markdownIt?.render(markdownText);
 
   const filteredBlogList = blog_list.filter((item) => {
     const searchContent = category?.replace("-", " ")?.toLowerCase();
@@ -50,6 +48,8 @@ export default function Categories({
       item.articleContent.toLowerCase().includes(searchContent)
     );
   });
+
+  const page = layout?.find((page) => page.page === "category");
 
   return (
     <div
@@ -94,79 +94,108 @@ export default function Categories({
         />
       </Head>
 
-      <Navbar
-        logo={logo}
-        category={category}
-        imagePath={imagePath}
-        blog_list={blog_list}
-        categories={categories}
-        contact_details={contact_details}
-      />
-      <FullContainer className="mb-12">
-        <Container>
-          <div className="w-full">
-            <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-            <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7">
-              Browsing: {category?.replace("-", " ")}
-            </p>
-          </div>
-          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
-            {filteredBlogList.map((item, index) => (
-              <div key={index}>
-                <Link
-                  href={`/${category}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`}
-                >
-                  <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
-                    <Image
-                      title={item.imageTitle}
-                      src={
-                        item.image
-                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                          : "/no-image.png"
-                      }
-                      fill={true}
-                      loading="lazy"
-                      alt="blog"
-                      className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
-                    />
-                  </div>
-                </Link>
-                <Link
-                  href={`/${category}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`}
-                >
-                  <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
-                    {item.title}
-                  </p>
-                </Link>
-                <div className="flex items-center gap-2 mt-2">
-                  <p className="text-sm font-semibold">
-                    <span className="text-gray-400 text-sm">By</span>:{" "}
-                    {item.author}
-                  </p>
-                  <span className="text-gray-400">--</span>
-                  <p className="text-sm text-gray-400 font-semibold">
-                    {dayjs(item?.published_at)?.format("MMM D, YYYY")}
-                  </p>
-                </div>
-                <p className="text-gray-500 mt-4">{item.tagline}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </FullContainer>
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        imagePath={imagePath}
-        about_me={about_me}
-        contact_details={contact_details}
-        copyright={copyright}
-      />
+      {page?.enable
+        ? page?.sections?.map((item, index) => {
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    logo={logo}
+                    category={category}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    contact_details={contact_details}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                    </Container>
+                  </FullContainer>
+                );
+              case "search result":
+                return (
+                  <FullContainer key={index} className="mb-12">
+                    <Container>
+                      <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
+                        Browsing: {category?.replace("-", " ")}
+                      </p>
+                      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
+                        {filteredBlogList.map((item, index) => (
+                          <div key={index}>
+                            <Link
+                              href={`/${category}/${item?.title
+                                ?.replaceAll(" ", "-")
+                                ?.toLowerCase()}`}
+                            >
+                              <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
+                                <Image
+                                  title={item.imageTitle}
+                                  src={
+                                    item.image
+                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                      : "/no-image.png"
+                                  }
+                                  fill={true}
+                                  loading="lazy"
+                                  alt="blog"
+                                  className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
+                                />
+                              </div>
+                            </Link>
+                            <Link
+                              href={`/${category}/${item?.title
+                                ?.replaceAll(" ", "-")
+                                ?.toLowerCase()}`}
+                            >
+                              <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
+                                {item.title}
+                              </p>
+                            </Link>
+                            <div className="flex items-center gap-2 mt-2">
+                              <p className="text-sm font-semibold">
+                                <span className="text-gray-400 text-sm">
+                                  By
+                                </span>
+                                : {item.author}
+                              </p>
+                              <span className="text-gray-400">--</span>
+                              <p className="text-sm text-gray-400 font-semibold">
+                                {dayjs(item?.published_at)?.format(
+                                  "MMM D, YYYY"
+                                )}
+                              </p>
+                            </div>
+                            <p className="text-gray-500 mt-4">{item.tagline}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+                    imagePath={imagePath}
+                    about_me={about_me}
+                    contact_details={contact_details}
+                    copyright={copyright}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
+        : "Page Disabled, under maintenance"}
 
       <JsonLd
         data={{
@@ -264,6 +293,7 @@ export async function getServerSideProps({ req, query }) {
   });
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
+  const layout = await callBackendApi({ domain, type: "layout" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -273,14 +303,15 @@ export async function getServerSideProps({ req, query }) {
     props: {
       domain,
       imagePath,
-      logo: logo?.data[0],
-      banner: banner.data[0] || null,
+      meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
+      logo: logo?.data[0],
+      layout: layout?.data[0]?.value || null,
+      banner: banner.data[0] || null,
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
       footer_text: footer_text?.data[0]?.value || null,
       copyright: copyright?.data[0]?.value || null,
-      meta: meta?.data[0]?.value || null,
       domain: domain === "hellospace.us" ? req?.headers?.host : domain,
       about_me: about_me.data[0] || null,
       contact_details: contact_details.data[0].value,

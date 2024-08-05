@@ -7,6 +7,8 @@ import Navbar from "@/components/containers/Navbar";
 import Footer from "@/components/containers/Footer";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import MarkdownIt from "markdown-it";
+import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
 import Head from "next/head";
@@ -29,10 +31,13 @@ export default function Terms({
   about_me,
   contact_details,
   terms,
+  layout,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(terms || "");
   const breadcrumbs = useBreadcrumbs();
+
+  const page = layout?.find((page) => page.page === "terms");
 
   return (
     <div
@@ -74,47 +79,66 @@ export default function Terms({
         />
       </Head>
 
-      <Navbar
-        imagePath={imagePath}
-        blog_list={blog_list}
-        categories={categories}
-        logo={logo}
-        contact_details={contact_details}
-      />
+      {page?.enable
+        ? page?.sections?.map((item, index) => {
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={logo}
+                    contact_details={contact_details}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                    </Container>
+                  </FullContainer>
+                );
 
-      <FullContainer>
-        <Container>
-          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-          <div
-            className="prose max-w-full w-full mb-5"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        </Container>
-      </FullContainer>
+              case "text":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <div
+                        className="prose max-w-full w-full mb-5"
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      />
+                    </Container>
+                  </FullContainer>
+                );
 
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        imagePath={imagePath}
-        about_me={about_me}
-        copyright={copyright}
-        contact_details={contact_details}
-      />
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+                    imagePath={imagePath}
+                    about_me={about_me}
+                    copyright={copyright}
+                    contact_details={contact_details}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
+        : "Page Disabled, under maintenance"}
     </div>
   );
 }
 
-import fs from "fs";
-import path from "path";
-import useBreadcrumbs from "@/lib/useBreadcrumbs";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
-
-  const robotxt = await callBackendApi({ domain, query, type: "robotxt" });
-  const filePath = path.join(process.cwd(), "public", "robots.txt");
-  fs.writeFileSync(filePath, robotxt.data[0].value, "utf8");
 
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
@@ -133,6 +157,7 @@ export async function getServerSideProps({ req, query }) {
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const terms = await callBackendApi({ domain, query, type: "terms" });
+  const layout = await callBackendApi({ domain, type: "layout" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -144,6 +169,7 @@ export async function getServerSideProps({ req, query }) {
       imagePath,
       logo: logo?.data[0] || null,
       favicon: favicon?.data[0]?.file_name || null,
+      layout: layout?.data[0]?.value || null,
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,

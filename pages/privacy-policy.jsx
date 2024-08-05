@@ -29,10 +29,13 @@ export default function PriavcyPolicy({
   about_me,
   contact_details,
   policy,
+  layout,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(policy || "");
   const breadcrumbs = useBreadcrumbs();
+
+  const page = layout?.find((page) => page.page === "privacy policy");
 
   return (
     <div
@@ -74,33 +77,60 @@ export default function PriavcyPolicy({
         />
       </Head>
 
-      <Navbar
-        imagePath={imagePath}
-        blog_list={blog_list}
-        categories={categories}
-        logo={logo}
-        contact_details={contact_details}
-      />
+      {page?.enable
+        ? page?.sections?.map((item, index) => {
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={logo}
+                    contact_details={contact_details}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                    </Container>
+                  </FullContainer>
+                );
 
-      <FullContainer>
-        <Container>
-          <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-          <div
-            className="prose max-w-full w-full mb-5"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
-        </Container>
-      </FullContainer>
+              case "text":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <div
+                        className="prose max-w-full w-full mb-5"
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      />
+                    </Container>
+                  </FullContainer>
+                );
 
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        imagePath={imagePath}
-        about_me={about_me}
-        copyright={copyright}
-        contact_details={contact_details}
-      />
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+                    imagePath={imagePath}
+                    about_me={about_me}
+                    copyright={copyright}
+                    contact_details={contact_details}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
+        : "Page Disabled, under maintenance"}
     </div>
   );
 }
@@ -134,6 +164,7 @@ export async function getServerSideProps({ req, query }) {
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const terms = await callBackendApi({ domain, query, type: "terms" });
   const policy = await callBackendApi({ domain, query, type: "policy" });
+  const layout = await callBackendApi({ domain, type: "layout" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -143,8 +174,9 @@ export async function getServerSideProps({ req, query }) {
     props: {
       domain,
       imagePath,
-      logo: logo?.data[0] || null,
       favicon: favicon?.data[0]?.file_name || null,
+      logo: logo?.data[0] || null,
+      layout: layout?.data[0]?.value || null,
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,

@@ -35,6 +35,7 @@ export default function Blog({
   copyright,
   favicon,
   tag_list,
+  layout,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -42,6 +43,8 @@ export default function Blog({
   const content = markdownIt.render(myblog?.value?.articleContent || "");
   const breadcrumbs = useBreadcrumbs();
   const lastFiveBlogs = blog_list.slice(-5);
+
+  const page = layout?.find((page) => page.page === "blog page");
 
   return (
     <div className={myFont.className}>
@@ -81,77 +84,126 @@ export default function Blog({
         />
       </Head>
 
-      <Navbar
-        blog_list={blog_list}
-        category={category}
-        categories={categories}
-        logo={logo}
-        imagePath={imagePath}
-        contact_details={contact_details}
-      />
-      <FullContainer className="min-h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center">
-        <Image
-          src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
-          alt="Article banner"
-          title={myblog?.value.imageTitle || myblog?.value.title}
-          priority={true}
-          fill={true}
-          loading="eager"
-          className="-z-10 w-full h-full object-cover absolute top-0"
-        />
-        <Container className="gap-8">
-          <Badge>{myblog?.value?.article_category?.name}</Badge>
-          <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl capitalize max-w-screen-md">
-            {myblog?.value.title}
-          </h1>
-          <p>{myblog?.value.tagline}</p>
-          <div className="flex items-center justify-center gap-4">
-            <p>{myblog?.value.author}</p> -<p>{myblog?.value.published_at}</p>
-          </div>
-        </Container>
-      </FullContainer>
+      {page?.enable
+        ? page?.sections?.map((item, index) => {
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    blog_list={blog_list}
+                    category={category}
+                    categories={categories}
+                    logo={logo}
+                    imagePath={imagePath}
+                    contact_details={contact_details}
+                  />
+                );
+              case "banner":
+                return (
+                  <FullContainer
+                    key={index}
+                    className="min-h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center"
+                  >
+                    <Image
+                      src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
+                      alt="Article banner"
+                      title={myblog?.value.imageTitle || myblog?.value.title}
+                      priority={true}
+                      fill={true}
+                      loading="eager"
+                      className="-z-10 w-full h-full object-cover absolute top-0"
+                    />
+                    <Container className="gap-8">
+                      <Badge>{myblog?.value?.article_category?.name}</Badge>
+                      <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl capitalize max-w-screen-md">
+                        {myblog?.value.title}
+                      </h1>
+                      <p>{myblog?.value.tagline}</p>
+                      <div className="flex items-center justify-center gap-4">
+                        <p>{myblog?.value.author}</p> -
+                        <p>{myblog?.value.published_at}</p>
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
 
-      <FullContainer>
-        <Container>
-          <Breadcrumbs breadcrumbs={breadcrumbs} className="pt-7 pb-5" />
-          <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
-            <div>
-              <article className="prose lg:prose-xl max-w-full">
-                <div dangerouslySetInnerHTML={{ __html: content }} />
-              </article>
-              <div className="mt-12">
-                <h3 className="text-lg font-semibold">Share this article:</h3>
-                <SocialShare
-                  url={`http://${domain}${
-                    myblog?.article_category?.name
-                  }/${myblog?.title?.replaceAll(" ", "-")?.toLowerCase()}}`}
-                  title={myblog?.value.title}
-                />
-              </div>
-            </div>
-            <Rightbar
-              lastFiveBlogs={lastFiveBlogs}
-              imagePath={imagePath}
-              tag_list={tag_list}
-              about_me={about_me}
-              categories={categories}
-              category={category}
-              contact_details={contact_details}
-            />
-          </div>
-        </Container>
-      </FullContainer>
-
-      <LatestBlogs blogs={blog_list} imagePath={imagePath} />
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        imagePath={imagePath}
-        about_me={about_me}
-        contact_details={contact_details}
-        copyright={copyright}
-      />
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs
+                        breadcrumbs={breadcrumbs}
+                        className="pt-7 pb-5"
+                      />
+                    </Container>
+                  </FullContainer>
+                );
+              case "blog text":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
+                        <div>
+                          <article className="prose lg:prose-xl max-w-full">
+                            <div
+                              dangerouslySetInnerHTML={{ __html: content }}
+                            />
+                          </article>
+                          <div className="mt-12">
+                            <h3 className="text-lg font-semibold">
+                              Share this article:
+                            </h3>
+                            <SocialShare
+                              url={`http://${domain}${
+                                myblog?.article_category?.name
+                              }/${myblog?.title
+                                ?.replaceAll(" ", "-")
+                                ?.toLowerCase()}}`}
+                              title={myblog?.value.title}
+                            />
+                          </div>
+                        </div>
+                        <Rightbar
+                          lastFiveBlogs={lastFiveBlogs}
+                          imagePath={imagePath}
+                          tag_list={tag_list}
+                          about_me={about_me}
+                          categories={categories}
+                          category={category}
+                          contact_details={contact_details}
+                        />
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
+              case "latest posts":
+                return (
+                  <LatestBlogs
+                    key={index}
+                    blogs={blog_list}
+                    imagePath={imagePath}
+                  />
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+                    imagePath={imagePath}
+                    about_me={about_me}
+                    contact_details={contact_details}
+                    copyright={copyright}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
+        : "Page Disabled, under maintenance"}
 
       <JsonLd
         data={{
@@ -259,6 +311,7 @@ export async function getServerSideProps({ params, req }) {
     type: "contact_details",
   });
   const copyright = await callBackendApi({ domain, type: "copyright" });
+  const layout = await callBackendApi({ domain, type: "layout" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -271,6 +324,7 @@ export async function getServerSideProps({ params, req }) {
       imagePath,
       logo: logo?.data[0] || null,
       myblog: blog?.data[0] || {},
+      layout: layout?.data[0]?.value || null,
       blog_list: blog_list.data[0]?.value || null,
       tag_list: tag_list?.data[0]?.value || null,
       categories: categories?.data[0]?.value || null,
