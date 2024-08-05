@@ -29,9 +29,13 @@ export default function About({
   contact_details,
   copyright,
   favicon,
+  layout,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(about_me?.value);
+
+  const page = layout?.find((page) => page.page === "about");
+  console.log("page", page);
 
   return (
     <div className={myFont.className}>
@@ -71,36 +75,62 @@ export default function About({
         />
       </Head>
 
-      <Navbar
-        blog_list={blog_list}
-        categories={categories}
-        logo={logo}
-        imagePath={imagePath}
-        contact_details={contact_details}
-      />
-      <AboutBanner
-        image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
-      />
-      <FullContainer>
-        <Container className="py-16">
-          <div className="grid grid-cols-about gap-16 w-full">
-            <div
-              className="markdown-content about_me prose max-w-full"
-              dangerouslySetInnerHTML={{ __html: content }}
-            />
-            <Rightbar page="about" contact_details={contact_details} />
-          </div>
-        </Container>
-      </FullContainer>
-      <Footer
-        blog_list={blog_list}
-        categories={categories}
-        logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-        imagePath={imagePath}
-        contact_details={contact_details}
-        copyright={copyright}
-        about_me={about_me}
-      />
+      {page?.enable
+        ? page?.sections?.map((item, index) => {
+            if (!item.enable) return null;
+            switch (item.section) {
+              case "Navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={logo}
+                    imagePath={imagePath}
+                    contact_details={contact_details}
+                  />
+                );
+              case "Banner":
+                return (
+                  <AboutBanner
+                    image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
+                  />
+                );
+              case "Text":
+                return (
+                  <FullContainer>
+                    <Container className="py-16">
+                      <div className="grid grid-cols-about gap-16 w-full">
+                        <div
+                          className="markdown-content about_me prose max-w-full"
+                          dangerouslySetInnerHTML={{ __html: content }}
+                        />
+                        <Rightbar
+                          page="about"
+                          contact_details={contact_details}
+                        />
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
+              case "Footer":
+                return (
+                  <Footer
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
+                    imagePath={imagePath}
+                    contact_details={contact_details}
+                    copyright={copyright}
+                    about_me={about_me}
+                  />
+                );
+
+              default:
+                return null;
+            }
+          })
+        : "Page Disabled, under maintenance"}
 
       <JsonLd
         data={{
@@ -177,6 +207,7 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "copyright",
   });
+  const layout = await callBackendApi({ domain, type: "layout" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -184,14 +215,15 @@ export async function getServerSideProps({ req, query }) {
 
   return {
     props: {
-      logo: logo.data[0] || null,
-      about_me: about_me.data[0] || null,
-      favicon: favicon?.data[0]?.file_name || null,
+      domain,
       imagePath,
+      meta: meta?.data[0]?.value || null,
+      favicon: favicon?.data[0]?.file_name || null,
+      logo: logo.data[0] || null,
+      layout: layout?.data[0]?.value || null,
+      about_me: about_me.data[0] || null,
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
-      domain,
-      meta: meta?.data[0]?.value || null,
       contact_details: contact_details.data[0].value,
       copyright: copyright?.data[0]?.value || null,
     },
