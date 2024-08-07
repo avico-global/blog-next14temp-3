@@ -307,7 +307,7 @@ export async function getServerSideProps({ req }) {
   let imagePath = null;
   imagePath = await getImagePath(project_id, domain);
 
-  robotsTxt({ domain });
+  const robotxt = await robotsTxt({ domain });
 
   return {
     props: {
