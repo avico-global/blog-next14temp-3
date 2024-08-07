@@ -27,24 +27,27 @@ export default function Rightbar({
   //   Facebook: <Facebook className="w-5 h-5" />,
   //   Instagram: <Instagram className="w-5 h-5" />,
   //   Twitter: <Twitter className="w-5 h-5" />,
-  // };
+  // };ÍÍ
 
   return (
     <div className="h-fit sticky top-0">
-      <div className="flex flex-col">
-        {lastFiveBlogs?.length > 0 && (
-          <div className="mb-7">
-            <div className="bg-black text-white py-2 px-4 font-semibold capitalize">
-              Latest Posts
-            </div>
-            {lastFiveBlogs?.reverse().map((item, index) => (
-              <div key={index} className="grid grid-cols-widget gap-3 py-3">
+      {lastFiveBlogs?.length > 0 && (
+        <div className="border pt-5 px-4 flex flex-col items-center mb-14">
+          <h2 className="bg-white px-5 font-bold text-lg -mt-9 text-center">
+            Latest Posts
+          </h2>
+          <div className="flex flex-col my-3">
+            {lastFiveBlogs?.map((item, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-widget gap-3 py-3 border-b last:border-none"
+              >
                 <Link
                   href={`/${item.article_category.name}/${item?.title
                     ?.replaceAll(" ", "-")
                     ?.toLowerCase()}`}
                 >
-                  <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1">
+                  <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                     <Image
                       title={item?.imageTitle}
                       src={
@@ -65,7 +68,7 @@ export default function Rightbar({
                       ?.replaceAll(" ", "-")
                       ?.toLowerCase()}`}
                   >
-                    <p className="font-bold leading-tight hover:underline">
+                    <p className="font-semibold leading-tight hover:underline">
                       {item?.title}
                     </p>
                   </Link>
@@ -79,37 +82,13 @@ export default function Rightbar({
               </div>
             ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {tag_list?.length > 0 && (
-          <>
-            <div className="bg-black text-white py-2 px-4 font-semibold capitalize">
-              Tags
-            </div>
-            <div className="flex items-center gap-1 flex-wrap mt-3 mb-14">
-              {tag_list?.map((item, index) => (
-                <Link
-                  key={index}
-                  href={`/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`}
-                  className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-xs px-2"
-                >
-                  {item.tag}{" "}
-                  {item.article_ids?.length > 1 && (
-                    <span className="bg-black text-white px-1 ml-1 text-xs rounded-full">
-                      {item.article_ids?.length}
-                    </span>
-                  )}
-                </Link>
-              ))}
-            </div>
-          </>
-        )}
-      </div>
-
-      {page !== "about" && (
+      {!(page === "about" || page === "category") && (
         <Link
           href="/about"
-          className="border p-5 flex flex-col items-center text-center mb-10"
+          className="border p-5 flex flex-col items-center text-center"
         >
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
           <div className="relative overflow-hidden w-full h-40 mt-8">
@@ -124,7 +103,9 @@ export default function Rightbar({
           </div>
           <div
             className="mt-3"
-            dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
+            dangerouslySetInnerHTML={{
+              __html: `${content.slice(0, 100)}...`,
+            }}
           ></div>
           <p className="mt-3 underline text-sm font-bold">More about me?</p>
         </Link>
@@ -156,7 +137,7 @@ export default function Rightbar({
       </div> */}
 
       {categories?.length > 0 && (
-        <div className="border p-5 flex flex-col items-center text-center mt-10">
+        <div className="border p-5 flex flex-col items-center text-center mt-14">
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">Categories</h2>
           <div className="flex flex-col w-full text-left px-2 py-4">
             {categories?.map((item, index) => (
@@ -171,6 +152,32 @@ export default function Rightbar({
               >
                 <Circle className="w-2 h-2 text-blue-800" />
                 {item}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tag_list?.length > 0 && (
+        <div className="border pt-5 px-4 flex flex-col items-center text-center mt-16">
+          <h2 className="bg-white px-5 font-bold text-lg -mt-9">
+            Article Tags
+          </h2>
+          <div className="flex items-center flex-wrap w-full text-left px-2 py-4 gap-2">
+            {tag_list?.map((item, index) => (
+              <Link
+                key={index}
+                href={`/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`}
+                className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-sm px-2"
+              >
+                {item.tag}{" "}
+                {item.article_ids?.length > 1 && (
+                  <span
+                    className={`bg-black text-white px-1 ml-1 text-sm rounded-full`}
+                  >
+                    {item.article_ids?.length}
+                  </span>
+                )}
               </Link>
             ))}
           </div>

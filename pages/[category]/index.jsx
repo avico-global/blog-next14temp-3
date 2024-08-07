@@ -14,10 +14,10 @@ import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import Navbar from "@/components/containers/Navbar";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
-import MarkdownIt from "markdown-it";
 
 // Font
 import { Raleway } from "next/font/google";
+import Rightbar from "@/components/containers/Rightbar";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -34,6 +34,7 @@ export default function Categories({
   copyright,
   favicon,
   layout,
+  tag_list,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -122,58 +123,72 @@ export default function Categories({
                 return (
                   <FullContainer key={index} className="mb-12">
                     <Container>
-                      <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
-                        Browsing: {category?.replace("-", " ")}
-                      </p>
-                      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-10">
-                        {filteredBlogList.map((item, index) => (
-                          <div key={index}>
-                            <Link
-                              href={`/${category}/${item?.title
-                                ?.replaceAll(" ", "-")
-                                ?.toLowerCase()}`}
-                            >
-                              <div className="overflow-hidden relative min-h-40 rounded lg:min-h-72 w-full bg-black flex-1">
-                                <Image
-                                  title={item.imageTitle}
-                                  src={
-                                    item.image
-                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                                      : "/no-image.png"
-                                  }
-                                  fill={true}
-                                  loading="lazy"
-                                  alt="blog"
-                                  className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
-                                />
+                      <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+                        <div>
+                          <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
+                            Browsing: {category?.replace("-", " ")}
+                          </p>
+                          <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {filteredBlogList.map((item, index) => (
+                              <div key={index}>
+                                <Link
+                                  href={`/${category}/${item?.title
+                                    ?.replaceAll(" ", "-")
+                                    ?.toLowerCase()}`}
+                                >
+                                  <div className="overflow-hidden relative min-h-40 rounded lg:min-h-52 w-full bg-black flex-1">
+                                    <Image
+                                      title={item.imageTitle}
+                                      src={
+                                        item.image
+                                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                          : "/no-image.png"
+                                      }
+                                      fill={true}
+                                      loading="lazy"
+                                      alt="blog"
+                                      className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
+                                    />
+                                  </div>
+                                </Link>
+                                <Link
+                                  href={`/${category}/${item?.title
+                                    ?.replaceAll(" ", "-")
+                                    ?.toLowerCase()}`}
+                                >
+                                  <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
+                                    {item.title}
+                                  </p>
+                                </Link>
+                                <div className="flex items-center gap-2 mt-2">
+                                  <p className="text-sm font-semibold">
+                                    <span className="text-gray-400 text-sm">
+                                      By
+                                    </span>
+                                    : {item.author}
+                                  </p>
+                                  <span className="text-gray-400">--</span>
+                                  <p className="text-sm text-gray-400 font-semibold">
+                                    {dayjs(item?.published_at)?.format(
+                                      "MMM D, YYYY"
+                                    )}
+                                  </p>
+                                </div>
+                                <p className="text-gray-500 mt-4">
+                                  {item.tagline}
+                                </p>
                               </div>
-                            </Link>
-                            <Link
-                              href={`/${category}/${item?.title
-                                ?.replaceAll(" ", "-")
-                                ?.toLowerCase()}`}
-                            >
-                              <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
-                                {item.title}
-                              </p>
-                            </Link>
-                            <div className="flex items-center gap-2 mt-2">
-                              <p className="text-sm font-semibold">
-                                <span className="text-gray-400 text-sm">
-                                  By
-                                </span>
-                                : {item.author}
-                              </p>
-                              <span className="text-gray-400">--</span>
-                              <p className="text-sm text-gray-400 font-semibold">
-                                {dayjs(item?.published_at)?.format(
-                                  "MMM D, YYYY"
-                                )}
-                              </p>
-                            </div>
-                            <p className="text-gray-500 mt-4">{item.tagline}</p>
+                            ))}
                           </div>
-                        ))}
+                        </div>
+                        <Rightbar
+                          about_me={about_me}
+                          imagePath={imagePath}
+                          categories={categories}
+                          contact_details={contact_details}
+                          tag_list={tag_list}
+                          page="category"
+                        />
                       </div>
                     </Container>
                   </FullContainer>
@@ -294,6 +309,7 @@ export async function getServerSideProps({ req, query }) {
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const layout = await callBackendApi({ domain, type: "layout" });
+  const tag_list = await callBackendApi({ domain, type: "tag_list" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -315,6 +331,7 @@ export async function getServerSideProps({ req, query }) {
       domain: domain === "hellospace.us" ? req?.headers?.host : domain,
       about_me: about_me.data[0] || null,
       contact_details: contact_details.data[0].value,
+      tag_list: tag_list?.data[0]?.value || null,
     },
   };
 }

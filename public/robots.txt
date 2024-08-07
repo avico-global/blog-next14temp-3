@@ -1,3 +1,0 @@
-user-agent: *
-disallow: /downloads/
-sitemap: https://thisdomain.com/sitemap.xml

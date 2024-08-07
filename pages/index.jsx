@@ -39,6 +39,7 @@ export default function Home({
   banner,
   favicon,
   layout,
+  tag_list,
 }) {
   const page = layout?.find((page) => page.page === "home");
 
@@ -207,6 +208,7 @@ export default function Home({
                           imagePath={imagePath}
                           categories={categories}
                           contact_details={contact_details}
+                          tag_list={tag_list}
                         />
                       </div>
                     </Container>
@@ -299,6 +301,7 @@ export async function getServerSideProps({ req }) {
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });
   const layout = await callBackendApi({ domain, type: "layout" });
+  const tag_list = await callBackendApi({ domain, type: "tag_list" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -320,6 +323,7 @@ export async function getServerSideProps({ req }) {
       about_me: about_me?.data[0] || null,
       banner: banner?.data[0],
       contact_details: contact_details?.data[0]?.value,
+      tag_list: tag_list?.data[0]?.value || null,
     },
   };
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import AboutBanner from "@/components/containers/AboutBanner";
@@ -35,7 +35,11 @@ export default function About({
   const content = markdownIt?.render(about_me?.value);
 
   const page = layout?.find((page) => page.page === "about");
-  console.log("page", page);
+
+  const reversedLastFiveBlogs = useMemo(() => {
+    const lastFiveBlogs = blog_list?.slice(-5);
+    return lastFiveBlogs ? [...lastFiveBlogs].reverse() : [];
+  }, [blog_list, imagePath]);
 
   return (
     <div className={myFont.className}>
@@ -108,12 +112,15 @@ export default function About({
                         <Rightbar
                           page="about"
                           contact_details={contact_details}
+                          categories={categories}
+                          lastFiveBlogs={reversedLastFiveBlogs}
+                          imagePath={imagePath}
                         />
                       </div>
                     </Container>
                   </FullContainer>
                 );
-
+                
               case "footer":
                 return (
                   <Footer
