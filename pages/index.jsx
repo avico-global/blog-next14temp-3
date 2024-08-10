@@ -1,24 +1,24 @@
 import React from "react";
 
 // Components
+import Head from "next/head";
+import Banner from "@/components/containers/Banner";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
-import Banner from "@/components/containers/Banner";
-import MostPopular from "@/components/containers/MostPopular";
-import Navbar from "@/components/containers/Navbar";
-import Footer from "@/components/containers/Footer";
-import Rightbar from "@/components/containers/Rightbar";
-import BlogCard from "@/components/common/BlogCard";
 import GoogleTagManager from "@/lib/GoogleTagManager";
+import MostPopular from "@/components/containers/MostPopular";
+import Rightbar from "@/components/containers/Rightbar";
+import Footer from "@/components/containers/Footer";
+import Navbar from "@/components/containers/Navbar";
 import JsonLd from "@/components/json/JsonLd";
+import BlogCard from "@/components/common/BlogCard";
+
 import {
   callBackendApi,
   getDomain,
   getImagePath,
   robotsTxt,
 } from "@/lib/myFun";
-
-import Head from "next/head";
 
 // Font
 import { Raleway } from "next/font/google";
@@ -40,6 +40,7 @@ export default function Home({
   favicon,
   layout,
   tag_list,
+  nav_type,
 }) {
   const page = layout?.find((page) => page.page === "home");
 
@@ -93,6 +94,7 @@ export default function Home({
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
+                    nav_type={nav_type}
                     contact_details={contact_details}
                   />
                 );
@@ -302,12 +304,13 @@ export async function getServerSideProps({ req }) {
   const banner = await callBackendApi({ domain, type: "banner" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
   imagePath = await getImagePath(project_id, domain);
 
-  const robotxt = await robotsTxt({ domain });
+  robotsTxt({ domain });
 
   return {
     props: {
@@ -323,6 +326,7 @@ export async function getServerSideProps({ req }) {
       about_me: about_me?.data[0] || null,
       banner: banner?.data[0],
       contact_details: contact_details?.data[0]?.value,
+      nav_type: nav_type?.data[0]?.value || {},
       tag_list: tag_list?.data[0]?.value || null,
     },
   };
