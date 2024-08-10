@@ -30,6 +30,7 @@ export default function About({
   copyright,
   favicon,
   layout,
+  nav_type,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(about_me?.value);
@@ -87,10 +88,11 @@ export default function About({
                 return (
                   <Navbar
                     key={index}
+                    logo={logo}
+                    nav_type={nav_type}
+                    imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    logo={logo}
-                    imagePath={imagePath}
                     contact_details={contact_details}
                   />
                 );
@@ -120,7 +122,7 @@ export default function About({
                     </Container>
                   </FullContainer>
                 );
-                
+
               case "footer":
                 return (
                   <Footer
@@ -216,6 +218,7 @@ export async function getServerSideProps({ req, query }) {
     type: "copyright",
   });
   const layout = await callBackendApi({ domain, type: "layout" });
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -234,6 +237,7 @@ export async function getServerSideProps({ req, query }) {
       categories: categories?.data[0]?.value || null,
       contact_details: contact_details.data[0].value,
       copyright: copyright?.data[0]?.value || null,
+      nav_type: nav_type?.data[0]?.value || {},
     },
   };
 }

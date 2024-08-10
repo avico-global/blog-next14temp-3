@@ -30,6 +30,7 @@ export default function PriavcyPolicy({
   contact_details,
   policy,
   layout,
+  nav_type,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(policy || "");
@@ -90,6 +91,7 @@ export default function PriavcyPolicy({
                     categories={categories}
                     logo={logo}
                     contact_details={contact_details}
+                    nav_type={nav_type}
                   />
                 );
               case "breadcrumbs":
@@ -165,6 +167,7 @@ export async function getServerSideProps({ req, query }) {
   const terms = await callBackendApi({ domain, query, type: "terms" });
   const policy = await callBackendApi({ domain, query, type: "policy" });
   const layout = await callBackendApi({ domain, type: "layout" });
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -185,6 +188,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details?.data[0]?.value,
       terms: terms?.data[0]?.value || "",
       policy: policy?.data[0]?.value || "",
+      nav_type: nav_type?.data[0]?.value || {},
     },
   };
 }

@@ -26,6 +26,7 @@ export default function Contact({
   domain,
   layout,
   favicon,
+  nav_type,
 }) {
   const page = layout?.find((item) => item.page === "contact");
 
@@ -74,10 +75,11 @@ export default function Contact({
               case "navbar":
                 return (
                   <Navbar
+                    logo={logo}
+                    nav_type={nav_type}
+                    imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    logo={logo}
-                    imagePath={imagePath}
                     contact_details={contact_details}
                   />
                 );
@@ -142,6 +144,7 @@ export async function getServerSideProps({ req, query }) {
   const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const meta = await callBackendApi({ domain, query, type: "meta_home" });
   const layout = await callBackendApi({ domain, type: "layout" });
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -160,6 +163,7 @@ export async function getServerSideProps({ req, query }) {
       copyright: copyright.data[0].value || null,
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
+      nav_type: nav_type?.data[0]?.value || {},
     },
   };
 }

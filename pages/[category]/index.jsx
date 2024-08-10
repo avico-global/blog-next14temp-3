@@ -35,6 +35,7 @@ export default function Categories({
   favicon,
   layout,
   tag_list,
+  nav_type,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -104,6 +105,7 @@ export default function Categories({
                   <Navbar
                     key={index}
                     logo={logo}
+                    nav_type={nav_type}
                     category={category}
                     imagePath={imagePath}
                     blog_list={blog_list}
@@ -310,6 +312,7 @@ export async function getServerSideProps({ req, query }) {
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -332,6 +335,7 @@ export async function getServerSideProps({ req, query }) {
       about_me: about_me.data[0] || null,
       contact_details: contact_details.data[0].value,
       tag_list: tag_list?.data[0]?.value || null,
+      nav_type: nav_type?.data[0]?.value || {},
     },
   };
 }

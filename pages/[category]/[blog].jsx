@@ -287,9 +287,6 @@ export async function getServerSideProps({ params, req }) {
   const categories = await callBackendApi({ domain, type: "categories" });
   const blog_list = await callBackendApi({ domain, type: "blog_list" });
 
-  // console.log("My blog", blog_list.data[0].value);
-  console.log("params", params.blog);
-
   const isValidBlog = blog_list?.data[0]?.value?.find(
     (item) => item.title?.replaceAll(" ", "-")?.toLowerCase() === params.blog
   );
@@ -312,6 +309,7 @@ export async function getServerSideProps({ params, req }) {
   });
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const layout = await callBackendApi({ domain, type: "layout" });
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -332,6 +330,7 @@ export async function getServerSideProps({ params, req }) {
       contact_details: contact_details.data[0].value,
       copyright: copyright.data[0].value || null,
       favicon: favicon?.data[0]?.file_name || null,
+      nav_type: nav_type?.data[0]?.value || {},
     },
   };
 }
