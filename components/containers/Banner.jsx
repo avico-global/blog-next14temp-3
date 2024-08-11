@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function Banner({ image, data }) {
   return (
     <FullContainer
-      className="min-h-[63vh] overflow-hidden p-10 text-white text-center"
+      className="min-h-[63vh] overflow-hidden p-10 text-center"
       style={{ backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})` }}
     >
       <Image
@@ -30,11 +30,17 @@ export default function Banner({ image, data }) {
                100vw"
       />
       <Container className="gap-8">
-        <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl capitalize max-w-screen-md">
+        <h1
+          style={{ color: data.textColor }}
+          className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl capitalize max-w-screen-md"
+        >
           {data.title}
         </h1>
         {data.tagline && (
-          <p className="leading-tight md:leading-none 2xl:text-xl">
+          <p
+            style={{ color: data.textColor }}
+            className="leading-tight md:leading-none 2xl:text-xl"
+          >
             {data.tagline}
           </p>
         )}
