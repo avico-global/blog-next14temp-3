@@ -6,7 +6,15 @@ const Logo = ({ logo, imagePath }) => {
     return null;
   }
 
-  const { logoType, logoText } = logo.value;
+  const {
+    logoType,
+    logoText,
+    logoHeight,
+    logoWidth,
+    fontSize,
+    isBold,
+    isItalic,
+  } = logo.value;
 
   const imageSrc = `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
   const imageHeight = 50;
@@ -21,9 +29,17 @@ const Logo = ({ logo, imagePath }) => {
           src={imageSrc}
           alt={logoText || "logo"}
           className="h-8 md:h-10 w-auto"
+          style={{ height: `${logoHeight}px`, width: `${logoWidth}px` }}
         />
       ) : logoType === "text" ? (
-        <h2 className="text-4xl font-extrabold py-1 whitespace-nowrap">
+        <h2
+          className="text-4xl font-extrabold py-1 whitespace-nowrap"
+          style={{
+            fontSize: `${fontSize}px`,
+            fontWeight: isBold ? "bold" : "normal",
+            fontStyle: isItalic ? "italic" : "normal",
+          }}
+        >
           {logoText}
         </h2>
       ) : null}
