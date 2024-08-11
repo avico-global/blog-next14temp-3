@@ -36,6 +36,7 @@ export default function Blog({
   favicon,
   tag_list,
   layout,
+  nav_type
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -98,6 +99,7 @@ export default function Blog({
                     logo={logo}
                     imagePath={imagePath}
                     contact_details={contact_details}
+                    nav_type={nav_type}
                   />
                 );
               case "banner":
