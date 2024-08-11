@@ -5,7 +5,10 @@ import Image from "next/image";
 
 export default function Banner({ image, data }) {
   return (
-    <FullContainer className="min-h-[63vh] overflow-hidden p-10 bg-black/30 text-white text-center">
+    <FullContainer
+      className="min-h-[63vh] overflow-hidden p-10 text-white text-center"
+      style={{ backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})` }}
+    >
       <Image
         src={image}
         title={data.imageTitle}
