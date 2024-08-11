@@ -17,18 +17,16 @@ const Logo = ({ logo, imagePath }) => {
   } = logo.value;
 
   const imageSrc = `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
-  const imageHeight = 50;
-  const imageWidth = 180;
 
   return (
     <Link href="/" className="flex items-center justify-center mr-10">
       {logoType === "image" ? (
         <Image
-          height={imageHeight}
-          width={imageWidth}
+          height={logoHeight}
+          width={logoWidth}
           src={imageSrc}
           alt={logoText || "logo"}
-          className="h-8 md:h-10 w-auto"
+          className="h-8 md:h-10"
           style={{ height: `${logoHeight}px`, width: `${logoWidth}px` }}
         />
       ) : logoType === "text" ? (
