@@ -39,7 +39,7 @@ export default function Blog({
   nav_type
 }) {
   const router = useRouter();
-  const { category } = router.query;
+  const { category, blog } = router.query;
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(myblog?.value?.articleContent || "");
   const breadcrumbs = useBreadcrumbs();
@@ -53,9 +53,9 @@ export default function Blog({
         <meta charSet="UTF-8" />
         <title>{myblog?.value?.meta_title}</title>
         <meta name="description" content={myblog?.value?.meta_description} />
-        <link rel="author" href={`http://${domain}`} />
-        <link rel="publisher" href={`http://${domain}`} />
-        <link rel="canonical" href={`http://${domain}`} />
+        <link rel="author" href={`https://${domain}`} />
+        <link rel="publisher" href={`https://${domain}`} />
+        <link rel="canonical" href={`https://${domain}/${blog}`} />
         <meta name="robots" content="noindex" />
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
