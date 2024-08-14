@@ -42,7 +42,7 @@ export default function Categories({
   const breadcrumbs = useBreadcrumbs();
 
   const filteredBlogList = blog_list.filter((item) => {
-    const searchContent = category?.replace("-", " ")?.toLowerCase();
+    const searchContent = category?.replaceAll("-", " ")?.toLowerCase();
     return (
       item.title.toLowerCase().includes(searchContent) ||
       item.article_category.name.toLowerCase().includes(searchContent) ||
@@ -128,8 +128,15 @@ export default function Categories({
                       <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
                         <div>
                           <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
-                            Browsing: {category?.replace("-", " ")}
+                            Browsing: {category?.replaceAll("-", " ")}
                           </p>
+                          {filteredBlogList?.length > 0 ? (
+                            ""
+                          ) : (
+                            <div className="flex items-center justify-center border px-10 py-40 text-lg bg-gray-200">
+                              No articles found related to {category}
+                            </div>
+                          )}
                           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
                             {filteredBlogList.map((item, index) => (
                               <div key={index}>

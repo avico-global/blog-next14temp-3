@@ -47,7 +47,7 @@ export default function Style1({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                href={`/${item?.toLowerCase()}`}
+                href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
                 className={cn(
                   "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black w-fit",
                   (category === item || isActive(`/${item}`)) &&

@@ -43,7 +43,7 @@ export default function Style3({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                href={`/${item?.toLowerCase()}`}
+                href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
                 className={cn(
                   navLink,
                   (category === item || isActive(`/${item}`)) &&
