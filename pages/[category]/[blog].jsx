@@ -111,7 +111,7 @@ export default function Blog({
                       backgroundColor: `rgba(0, 0, 0, ${
                         myblog?.value?.opacity / 100
                       })`,
-                      color: myblog?.value?.textColor || "#FFFFF",
+                      color: myblog?.value?.textColor || "white",
                     }}
                   >
                     <Image

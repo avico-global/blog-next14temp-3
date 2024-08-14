@@ -9,7 +9,7 @@ export default function Banner({ image, data }) {
       className="min-h-[63vh] overflow-hidden p-10 text-center"
       style={{
         backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
-        color: data.textColor || "#FFFFF",
+        color: data.textColor || "white",
       }}
     >
       <Image
