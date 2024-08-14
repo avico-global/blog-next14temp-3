@@ -36,7 +36,7 @@ export default function Blog({
   favicon,
   tag_list,
   layout,
-  nav_type
+  nav_type,
 }) {
   const router = useRouter();
   const { category, blog } = router.query;
@@ -106,11 +106,17 @@ export default function Blog({
                 return (
                   <FullContainer
                     key={index}
-                    className="min-h-[62vh] overflow-hidden p-10 bg-black/30 text-white text-center"
+                    className="min-h-[62vh] overflow-hidden p-10 text-white text-center"
+                    style={{
+                      backgroundColor: `rgba(0, 0, 0, ${
+                        myblog?.value?.opacity / 100
+                      })`,
+                      color: myblog?.value?.textColor,
+                    }}
                   >
                     <Image
                       src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
-                      alt="Article banner"
+                      alt={myblog?.value.imageAltText || "No Banner found"}
                       title={myblog?.value.imageTitle || myblog?.value.title}
                       priority={true}
                       fill={true}
@@ -119,10 +125,19 @@ export default function Blog({
                     />
                     <Container className="gap-8">
                       <Badge>{myblog?.value?.article_category?.name}</Badge>
-                      <h1 className="font-bold text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl capitalize max-w-screen-md">
+                      <h1
+                        style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
+                        className="font-bold capitalize max-w-screen-md"
+                      >
                         {myblog?.value.title}
                       </h1>
-                      <p>{myblog?.value.tagline}</p>
+                      <p
+                        style={{
+                          fontSize: myblog?.value?.taglineFontSize || 18,
+                        }}
+                      >
+                        {myblog?.value.tagline}
+                      </p>
                       <div className="flex items-center justify-center gap-4">
                         <p>{myblog?.value.author}</p> -
                         <p>{myblog?.value.published_at}</p>
