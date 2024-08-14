@@ -106,7 +106,7 @@ export default function Blog({
                 return (
                   <FullContainer
                     key={index}
-                    className="min-h-[62vh] overflow-hidden p-10 text-white text-center"
+                    className="min-h-[62vh] overflow-hidden p-10 text-center"
                     style={{
                       backgroundColor: `rgba(0, 0, 0, ${
                         myblog?.value?.opacity / 100
