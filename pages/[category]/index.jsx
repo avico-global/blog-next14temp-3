@@ -127,9 +127,9 @@ export default function Categories({
                     <Container>
                       <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
                         <div>
-                          <p className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
+                          <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
                             Browsing: {category?.replaceAll("-", " ")}
-                          </p>
+                          </h1>
                           {filteredBlogList?.length > 0 ? (
                             ""
                           ) : (
