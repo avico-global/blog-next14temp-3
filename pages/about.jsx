@@ -14,6 +14,8 @@ import JsonLd from "@/components/json/JsonLd";
 
 // Font
 import { Raleway } from "next/font/google";
+import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -41,6 +43,8 @@ export default function About({
     const lastFiveBlogs = blog_list?.slice(-5);
     return lastFiveBlogs ? [...lastFiveBlogs].reverse() : [];
   }, [blog_list, imagePath]);
+
+  const breadcrumbs = useBreadcrumbs();
 
   return (
     <div className={myFont.className}>
@@ -102,10 +106,18 @@ export default function About({
                     image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
                   />
                 );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-7" />
+                    </Container>
+                  </FullContainer>
+                );
               case "text":
                 return (
                   <FullContainer>
-                    <Container className="py-16">
+                    <Container className="pb-16 pt-8">
                       <div className="grid grid-cols-about gap-16 w-full">
                         <div
                           className="markdown-content about_me prose max-w-full"

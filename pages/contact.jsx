@@ -6,10 +6,13 @@ import Head from "next/head";
 import React from "react";
 import Map from "@/components/containers/Map";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
+import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
 
 // Font
 import { Raleway } from "next/font/google";
 import GoogleTagManager from "@/lib/GoogleTagManager";
+import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -29,6 +32,7 @@ export default function Contact({
   nav_type,
 }) {
   const page = layout?.find((item) => item.page === "contact");
+  const breadcrumbs = useBreadcrumbs();
 
   return (
     <div className={myFont.className}>
@@ -83,11 +87,36 @@ export default function Contact({
                     contact_details={contact_details}
                   />
                 );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                      <h1 className="w-full text-3xl font-bold border-b mb-10">Contact Us</h1>
+                    </Container>
+                  </FullContainer>
+                );
               case "map":
                 return (
                   <FullContainer>
-                    <Container className="mt-16">
-                      <Map location="united states" />
+                    <Container>
+                      {contact_details?.mapDetails?.mapUrl ? (
+                        <LoadScript
+                          googleMapsApiKey={process.env.NEXT_MAP_API_KEY}
+                        >
+                          <GoogleMap
+                            mapContainerClassName="h-[500px] w-full rouded-md"
+                            center={contact_details?.mapDetails?.center}
+                            zoom={12}
+                          >
+                            <Marker
+                              position={contact_details?.mapDetails?.center}
+                            />
+                          </GoogleMap>
+                        </LoadScript>
+                      ) : (
+                        <Map location="united states" />
+                      )}
                     </Container>
                   </FullContainer>
                 );

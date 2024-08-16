@@ -14,7 +14,7 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
         <span key={index} className="flex items-center gap-2">
           {index > 0 && <ChevronsRight className="w-4" />}
           {index === breadcrumbs.length - 1 ? (
-            <span>{breadcrumb.label?.replaceAll("%20", " ")}</span> // Last item as plain text
+            <span className="text-black">{breadcrumb.label?.replaceAll("%20", " ")}</span> // Last item as plain text
           ) : (
             <a href={breadcrumb.url} className="hover:underline transition-all">
               {breadcrumb.label?.replaceAll("%20", " ")}
