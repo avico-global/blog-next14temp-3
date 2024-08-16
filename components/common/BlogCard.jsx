@@ -13,18 +13,22 @@ const BlogCard = ({
   content,
   className,
   imageHeight,
+  altImage,
+  imageTitle,
 }) => {
   return (
     <div
       className={cn("flex flex-col items-center text-center h-fit", className)}
     >
       <Link
+        title={imageTitle || "Article Thumbnail"}
         href={href || ""}
         className={cn("relative overflow-hidden w-full", imageHeight)}
       >
         <Image
           src={image}
-          alt="Background Image"
+          title={imageTitle || "Article Thumbnail"}
+          alt={altImage || "No Thumbnail Found"}
           priority={true}
           fill={true}
           loading="eager"

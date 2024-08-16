@@ -12,7 +12,8 @@ export default function AboutBanner({ image }) {
     <FullContainer className="h-80 overflow-hidden p-10 bg-black/20 text-white text-center">
       <Image
         src={image}
-        alt="Background Image"
+        title="About Us"
+        alt="About Us Banner Not Found"
         priority={true}
         fill={true}
         loading="eager"

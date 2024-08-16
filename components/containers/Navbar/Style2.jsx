@@ -29,6 +29,7 @@ export default function Style2({
         {staticPages.map((item, index) => (
           <Link
             key={index}
+            title={item.page}
             href={item.href}
             className={cn(
               navLink,
@@ -41,6 +42,7 @@ export default function Style2({
         {categories?.map((item, index) => (
           <Link
             key={index}
+            title={item}
             href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
             className={cn(
               navLink,
@@ -62,6 +64,7 @@ export default function Style2({
                   {filteredBlogs?.map((item, index) => (
                     <Link
                       key={index}
+                      title={item.title}
                       href={`/${item.article_category.name}/${item?.title
                         ?.replaceAll(" ", "-")
                         ?.toLowerCase()}`}

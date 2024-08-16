@@ -33,6 +33,8 @@ export default function LatestBlogs({ blogs, imagePath }) {
               href={`/${item.article_category.name}/${item?.title
                 ?.replaceAll(" ", "-")
                 ?.toLowerCase()}`}
+              imageTitle={item.imageTitle}
+              altImage={item.altImage}
             />
           ))}
         </div>
@@ -46,13 +48,14 @@ export default function LatestBlogs({ blogs, imagePath }) {
   );
 }
 
-function BlogCard({ title, image, tagline, href }) {
+function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
   return (
-    <Link href={href || ""}>
+    <Link title={imageTitle || "Article Thumbnail"} href={href || ""}>
       <div className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all">
         <Image
           src={image}
-          alt="Background Image"
+          title={imageTitle || "Article Thumbnail"}
+          alt={altImage || "No Thumbnail Found"}
           priority={true}
           fill={true}
           loading="eager"

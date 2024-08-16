@@ -80,75 +80,31 @@ const Navbar = ({
   console.log("nav type", nav_type);
 
   const renderActiveStyle = () => {
+    const props = {
+      logo,
+      category,
+      staticPages,
+      isActive,
+      imagePath,
+      openSearch,
+      searchQuery,
+      searchContainerRef,
+      handleSearchChange,
+      handleSearchToggle,
+      toggleSidebar,
+      filteredBlogs,
+      categories,
+    };
+
     switch (nav_type?.active) {
       case "style_1":
-        return (
-          <Style1
-            logo={logo}
-            category={category}
-            staticPages={staticPages}
-            toggleSidebar={toggleSidebar}
-            isActive={isActive}
-            imagePath={imagePath}
-            openSearch={openSearch}
-            searchContainerRef={searchContainerRef}
-            handleSearchChange={handleSearchChange}
-            handleSearchToggle={handleSearchToggle}
-            filteredBlogs={filteredBlogs}
-            categories={categories}
-          />
-        );
+        return <Style1 {...props} />;
       case "style_2":
-        return (
-          <Style2
-            logo={logo}
-            category={category}
-            staticPages={staticPages}
-            toggleSidebar={toggleSidebar}
-            isActive={isActive}
-            imagePath={imagePath}
-            openSearch={openSearch}
-            searchQuery={searchQuery}
-            searchContainerRef={searchContainerRef}
-            handleSearchChange={handleSearchChange}
-            handleSearchToggle={handleSearchToggle}
-            filteredBlogs={filteredBlogs}
-            categories={categories}
-          />
-        );
+        return <Style2 {...props} />;
       case "style_3":
-        return (
-          <Style3
-            logo={logo}
-            category={category}
-            staticPages={staticPages}
-            toggleSidebar={toggleSidebar}
-            isActive={isActive}
-            imagePath={imagePath}
-            searchQuery={searchQuery}
-            handleSearchChange={handleSearchChange}
-            filteredBlogs={filteredBlogs}
-            categories={categories}
-          />
-        );
+        return <Style3 {...props} />;
       case "style_4":
-        return (
-          <Style4
-            logo={logo}
-            category={category}
-            staticPages={staticPages}
-            toggleSidebar={toggleSidebar}
-            isActive={isActive}
-            imagePath={imagePath}
-            openSearch={openSearch}
-            searchQuery={searchQuery}
-            searchContainerRef={searchContainerRef}
-            handleSearchChange={handleSearchChange}
-            handleSearchToggle={handleSearchToggle}
-            filteredBlogs={filteredBlogs}
-            categories={categories}
-          />
-        );
+        return <Style4 {...props} />;
       default:
         return null;
     }
@@ -176,6 +132,7 @@ const Navbar = ({
         </div>
         <div className="flex flex-col mt-5">
           <Link
+            title="Home"
             href="/"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
@@ -187,6 +144,7 @@ const Navbar = ({
           {categories?.map((item, index) => (
             <Link
               key={index}
+              title={item}
               href={`/${item}`}
               className={cn(
                 "font-semibold text-gray-500 capitalize hover:text-black transition-all py-3 px-2 border-b hover:border-black",
@@ -198,6 +156,7 @@ const Navbar = ({
             </Link>
           ))}
           <Link
+            title="About"
             href="/about"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
@@ -207,6 +166,7 @@ const Navbar = ({
             About
           </Link>
           <Link
+            title="Contact"
             href="/contact"
             className={cn(
               "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",

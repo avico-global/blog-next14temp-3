@@ -43,13 +43,14 @@ export default function Rightbar({
                 className="grid grid-cols-widget gap-3 py-3 border-b last:border-none"
               >
                 <Link
+                  title={item.title}
                   href={`/${item.article_category.name}/${item?.title
                     ?.replaceAll(" ", "-")
                     ?.toLowerCase()}`}
                 >
                   <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                     <Image
-                      title={item?.imageTitle}
+                      title={item?.imageTitle || "Article Thumbnail"}
                       src={
                         item?.image
                           ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
@@ -64,6 +65,7 @@ export default function Rightbar({
                 </Link>
                 <div>
                   <Link
+                    title={item.title}
                     href={`/${item.article_category.name}/${item?.title
                       ?.replaceAll(" ", "-")
                       ?.toLowerCase()}`}
@@ -87,6 +89,7 @@ export default function Rightbar({
 
       {!(page === "about" || page === "category") && (
         <Link
+          title="About"
           href="/about"
           className="border p-5 flex flex-col items-center text-center"
         >
@@ -94,7 +97,8 @@ export default function Rightbar({
           <div className="relative overflow-hidden w-full h-40 mt-8">
             <Image
               src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me?.file_name}`}
-              alt="Background Image"
+              title="About Thumbnail"
+              alt="Thumbnail Not Found"
               priority={true}
               fill={true}
               loading="eager"
@@ -143,6 +147,7 @@ export default function Rightbar({
             {categories?.map((item, index) => (
               <Link
                 key={index}
+                title={item}
                 href={`/${item.toLowerCase().replaceAll(" ", "-")}`}
                 className={cn(
                   "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
@@ -167,6 +172,7 @@ export default function Rightbar({
             {tag_list?.map((item, index) => (
               <Link
                 key={index}
+                title={item.tag}
                 href={`/${item.tag?.replaceAll(" ", "-")?.toLowerCase()}`}
                 className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-sm px-2"
               >

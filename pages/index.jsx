@@ -147,6 +147,8 @@ export default function Home({
                                   ?.toLowerCase()}`}
                                 category={item?.article_category?.name}
                                 imageHeight="h-96 lg:h-[420px]"
+                                imageTitle={item.imageTitle}
+                                altImage={item.altImage}
                               />
                             ))}
 
@@ -173,6 +175,8 @@ export default function Home({
                                     ?.toLowerCase()}`}
                                   category={item?.article_category?.name}
                                   imageHeight="h-72 md:h-[420px]"
+                                  imageTitle={item.imageTitle}
+                                  altImage={item.altImage}
                                 />
                               ))}
                             </div>
@@ -200,6 +204,8 @@ export default function Home({
                                   imageHeight={
                                     index === 0 ? "h-40" : "h-72 md:h-[410px]"
                                   }
+                                  imageTitle={item.imageTitle}
+                                  altImage={item.altImage}
                                 />
                               ))}
                             </div>

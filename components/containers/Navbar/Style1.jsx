@@ -28,6 +28,7 @@ export default function Style1({
           {staticPages.map((item, index) => (
             <Link
               key={index}
+              title={item.page}
               href={item.href}
               className={cn(
                 "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
@@ -47,6 +48,7 @@ export default function Style1({
             {categories?.map((item, index) => (
               <Link
                 key={index}
+                title={item}
                 href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
                 className={cn(
                   "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black w-fit",
@@ -73,6 +75,7 @@ export default function Style1({
                   {filteredBlogs?.map((item, index) => (
                     <Link
                       key={index}
+                      title={item.title}
                       href={`/${item.article_category.name}/${item?.title
                         ?.replaceAll(" ", "-")
                         ?.toLowerCase()}`}

@@ -19,9 +19,14 @@ const Logo = ({ logo, imagePath }) => {
   const imageSrc = `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
 
   return (
-    <Link href="/" className="flex items-center justify-center mr-10">
+    <Link
+      title="Logo"
+      href="/"
+      className="flex items-center justify-center mr-10"
+    >
       {logoType === "image" ? (
         <Image
+          title="Logo"
           height={logoHeight}
           width={logoWidth}
           src={imageSrc}

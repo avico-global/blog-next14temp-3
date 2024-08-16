@@ -22,6 +22,8 @@ export default function PopularPosts({ blog_list, imagePath }) {
               }
               author={item.author}
               date={item.published_at}
+              imageTitle={item.imageTitle}
+              altImage={item.altImage}
             />
           )
       )}
@@ -29,17 +31,22 @@ export default function PopularPosts({ blog_list, imagePath }) {
   );
 }
 
-function Blog({ image, title, href, author, date }) {
+function Blog({ image, title, href, author, date, imageTitle, altImage }) {
   return (
     <div className="flex items-center gap-3 mt-5 cursor-pointer">
-      <Link href={href || ""} className="relative overflow-hidden w-2/6 h-20">
+      <Link
+        title={imageTitle || "Article Thumbnail"}
+        href={href || ""}
+        className="relative overflow-hidden w-2/6 h-20"
+      >
         <Image
           src={image}
           fill={true}
           loading="eager"
           priority={true}
           sizes="200px, 150px"
-          alt="Background Image"
+          title={imageTitle || "Article Thumbnail"}
+          alt={altImage || "No Thumbnail Found"}
           className="w-full h-full object-cover absolute top-0 hover:scale-110 transition-all"
         />
       </Link>

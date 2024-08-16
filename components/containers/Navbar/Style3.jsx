@@ -31,6 +31,7 @@ export default function Style3({
             {staticPages.map((item, index) => (
               <Link
                 key={index}
+                title={item.page}
                 href={item.href}
                 className={cn(
                   navLink,
@@ -43,6 +44,7 @@ export default function Style3({
             {categories?.map((item, index) => (
               <Link
                 key={index}
+                title={item}
                 href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
                 className={cn(
                   navLink,
@@ -60,6 +62,7 @@ export default function Style3({
                 {filteredBlogs?.map((item, index) => (
                   <Link
                     key={index}
+                    title={item.title}
                     href={`/${item.article_category.name}/${item?.title
                       ?.replaceAll(" ", "-")
                       ?.toLowerCase()}`}

@@ -14,8 +14,8 @@ export default function Banner({ image, data }) {
     >
       <Image
         src={image}
-        title={data.imageTitle}
-        alt={data.altImage}
+        title={data.imageTitle || "Banner"}
+        alt={data.altImage || "No Banner Found"}
         priority={true}
         fill={true}
         loading="eager"

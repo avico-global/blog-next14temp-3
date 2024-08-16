@@ -36,6 +36,7 @@ export default function Footer({
               {categories?.map((item, index) => (
                 <Link
                   key={index}
+                  title={item}
                   href={`/${item}`}
                   className={cn(
                     "uppercase text-sm mb-2 hover:border-b w-fit transition-all",
@@ -49,37 +50,43 @@ export default function Footer({
             <div className="flex flex-col">
               <p className="font-bold mb-5">Quick Links</p>
               <Link
+                title="Home"
                 href="/"
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
                 Home
               </Link>
               <Link
+                title="About"
                 href="/about"
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
                 About
               </Link>
               <Link
+                title="Contact"
                 href="/contact"
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
                 Contact
               </Link>
               <Link
+                title="Terms & Conditions"
                 href="/terms-and-conditions"
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
                 Terms & Conditions
               </Link>
               <Link
+                title="Privacy Policy"
                 href="privacy-policy"
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
                 Privacy Policy
               </Link>
-              <Link href="/sitemap.xml" legacyBehavior>
+              <Link title="Sitemap" href="/sitemap.xml" legacyBehavior>
                 <a
+                  title="Sitemap"
                   onClick={handleClick}
                   className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
                 >
