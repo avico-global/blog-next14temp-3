@@ -94,17 +94,19 @@ export default function Rightbar({
           className="border p-5 flex flex-col items-center text-center"
         >
           <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
-          <div className="relative overflow-hidden w-full h-40 mt-8">
+          <div className="relative overflow-hidden w-full h-[150px] mt-8">
             <Image
               src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me?.file_name}`}
               title="About Thumbnail"
               alt="Thumbnail Not Found"
               priority={true}
-              fill={true}
+              width={241}
+              height={150}
               loading="eager"
-              className="-z-10 w-full h-full object-cover absolute top-0"
+              className="-z-10 object-cover"
             />
           </div>
+
           <div
             className="mt-3"
             dangerouslySetInnerHTML={{
@@ -114,31 +116,6 @@ export default function Rightbar({
           <p className="mt-3 underline text-sm font-bold">More about me?</p>
         </Link>
       )}
-
-      {/* <div className="border p-5 mt-6 flex flex-col items-center text-center">
-        <h2 className="bg-white px-5 text-lg font-bold -mt-9">
-          Connect & Follow
-        </h2>
-        <div className="flex items-center justify-center gap-2 text-gray-400 mt-3">
-          {contact_details?.socials?.map((item, index) => (
-            <Link key={index} href={item.link} aria-label={item.name}>
-              {socialIcons[item.name]}
-            </Link>
-          ))}
-        </div>
-      </div> */}
-
-      {/* 
-      <div className="bg-gray-50 p-6 mt-10 text-center flex flex-col items-center">
-        <h2 className="font-bold text-lg">Newsletter</h2>
-        <div className="border-2 w-14 my-3 border-black"></div>
-        <p className="text-sm mt-1">
-          Subscribe to our newsletter for exclusive content and all of the
-          behind the scenes details.
-        </p>
-        <Input placeholder="Email" className="mt-5" />
-        <Button className="w-full mt-2">Subscribe</Button>
-      </div> */}
 
       {categories?.length > 0 && (
         <div className="border p-5 flex flex-col items-center text-center mt-14">
