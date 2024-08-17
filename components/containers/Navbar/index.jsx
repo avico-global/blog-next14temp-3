@@ -77,8 +77,6 @@ const Navbar = ({
     { page: "Contact Us", href: "/contact" },
   ];
 
-  console.log("nav type", nav_type);
-
   const renderActiveStyle = () => {
     const props = {
       logo,
