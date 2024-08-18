@@ -31,6 +31,7 @@ const Logo = ({ logo, imagePath }) => {
           width={logoWidth}
           src={imageSrc}
           alt={logoText || "logo"}
+          sizes="(max-width: 768px) 100px, (max-width: 1200px) 150px, 200px"
           className="h-8 md:h-10"
           style={{ height: `${logoHeight}px`, width: `${logoWidth}px` }}
         />

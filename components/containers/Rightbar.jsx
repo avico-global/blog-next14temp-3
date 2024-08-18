@@ -27,7 +27,7 @@ export default function Rightbar({
   //   Facebook: <Facebook className="w-5 h-5" />,
   //   Instagram: <Instagram className="w-5 h-5" />,
   //   Twitter: <Twitter className="w-5 h-5" />,
-  // };ÍÍ
+  // };
 
   return (
     <div className="h-fit sticky top-0">
