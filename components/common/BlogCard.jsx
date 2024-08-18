@@ -31,7 +31,7 @@ const BlogCard = ({
           alt={altImage || "No Thumbnail Found"}
           priority={false}
           width={331}
-          height={imageHeight || 420}
+          height={parseInt(imageHeight, 10) || 420}
           loading="lazy"
           className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
         />
