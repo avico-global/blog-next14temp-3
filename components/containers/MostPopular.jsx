@@ -49,7 +49,7 @@ function BlogCard({ title, image, href, category, imageTitle, altImage }) {
       <Link
         title={imageTitle || "Article Thumbnail"}
         href={href || ""}
-        className="relative overflow-hidden w-full h-[298px]"
+        className="relative overflow-hidden w-full h-[195px]"
       >
         <Image
           src={image}
