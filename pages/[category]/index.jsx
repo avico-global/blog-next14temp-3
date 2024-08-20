@@ -196,7 +196,7 @@ export default function Categories({
                           categories={categories}
                           contact_details={contact_details}
                           tag_list={tag_list}
-                          page="category"
+                          blog_list={blog_list}
                         />
                       </div>
                     </Container>

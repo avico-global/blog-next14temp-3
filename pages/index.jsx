@@ -43,6 +43,7 @@ export default function Home({
   nav_type,
 }) {
   const page = layout?.find((page) => page.page === "home");
+  console.log("Page", page?.widgets);
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -217,6 +218,8 @@ export default function Home({
                           categories={categories}
                           contact_details={contact_details}
                           tag_list={tag_list}
+                          widgets={page?.widgets}
+                          blog_list={blog_list}
                         />
                       </div>
                     </Container>

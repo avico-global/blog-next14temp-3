@@ -124,11 +124,11 @@ export default function About({
                           dangerouslySetInnerHTML={{ __html: content }}
                         />
                         <Rightbar
-                          page="about"
-                          contact_details={contact_details}
-                          categories={categories}
-                          lastFiveBlogs={reversedLastFiveBlogs}
                           imagePath={imagePath}
+                          blog_list={blog_list}
+                          categories={categories}
+                          contact_details={contact_details}
+                          lastFiveBlogs={reversedLastFiveBlogs}
                         />
                       </div>
                     </Container>

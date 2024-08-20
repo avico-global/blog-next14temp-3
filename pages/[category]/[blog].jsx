@@ -43,7 +43,6 @@ export default function Blog({
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(myblog?.value?.articleContent || "");
   const breadcrumbs = useBreadcrumbs();
-  const lastFiveBlogs = blog_list.slice(-5);
 
   const page = layout?.find((page) => page.page === "blog page");
 
@@ -193,6 +192,7 @@ export default function Blog({
                           categories={categories}
                           category={category}
                           contact_details={contact_details}
+                          blog_list={blog_list}
                         />
                       </div>
                     </Container>
