@@ -129,6 +129,7 @@ export default function About({
                           categories={categories}
                           contact_details={contact_details}
                           lastFiveBlogs={reversedLastFiveBlogs}
+                          widgets={page?.widgets}
                         />
                       </div>
                     </Container>

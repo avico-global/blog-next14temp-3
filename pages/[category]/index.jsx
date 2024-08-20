@@ -213,6 +213,7 @@ export default function Categories({
                     about_me={about_me}
                     contact_details={contact_details}
                     copyright={copyright}
+                    widgets={page?.widgets}
                   />
                 );
               default:
