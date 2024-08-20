@@ -98,7 +98,7 @@ export default function Rightbar({
   );
 
   const renderLatestPosts = () => (
-    <div className="border pt-5 px-4 flex flex-col items-center mb-14">
+    <div className="border pt-5 px-4 flex flex-col items-center">
       <h2 className="bg-white px-5 font-bold text-lg -mt-9 text-center">
         Latest Posts
       </h2>
