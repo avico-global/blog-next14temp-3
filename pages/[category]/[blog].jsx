@@ -185,7 +185,6 @@ export default function Blog({
                           </div>
                         </div>
                         <Rightbar
-                          lastFiveBlogs={lastFiveBlogs}
                           imagePath={imagePath}
                           tag_list={tag_list}
                           about_me={about_me}

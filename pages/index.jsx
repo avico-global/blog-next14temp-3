@@ -141,9 +141,9 @@ export default function Home({
                                     ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                     : "/no-image.png"
                                 }
-                                href={`/${
-                                  item?.article_category?.name
-                                }/${item?.title
+                                href={`/${item?.article_category?.name
+                                  ?.toLowerCase()
+                                  ?.replaceAll(" ", "-")}/${item?.title
                                   ?.replaceAll(" ", "-")
                                   ?.toLowerCase()}`}
                                 category={item?.article_category?.name}
@@ -169,9 +169,9 @@ export default function Home({
                                       ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                       : "/no-image.png"
                                   }
-                                  href={`/${
-                                    item?.article_category?.name
-                                  }/${item?.title
+                                  href={`/${item?.article_category?.name
+                                    ?.toLowerCase()
+                                    ?.replaceAll(" ", "-")}/${item?.title
                                     ?.replaceAll(" ", "-")
                                     ?.toLowerCase()}`}
                                   category={item?.article_category?.name}
@@ -196,9 +196,9 @@ export default function Home({
                                       ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                       : "/no-image.png"
                                   }
-                                  href={`/${
-                                    item?.article_category?.name
-                                  }/${item?.title
+                                  href={`/${item?.article_category?.name
+                                    ?.toLowerCase()
+                                    ?.replaceAll(" ", "-")}/${item?.title
                                     ?.replaceAll(" ", "-")
                                     ?.toLowerCase()}`}
                                   category={item?.article_category?.name}

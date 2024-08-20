@@ -192,11 +192,11 @@ export default function Categories({
                         </div>
                         <Rightbar
                           about_me={about_me}
+                          tag_list={tag_list}
+                          blog_list={blog_list}
                           imagePath={imagePath}
                           categories={categories}
                           contact_details={contact_details}
-                          tag_list={tag_list}
-                          blog_list={blog_list}
                         />
                       </div>
                     </Container>
