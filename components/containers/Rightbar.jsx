@@ -109,14 +109,16 @@ export default function Rightbar({
             className="grid grid-cols-widget gap-3 py-3 border-b last:border-none"
           >
             <Link
-              title={item.title}
-              href={`/${item.article_category.name}/${item.title
+              title={item.title || "Article"}
+              href={`/${item.article_category.name
+                ?.toLowerCase()
+                ?.replaceAll(" ", "-")}/${item.title
                 .replace(/ /g, "-")
                 .toLowerCase()}`}
             >
               <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                 <Image
-                  title={item.imageTitle || "Article Thumbnail"}
+                  title={item?.title || item?.imageTitle || "Article Thumbnail"}
                   src={
                     item.image
                       ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
@@ -124,15 +126,17 @@ export default function Rightbar({
                   }
                   fill
                   loading="lazy"
-                  alt="blog"
+                  alt={item?.title || "Article Title"}
                   className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
                 />
               </div>
             </Link>
             <div>
               <Link
-                title={item.title}
-                href={`/${item.article_category.name}/${item.title
+                title={item.title || "Article Link"}
+                href={`/${item.article_category.name
+                  ?.toLowerCase()
+                  ?.replaceAll(" ", "-")}/${item.title
                   .replace(/ /g, "-")
                   .toLowerCase()}`}
               >

@@ -141,13 +141,16 @@ export default function Categories({
                             {filteredBlogList.map((item, index) => (
                               <div key={index}>
                                 <Link
-                                  href={`/${category}/${item?.title
+                                  title={item?.title || "Article Link"}
+                                  href={`/${category
+                                    ?.replaceAll(" ", "-")
+                                    ?.toLowerCase()}/${item?.title
                                     ?.replaceAll(" ", "-")
                                     ?.toLowerCase()}`}
                                 >
                                   <div className="overflow-hidden relative min-h-40 rounded lg:min-h-52 w-full bg-black flex-1">
                                     <Image
-                                      title={item.imageTitle}
+                                      title={item?.title || item.imageTitle}
                                       src={
                                         item.image
                                           ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
@@ -161,7 +164,10 @@ export default function Categories({
                                   </div>
                                 </Link>
                                 <Link
-                                  href={`/${category}/${item?.title
+                                  title={item?.title || "Article Link"}
+                                  href={`/${category
+                                    ?.replaceAll(" ", "-")
+                                    ?.toLowerCase()}/${item?.title
                                     ?.replaceAll(" ", "-")
                                     ?.toLowerCase()}`}
                                 >
