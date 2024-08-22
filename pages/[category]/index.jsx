@@ -31,7 +31,6 @@ export default function Categories({
   categories,
   about_me,
   contact_details,
-  copyright,
   favicon,
   layout,
   tag_list,
@@ -213,14 +212,10 @@ export default function Categories({
                 return (
                   <Footer
                     key={index}
+                    imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-                    imagePath={imagePath}
-                    about_me={about_me}
-                    contact_details={contact_details}
-                    copyright={copyright}
-                    widgets={page?.widgets}
+                    category={category}
                   />
                 );
               default:

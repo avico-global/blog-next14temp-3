@@ -124,7 +124,7 @@ export default function Contact({
                 );
               case "contact info":
                 return (
-                  <FullContainer>
+                  <FullContainer key={index}>
                     <Container className="mt-10 text-center text-gray-500 text-xs gap-3">
                       <p className="text-xl mt-3 font-bold text-black">
                         {contact_details?.name}
@@ -138,13 +138,10 @@ export default function Contact({
               case "footer":
                 return (
                   <Footer
+                    key={index}
+                    imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    logo={logo}
-                    imagePath={imagePath}
-                    about_me={about_me}
-                    copyright={copyright}
-                    contact_details={contact_details}
                   />
                 );
               default:

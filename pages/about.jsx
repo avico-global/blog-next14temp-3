@@ -124,6 +124,7 @@ export default function About({
                           dangerouslySetInnerHTML={{ __html: content }}
                         />
                         <Rightbar
+                          about_me={about_me}
                           imagePath={imagePath}
                           blog_list={blog_list}
                           categories={categories}
@@ -139,13 +140,10 @@ export default function About({
               case "footer":
                 return (
                   <Footer
+                    key={index}
+                    imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    logo={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.file_name}`}
-                    imagePath={imagePath}
-                    contact_details={contact_details}
-                    copyright={copyright}
-                    about_me={about_me}
                   />
                 );
 
