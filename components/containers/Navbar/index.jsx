@@ -143,7 +143,7 @@ const Navbar = ({
             <Link
               key={index}
               title={item}
-              href={`/${item}`}
+              href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
               className={cn(
                 "font-semibold text-gray-500 capitalize hover:text-black transition-all py-3 px-2 border-b hover:border-black",
                 (category === item || isActive(`/${item}`)) &&

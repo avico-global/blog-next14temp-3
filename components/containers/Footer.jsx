@@ -3,25 +3,12 @@ import FullContainer from "../common/FullContainer";
 import Container from "../common/Container";
 import PopularPosts from "./PopularPosts";
 import LatestPosts from "./LatestPosts";
-import MarkdownIt from "markdown-it";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/router";
 
-const md = new MarkdownIt();
-
-export default function Footer({
-  categories,
-  blog_list,
-  imagePath,
-  copyright,
-  category,
-}) {
-  const router = useRouter();
-
+export default function Footer({ categories, blog_list, imagePath, category }) {
   const handleClick = (e) => {
     e.preventDefault();
-    // Use window.location.href to force a full page reload
     window.location.href = "/sitemap.xml";
   };
   return (
@@ -36,8 +23,8 @@ export default function Footer({
               {categories?.map((item, index) => (
                 <Link
                   key={index}
-                  title={item}
-                  href={`/${item}`}
+                  title={item || "Article Link"}
+                  href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
                   className={cn(
                     "uppercase text-sm mb-2 hover:border-b w-fit transition-all",
                     category === item && "border-b-2 border-purple-500"
