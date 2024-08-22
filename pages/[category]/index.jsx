@@ -197,6 +197,7 @@ export default function Categories({
                           imagePath={imagePath}
                           categories={categories}
                           contact_details={contact_details}
+                          widgets={page?.widgets}
                         />
                       </div>
                     </Container>
