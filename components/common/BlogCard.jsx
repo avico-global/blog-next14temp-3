@@ -21,13 +21,13 @@ const BlogCard = ({
       className={cn("flex flex-col items-center text-center h-fit", className)}
     >
       <Link
-        title={imageTitle || "Article Thumbnail"}
+        title={imageTitle || title || "Article Thumbnail"}
         href={href || ""}
         className={cn("relative overflow-hidden w-full", imageHeight)}
       >
         <Image
           src={image}
-          title={imageTitle || "Article Thumbnail"}
+          title={imageTitle || title || "Article Thumbnail"}
           alt={altImage || "No Thumbnail Found"}
           priority={false}
           width={331}
@@ -43,7 +43,7 @@ const BlogCard = ({
             {category}
           </span>
         </p> */}
-        <Link href={href || ""}>
+        <Link title={title || "Article Link"} href={href || ""}>
           <h2 className="font-extrabold md:text-lg leading-tight hover:underline">
             {title}
           </h2>

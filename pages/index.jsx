@@ -255,6 +255,21 @@ export default function Home({
               },
               description: meta?.description,
               inLanguage: "en-US",
+              primaryImageOfPage: {
+                "@type": "ImageObject",
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`,
+                width: 1920,
+                height: 1080,
+              },
+              mainEntityOfPage: {
+                "@type": "WebPage",
+                "@id": `http://${domain}/`,
+              },
+              // potentialAction: {
+              //   "@type": "SearchAction",
+              //   target: `http://${domain}/search?q={search_term_string}`,
+              //   "query-input": "required name=search_term_string",
+              // },
             },
             {
               "@type": "Organization",
@@ -264,12 +279,29 @@ export default function Home({
               logo: {
                 "@type": "ImageObject",
                 url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
+                width: logo.width,
+                height: logo.height,
               },
               sameAs: [
                 "http://www.facebook.com",
                 "http://www.twitter.com",
                 "http://instagram.com",
               ],
+              contactPoint: {
+                "@type": "ContactPoint",
+                telephone: "+1-800-555-5555",
+                contactType: "Customer Service",
+                areaServed: "US",
+                availableLanguage: "English",
+              },
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "123 Main St",
+                addressLocality: "City",
+                addressRegion: "State",
+                postalCode: "12345",
+                addressCountry: "US",
+              },
             },
             {
               "@type": "ItemList",
@@ -282,6 +314,28 @@ export default function Home({
                   "@type": "Article",
                   url: `http://${domain}/${blog?.article_category?.name}/${blog.key}`,
                   name: blog.title,
+                  author: {
+                    "@type": "Person",
+                    name: blog.author,
+                  },
+                  datePublished: blog.datePublished,
+                  dateModified: blog.dateModified,
+                  image: {
+                    "@type": "ImageObject",
+                    url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${blog.imagePath}/${blog.imageFileName}`,
+                    width: blog.imageWidth,
+                    height: blog.imageHeight,
+                  },
+                  headline: blog.title,
+                  description: blog.description,
+                  mainEntityOfPage: {
+                    "@type": "WebPage",
+                    "@id": `http://${domain}/${blog?.article_category?.name
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}/${blog.title
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}`,
+                  },
                 },
               })),
             },
