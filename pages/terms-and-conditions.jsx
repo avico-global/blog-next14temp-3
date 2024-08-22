@@ -141,7 +141,7 @@ export default function Terms({
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
 
-  const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const meta = await callBackendApi({ domain, query, type: "meta_terms" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const favicon = await callBackendApi({ domain, query, type: "favicon" });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });

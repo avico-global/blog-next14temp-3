@@ -217,7 +217,7 @@ export async function getServerSideProps({ req, query }) {
     type: "categories",
   });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
-  const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const meta = await callBackendApi({ domain, query, type: "meta_about" });
   const contact_details = await callBackendApi({
     domain,
     query,

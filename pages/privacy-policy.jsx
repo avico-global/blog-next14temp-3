@@ -144,7 +144,7 @@ export async function getServerSideProps({ req, query }) {
   const filePath = path.join(process.cwd(), "public", "robots.txt");
   fs.writeFileSync(filePath, robotxt.data[0].value, "utf8");
 
-  const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const meta = await callBackendApi({ domain, query, type: "meta_privacy" });
   const logo = await callBackendApi({ domain, query, type: "logo" });
   const favicon = await callBackendApi({ domain, query, type: "favicon" });
   const blog_list = await callBackendApi({ domain, query, type: "blog_list" });

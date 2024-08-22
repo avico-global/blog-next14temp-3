@@ -318,7 +318,7 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "categories",
   });
-  const meta = await callBackendApi({ domain, query, type: "meta_home" });
+  const meta = await callBackendApi({ domain, query, type: "meta_category" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
