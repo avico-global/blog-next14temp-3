@@ -58,7 +58,7 @@ export default function Blog({
           rel="canonical"
           href={`https://www.${domain}/${category}/${blog}`}
         />
-        <meta name="robots" content="noindex" />
+        {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
