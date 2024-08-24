@@ -76,7 +76,9 @@ export default function Style1({
                     <Link
                       key={index}
                       title={item.title}
-                      href={`/${item.article_category.name}/${item?.title
+                      href={`/${item.article_category.name
+                        ?.toLowerCase()
+                        ?.replaceAll(" ", "-")}/${item?.title
                         ?.replaceAll(" ", "-")
                         ?.toLowerCase()}`}
                     >

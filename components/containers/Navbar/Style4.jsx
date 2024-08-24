@@ -85,7 +85,9 @@ export default function Style4({
                     <Link
                       title={item.title}
                       key={index}
-                      href={`/${item.article_category.name}/${item?.title
+                      href={`/${item.article_category.name
+                        ?.toLowerCase()
+                        ?.replaceAll(" ", "-")}/${item?.title
                         ?.replaceAll(" ", "-")
                         ?.toLowerCase()}`}
                     >
