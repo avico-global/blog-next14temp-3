@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ChevronsRight } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 
 export default function Breadcrumbs({ breadcrumbs, className }) {
@@ -14,11 +15,17 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
         <span key={index} className="flex items-center gap-2">
           {index > 0 && <ChevronsRight className="w-4" />}
           {index === breadcrumbs.length - 1 ? (
-            <span className="text-black">{breadcrumb.label?.replaceAll("%20", " ")}</span> // Last item as plain text
-          ) : (
-            <a href={breadcrumb.url} className="hover:underline transition-all">
+            <span className="text-black">
               {breadcrumb.label?.replaceAll("%20", " ")}
-            </a>
+            </span>
+          ) : (
+            <Link
+              title={breadcrumb.label?.replaceAll(" ", "-")}
+              href={breadcrumb.url}
+              className="hover:underline transition-all"
+            >
+              {breadcrumb.label?.replaceAll("%20", " ")}
+            </Link>
           )}
         </span>
       ))}
