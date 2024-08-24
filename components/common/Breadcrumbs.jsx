@@ -20,7 +20,9 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
             </span>
           ) : (
             <Link
-              title={breadcrumb.label?.replaceAll(" ", "-")}
+              title={breadcrumb.label
+                ?.replaceAll(" ", "-")
+                ?.replaceAll("%20", "-")}
               href={breadcrumb.url}
               className="hover:underline transition-all"
             >
