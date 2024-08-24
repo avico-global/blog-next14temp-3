@@ -67,16 +67,16 @@ export default function Categories({
             category?.replaceAll("-", " ")
           )}
         </title>
-        <meta name="description" content={meta?.description} />
-        <link rel="author" href={`https://www.${domain}`} />
-        <link rel="publisher" href={`https://www.${domain}`} />
-        <link
-          rel="canonical"
-          href={`https://www.${domain}/${category.replaceAll(
+        <meta
+          name="description"
+          content={meta?.description.replaceAll(
             "##category##",
             category?.replaceAll("-", " ")
-          )}`}
+          )}
         />
+        <link rel="author" href={`https://www.${domain}`} />
+        <link rel="publisher" href={`https://www.${domain}`} />
+        <link rel="canonical" href={`https://www.${domain}/${category}`} />
         {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
