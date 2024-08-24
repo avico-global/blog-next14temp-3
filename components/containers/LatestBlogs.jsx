@@ -30,7 +30,9 @@ export default function LatestBlogs({ blogs, imagePath }) {
                   ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                   : "/no-image.png"
               }
-              href={`/${item.article_category.name}/${item?.title
+              href={`/${item.article_category.name
+                ?.toLowerCase()
+                ?.replaceAll(" ", "-")}/${item?.title
                 ?.replaceAll(" ", "-")
                 ?.toLowerCase()}`}
               imageTitle={item.imageTitle}
@@ -52,22 +54,23 @@ function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
   return (
     <div>
       <Link
-        title={imageTitle || "Article Thumbnail"}
+        title={title || imageTitle || "Article Thumbnail"}
         href={href || ""}
-        className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all"
       >
-        <Image
-          src={image}
-          title={imageTitle || "Article Thumbnail"}
-          alt={altImage || "No Thumbnail Found"}
-          priority={true}
-          fill={true}
-          loading="eager"
-          sizes="400px, 300px"
-          className="-z-10 w-full h-full object-cover absolute top-0"
-        />
+        <div className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all">
+          <Image
+            src={image}
+            title={title || imageTitle || "Article Thumbnail"}
+            alt={altImage || "No Thumbnail Found"}
+            priority={true}
+            fill={true}
+            loading="eager"
+            sizes="400px, 300px"
+            className="-z-10 w-full h-full object-cover absolute top-0"
+          />
+        </div>
       </Link>
-      <Link href={href || ""}>
+      <Link title={title || imageTitle || "Article Link"} href={href || ""}>
         <h3 className="font-semibold text-lg mt-4 leading-5 hover:underline">
           {title}
         </h3>
