@@ -66,7 +66,7 @@ export default function Footer({ categories, blog_list, imagePath, category }) {
               </Link>
               <Link
                 title="Privacy Policy"
-                href="privacy-policy"
+                href="/privacy-policy"
                 className="uppercase text-sm mb-2 hover:border-b w-fit transition-all"
               >
                 Privacy Policy
