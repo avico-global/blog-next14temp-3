@@ -295,7 +295,7 @@ export default function Blog({
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
               name: domain,
-              description: meta?.description,
+              description: myblog?.value?.meta_description,
               inLanguage: "en-US",
               // potentialAction: {
               //   "@type": "SearchAction",

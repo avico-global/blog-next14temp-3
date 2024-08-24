@@ -61,11 +61,22 @@ export default function Categories({
     >
       <Head>
         <meta charSet="UTF-8" />
-        <title>{meta?.title}</title>
+        <title>
+          {meta?.title?.replaceAll(
+            "##category##",
+            category?.replaceAll("-", " ")
+          )}
+        </title>
         <meta name="description" content={meta?.description} />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
-        <link rel="canonical" href={`https://www.${domain}/${category}`} />
+        <link
+          rel="canonical"
+          href={`https://www.${domain}/${category.replaceAll(
+            "##category##",
+            category?.replaceAll("-", " ")
+          )}`}
+        />
         {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />

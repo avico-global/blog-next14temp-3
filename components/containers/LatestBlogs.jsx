@@ -50,8 +50,12 @@ export default function LatestBlogs({ blogs, imagePath }) {
 
 function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
   return (
-    <Link title={imageTitle || "Article Thumbnail"} href={href || ""}>
-      <div className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all">
+    <div>
+      <Link
+        title={imageTitle || "Article Thumbnail"}
+        href={href || ""}
+        className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all"
+      >
         <Image
           src={image}
           title={imageTitle || "Article Thumbnail"}
@@ -62,13 +66,13 @@ function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
           sizes="400px, 300px"
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
-      </div>
+      </Link>
       <Link href={href || ""}>
         <h3 className="font-semibold text-lg mt-4 leading-5 hover:underline">
           {title}
         </h3>
       </Link>
       <p className="text-gray-500 mt-2 text-sm">{tagline.slice(0, 200)}</p>
-    </Link>
+    </div>
   );
 }
