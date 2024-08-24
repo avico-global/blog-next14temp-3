@@ -147,7 +147,6 @@ export default function Blog({
                     </Container>
                   </FullContainer>
                 );
-
               case "breadcrumbs":
                 return (
                   <FullContainer key={index}>
@@ -290,6 +289,23 @@ export default function Blog({
               },
               datePublished: myblog?.value?.published_at,
               dateModified: myblog?.value?.published_at,
+            },
+            {
+              "@type": "WebSite",
+              "@id": `http://${domain}/#website`,
+              url: `http://${domain}/`,
+              name: domain,
+              description: meta?.description,
+              inLanguage: "en-US",
+              // potentialAction: {
+              //   "@type": "SearchAction",
+              //   target: `http://${domain}/search?q={search_term_string}`,
+              //   "query-input": "required name=search_term_string",
+              // },
+              publisher: {
+                "@type": "Organization",
+                "@id": `http://${domain}`,
+              },
             },
           ],
         }}

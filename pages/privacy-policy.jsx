@@ -102,7 +102,6 @@ export default function PriavcyPolicy({
                     </Container>
                   </FullContainer>
                 );
-
               case "text":
                 return (
                   <FullContainer key={index}>
@@ -114,7 +113,6 @@ export default function PriavcyPolicy({
                     </Container>
                   </FullContainer>
                 );
-
               case "footer":
                 return (
                   <Footer
@@ -129,6 +127,82 @@ export default function PriavcyPolicy({
             }
           })
         : "Page Disabled, under maintenance"}
+
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebPage",
+              "@id": `http://${domain}/`,
+              url: `http://${domain}/`,
+              name: meta?.title,
+              isPartOf: {
+                "@id": `http://${domain}`,
+              },
+              description: meta?.description,
+              inLanguage: "en-US",
+            },
+            {
+              "@type": "Organization",
+              "@id": `http://${domain}`,
+              name: domain,
+              url: `http://${domain}/`,
+              logo: {
+                "@type": "ImageObject",
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
+              },
+              sameAs: [
+                "http://www.facebook.com",
+                "http://www.twitter.com",
+                "http://instagram.com",
+              ],
+            },
+            {
+              "@type": "WebSite",
+              "@id": `http://${domain}/#website`,
+              url: `http://${domain}/`,
+              name: domain,
+              description: meta?.description,
+              inLanguage: "en-US",
+              // potentialAction: {
+              //   "@type": "SearchAction",
+              //   target: `http://${domain}/search?q={search_term_string}`,
+              //   "query-input": "required name=search_term_string",
+              // },
+              publisher: {
+                "@type": "Organization",
+                "@id": `http://${domain}`,
+              },
+            },
+            {
+              "@type": "ItemList",
+              url: `http://${domain}`,
+              name: "blog",
+              itemListElement: blog_list?.map((blog, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                item: {
+                  "@type": "Article",
+                  url: `http://${domain}/${
+                    blog?.article_category?.name
+                  }/${blog.title?.replaceAll(" ", "-")?.toLowerCase()}`,
+                  name: blog.title,
+                },
+              })),
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: breadcrumbs.map((breadcrumb, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: breadcrumb.label,
+                item: `http://${domain}${breadcrumb.url}`,
+              })),
+            },
+          ],
+        }}
+      />
     </div>
   );
 }
@@ -137,6 +211,7 @@ import fs from "fs";
 import path from "path";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import JsonLd from "@/components/json/JsonLd";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
 

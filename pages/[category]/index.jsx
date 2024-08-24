@@ -264,6 +264,23 @@ export default function Categories({
               ],
             },
             {
+              "@type": "WebSite",
+              "@id": `http://${domain}/#website`,
+              url: `http://${domain}/`,
+              name: domain,
+              description: meta?.description,
+              inLanguage: "en-US",
+              // potentialAction: {
+              //   "@type": "SearchAction",
+              //   target: `http://${domain}/search?q={search_term_string}`,
+              //   "query-input": "required name=search_term_string",
+              // },
+              publisher: {
+                "@type": "Organization",
+                "@id": `http://${domain}`,
+              },
+            },
+            {
               "@type": "ItemList",
               url: `http://${domain}`,
               name: "blog",

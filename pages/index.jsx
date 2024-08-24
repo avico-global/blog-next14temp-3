@@ -272,6 +272,23 @@ export default function Home({
               // },
             },
             {
+              "@type": "WebSite",
+              "@id": `http://${domain}/#website`,
+              url: `http://${domain}/`,
+              name: domain,
+              description: meta?.description,
+              inLanguage: "en-US",
+              // potentialAction: {
+              //   "@type": "SearchAction",
+              //   target: `http://${domain}/search?q={search_term_string}`,
+              //   "query-input": "required name=search_term_string",
+              // },
+              publisher: {
+                "@type": "Organization",
+                "@id": `http://${domain}`,
+              },
+            },
+            {
               "@type": "Organization",
               "@id": `http://${domain}`,
               name: domain,
@@ -287,21 +304,6 @@ export default function Home({
                 "http://www.twitter.com",
                 "http://instagram.com",
               ],
-              contactPoint: {
-                "@type": "ContactPoint",
-                telephone: "+1-800-555-5555",
-                contactType: "Customer Service",
-                areaServed: "US",
-                availableLanguage: "English",
-              },
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "123 Main St",
-                addressLocality: "City",
-                addressRegion: "State",
-                postalCode: "12345",
-                addressCountry: "US",
-              },
             },
             {
               "@type": "ItemList",
@@ -348,7 +350,6 @@ export default function Home({
 
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-
   const meta = await callBackendApi({ domain, type: "meta_home" });
   const logo = await callBackendApi({ domain, type: "logo" });
   const favicon = await callBackendApi({ domain, type: "favicon" });

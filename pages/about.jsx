@@ -136,7 +136,6 @@ export default function About({
                     </Container>
                   </FullContainer>
                 );
-
               case "footer":
                 return (
                   <Footer
@@ -184,6 +183,23 @@ export default function About({
               ],
             },
             {
+              "@type": "WebSite",
+              "@id": `http://${domain}/#website`,
+              url: `http://${domain}/`,
+              name: domain,
+              description: meta?.description,
+              inLanguage: "en-US",
+              // potentialAction: {
+              //   "@type": "SearchAction",
+              //   target: `http://${domain}/search?q={search_term_string}`,
+              //   "query-input": "required name=search_term_string",
+              // },
+              publisher: {
+                "@type": "Organization",
+                "@id": `http://${domain}`,
+              },
+            },
+            {
               "@type": "ItemList",
               url: `http://${domain}`,
               name: "blog",
@@ -197,6 +213,15 @@ export default function About({
                   }/${blog.title?.replaceAll(" ", "-")?.toLowerCase()}`,
                   name: blog.title,
                 },
+              })),
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: breadcrumbs.map((breadcrumb, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                name: breadcrumb.label,
+                item: `http://${domain}${breadcrumb.url}`,
               })),
             },
           ],
