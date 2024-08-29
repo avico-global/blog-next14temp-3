@@ -68,19 +68,19 @@ export default function Home({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
 
@@ -107,7 +107,7 @@ export default function Home({
                   <Banner
                     key={index}
                     data={banner.value}
-                    image={`/images/${banner?.file_name}`}
+                    image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
                   />
                 );
 
@@ -140,7 +140,7 @@ export default function Home({
                                 content={item.articleContent}
                                 image={
                                   item.image
-                                    ? `/images/${item.image}`
+                                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                     : "/no-image.png"
                                 }
                                 href={`/${item?.article_category?.name
@@ -168,7 +168,7 @@ export default function Home({
                                   content={item.articleContent}
                                   image={
                                     item.image
-                                      ? `/images/${item.image}`
+                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                       : "/no-image.png"
                                   }
                                   href={`/${item?.article_category?.name
@@ -195,7 +195,7 @@ export default function Home({
                                   content={item.articleContent}
                                   image={
                                     item.image
-                                      ? `/images/${item.image}`
+                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                       : "/no-image.png"
                                   }
                                   href={`/${item?.article_category?.name
@@ -259,7 +259,7 @@ export default function Home({
               inLanguage: "en-US",
               primaryImageOfPage: {
                 "@type": "ImageObject",
-                url: `/images/${banner?.file_name}`,
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`,
                 width: 1920,
                 height: 1080,
               },
@@ -297,7 +297,7 @@ export default function Home({
               url: `http://${domain}/`,
               logo: {
                 "@type": "ImageObject",
-                url: `/images/${logo.file_name}`,
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
                 width: logo.width,
                 height: logo.height,
               },
@@ -326,7 +326,7 @@ export default function Home({
                   dateModified: blog.dateModified,
                   image: {
                     "@type": "ImageObject",
-                    url: `/images/${blog.imageFileName}`,
+                    url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${blog.imagePath}/${blog.imageFileName}`,
                     width: blog.imageWidth,
                     height: blog.imageHeight,
                   },
