@@ -90,19 +90,19 @@ export default function Categories({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
 
@@ -163,7 +163,7 @@ export default function Categories({
                                       title={item?.title || item.imageTitle}
                                       src={
                                         item.image
-                                          ? `/images/${item.image}`
+                                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                                           : "/no-image.png"
                                       }
                                       fill={true}
@@ -266,7 +266,7 @@ export default function Categories({
               url: `http://${domain}/`,
               logo: {
                 "@type": "ImageObject",
-                url: `/images/${logo.file_name}`,
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
               },
               sameAs: [
                 "http://www.facebook.com",

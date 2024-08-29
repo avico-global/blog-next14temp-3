@@ -25,7 +25,7 @@ export default function MostPopular({ blog_list, imagePath }) {
                   description={item.articleContent}
                   image={
                     item.image
-                      ? `/images/${item.image}`
+                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                       : "/no-image.png"
                   }
                   href={`/${item?.article_category?.name}/${item?.title

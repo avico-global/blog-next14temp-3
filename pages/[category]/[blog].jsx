@@ -71,19 +71,19 @@ export default function Blog({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`/images/${favicon}`}
+          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
       </Head>
 
@@ -117,7 +117,7 @@ export default function Blog({
                     }}
                   >
                     <Image
-                      src={`/images/${myblog?.file_name}`}
+                      src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
                       alt={myblog?.value.imageAltText || "No Banner found"}
                       title={myblog?.value.imageTitle || myblog?.value.title}
                       priority={true}
@@ -240,7 +240,7 @@ export default function Blog({
               description: myblog?.value?.articleContent,
               datePublished: myblog?.value?.published_at,
               author: myblog?.value?.author,
-              image: `/images/${myblog?.file_name}`,
+              image: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`,
               publisher: "Site Manager",
             },
             {
@@ -285,7 +285,7 @@ export default function Blog({
               isPartOf: { "@id": `http://${domain}` },
               primaryImageOfPage: {
                 "@type": "ImageObject",
-                url: `/images/${myblog?.file_name}`,
+                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`,
               },
               datePublished: myblog?.value?.published_at,
               dateModified: myblog?.value?.published_at,

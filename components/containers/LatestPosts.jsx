@@ -20,7 +20,7 @@ export default function LatestPosts({ blog_list, imagePath }) {
               ?.toLowerCase()}`}
             image={
               item.image
-                ? `/images/${item.image}`
+                ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
                 : "/no-image.png"
             }
             author={item.author}
