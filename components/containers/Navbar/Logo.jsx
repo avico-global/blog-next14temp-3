@@ -16,7 +16,7 @@ const Logo = ({ logo, imagePath }) => {
     isItalic,
   } = logo.value;
 
-  const imageSrc = `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
+  const imageSrc = `/images/${logo.file_name}`;
 
   return (
     <Link

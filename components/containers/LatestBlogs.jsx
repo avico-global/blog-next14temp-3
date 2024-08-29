@@ -27,7 +27,7 @@ export default function LatestBlogs({ blogs, imagePath }) {
               content={item.articleContent}
               image={
                 item.image
-                  ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                  ? `/images/${item.image}`
                   : "/no-image.png"
               }
               href={`/${item.article_category.name

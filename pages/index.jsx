@@ -18,6 +18,7 @@ import {
   getDomain,
   getImagePath,
   robotsTxt,
+  downloadImages,
 } from "@/lib/myFun";
 
 // Font
@@ -66,19 +67,19 @@ export default function Home({
         <link
           rel="apple-touch-icon"
           sizes="180x180"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+          href={`/images/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+          href={`/images/${favicon}`}
         />
         <link
           rel="icon"
           type="image/png"
           sizes="16x16"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
+          href={`/images/${favicon}`}
         />
       </Head>
 
@@ -105,7 +106,7 @@ export default function Home({
                   <Banner
                     key={index}
                     data={banner.value}
-                    image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
+                    image={`/images/${banner?.file_name}`}
                   />
                 );
 
@@ -138,7 +139,7 @@ export default function Home({
                                 content={item.articleContent}
                                 image={
                                   item.image
-                                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                    ? `/images/${item.image}`
                                     : "/no-image.png"
                                 }
                                 href={`/${item?.article_category?.name
@@ -166,7 +167,7 @@ export default function Home({
                                   content={item.articleContent}
                                   image={
                                     item.image
-                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                      ? `/images/${item.image}`
                                       : "/no-image.png"
                                   }
                                   href={`/${item?.article_category?.name
@@ -193,7 +194,7 @@ export default function Home({
                                   content={item.articleContent}
                                   image={
                                     item.image
-                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                      ? `/images/${item.image}`
                                       : "/no-image.png"
                                   }
                                   href={`/${item?.article_category?.name
@@ -257,7 +258,7 @@ export default function Home({
               inLanguage: "en-US",
               primaryImageOfPage: {
                 "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`,
+                url: `/images/${banner?.file_name}`,
                 width: 1920,
                 height: 1080,
               },
@@ -295,7 +296,7 @@ export default function Home({
               url: `http://${domain}/`,
               logo: {
                 "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
+                url: `/images/${logo.file_name}`,
                 width: logo.width,
                 height: logo.height,
               },
@@ -324,7 +325,7 @@ export default function Home({
                   dateModified: blog.dateModified,
                   image: {
                     "@type": "ImageObject",
-                    url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${blog.imagePath}/${blog.imageFileName}`,
+                    url: `/images/${blog.imageFileName}`,
                     width: blog.imageWidth,
                     height: blog.imageHeight,
                   },
@@ -359,6 +360,7 @@ export async function getServerSideProps({ req }) {
     domain,
     type: "contact_details",
   });
+  downloadImages({domain});
   const about_me = await callBackendApi({ domain, type: "about_me" });
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });

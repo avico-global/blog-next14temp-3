@@ -19,7 +19,7 @@ export default function PopularPosts({ blog_list, imagePath }) {
                 ?.toLowerCase()}`}
               image={
                 item.image
-                  ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                  ? `/images/${item.image}`
                   : "/no-image.png"
               }
               author={item.author}
