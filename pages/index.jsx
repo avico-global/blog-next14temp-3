@@ -28,6 +28,7 @@ const myFont = Raleway({
 });
 
 export default function Home({
+  testData,
   logo,
   blog_list,
   imagePath,
@@ -44,7 +45,7 @@ export default function Home({
   nav_type,
 }) {
   const page = layout?.find((page) => page.page === "home");
-  console.log("Page", page?.widgets);
+  console.log("testData", page?.widgets, testData);
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -360,7 +361,7 @@ export async function getServerSideProps({ req }) {
     domain,
     type: "contact_details",
   });
-  downloadImages({domain});
+  const testData=await downloadImages({domain});
   const about_me = await callBackendApi({ domain, type: "about_me" });
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });
@@ -376,6 +377,7 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
+      testData,
       domain,
       imagePath,
       meta: meta?.data[0]?.value || null,
