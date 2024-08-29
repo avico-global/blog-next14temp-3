@@ -18,7 +18,6 @@ import {
   getDomain,
   getImagePath,
   robotsTxt,
-  downloadImages,
 } from "@/lib/myFun";
 
 // Font
