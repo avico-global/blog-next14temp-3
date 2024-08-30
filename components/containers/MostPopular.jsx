@@ -60,7 +60,7 @@ function BlogCard({ title, image, href, category, imageTitle, altImage }) {
           height={195}
           loading="lazy"
           sizes="400px, 300px"
-          className="w-full h-full object-cover absolute top-0 hover:scale-110 transition-all"
+          className="w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-all"
         />
       </Link>
       <Link href={`/${category?.toLowerCase().replaceAll(" ", "-")}`}>
