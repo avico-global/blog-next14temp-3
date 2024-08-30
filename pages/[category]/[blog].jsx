@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import FullContainer from "@/components/common/FullContainer";
 import Rightbar from "@/components/containers/Rightbar";
 import Container from "@/components/common/Container";
@@ -43,6 +43,21 @@ export default function Blog({
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(myblog?.value?.articleContent || "");
   const breadcrumbs = useBreadcrumbs();
+
+  useEffect(() => {
+    if (
+      category.includes("%20") ||
+      category.includes(" ") ||
+      blog.includes("%20") ||
+      blog.includes(" ", "-")
+    ) {
+      const newCategory = category
+        ?.replaceAll(/%20/g, "-")
+        ?.replaceAll(" ", "-");
+      const newBlog = blog?.replaceAll(/%20/g, "-")?.replaceAll(" ", "-");
+      router.replace(`/${newCategory}/${newBlog}`);
+    }
+  }, [category, router, blog]);
 
   const page = layout?.find((page) => page.page === "blog page");
 

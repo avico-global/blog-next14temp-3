@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Footer from "@/components/containers/Footer";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
@@ -38,6 +38,7 @@ export default function Categories({
 }) {
   const router = useRouter();
   const { category } = router.query;
+
   const breadcrumbs = useBreadcrumbs();
 
   const filteredBlogList = blog_list.filter((item) => {
@@ -49,6 +50,22 @@ export default function Categories({
       item.articleContent.toLowerCase().includes(searchContent)
     );
   });
+
+  useEffect(() => {
+    const currentPath = router.asPath;
+
+    if (category && (category.includes("%20") || category.includes(" "))) {
+      const newCategory = category.replace(/%20/g, "-").replace(/ /g, "-");
+      router.replace(`/${newCategory}`);
+    }
+
+    if (currentPath.includes("contact-us")) {
+      router.replace("/contact");
+    }
+    if (currentPath.includes("about-us")) {
+      router.replace("/about");
+    }
+  }, [category, router]);
 
   const page = layout?.find((page) => page.page === "category");
 
@@ -316,6 +333,7 @@ export default function Categories({
 
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
+  const { category } = query;
 
   const logo = await callBackendApi({
     domain,
@@ -323,7 +341,6 @@ export async function getServerSideProps({ req, query }) {
     type: "logo",
   });
   const favicon = await callBackendApi({ domain, query, type: "favicon" });
-
   const banner = await callBackendApi({ domain, query, type: "banner" });
   const footer_text = await callBackendApi({
     domain,
@@ -353,8 +370,19 @@ export async function getServerSideProps({ req, query }) {
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
-  let imagePath = null;
-  imagePath = await getImagePath(project_id, domain);
+  let imagePath = await getImagePath(project_id, domain);
+
+  // Check if the category exists in the list of categories
+  const categoryExists = categories?.data[0]?.value?.some(
+    (cat) =>
+      cat?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
+  );
+
+  if (!categoryExists) {
+    return {
+      notFound: true,
+    };
+  }
 
   return {
     props: {

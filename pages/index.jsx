@@ -34,7 +34,6 @@ export default function Home({
   domain,
   meta,
   about_me,
-  copyright,
   contact_details,
   banner,
   favicon,
@@ -365,7 +364,7 @@ export async function getServerSideProps({ req }) {
   const banner = await callBackendApi({ domain, type: "banner" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
-  const nav_type = await callBackendApi({ domain, type: "nav_type" });  
+  const nav_type = await callBackendApi({ domain, type: "nav_type" });
   let imagePath = null;
   imagePath = await getImagePath(project_id, domain);
 

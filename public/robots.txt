@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+sitemap: https://www.custom-wheels-car-rims.com/sitemap.xml

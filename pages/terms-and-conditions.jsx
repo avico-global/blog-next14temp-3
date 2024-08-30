@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // Components
 import Container from "@/components/common/Container";
@@ -12,10 +12,9 @@ import Breadcrumbs from "@/components/common/Breadcrumbs";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
 import Head from "next/head";
-
-// Font
 import { Raleway } from "next/font/google";
 import JsonLd from "@/components/json/JsonLd";
+import { useRouter } from "next/router";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -28,8 +27,6 @@ export default function Terms({
   blog_list,
   categories,
   meta,
-  copyright,
-  about_me,
   contact_details,
   terms,
   layout,
@@ -38,6 +35,14 @@ export default function Terms({
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(terms || "");
   const breadcrumbs = useBreadcrumbs();
+  const router = useRouter();
+  const currentPath = router.pathname;
+
+  useEffect(() => {
+    if (currentPath.includes("%20") || currentPath.includes(" ")) {
+      router.replace("/privacy-policy");
+    }
+  }, [currentPath, router]);
 
   const page = layout?.find((page) => page.page === "terms");
 
@@ -171,11 +176,6 @@ export default function Terms({
               name: domain,
               description: meta?.description,
               inLanguage: "en-US",
-              // potentialAction: {
-              //   "@type": "SearchAction",
-              //   target: `http://${domain}/search?q={search_term_string}`,
-              //   "query-input": "required name=search_term_string",
-              // },
               publisher: {
                 "@type": "Organization",
                 "@id": `http://${domain}`,
@@ -230,8 +230,6 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "contact_details",
   });
-  const about_me = await callBackendApi({ domain, query, type: "about_me" });
-  const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const terms = await callBackendApi({ domain, query, type: "terms" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
@@ -250,8 +248,6 @@ export async function getServerSideProps({ req, query }) {
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
-      copyright: copyright?.data[0].value || null,
-      about_me: about_me?.data[0] || null,
       contact_details: contact_details?.data[0]?.value || null,
       terms: terms?.data[0]?.value || "",
       nav_type: nav_type?.data[0]?.value || {},

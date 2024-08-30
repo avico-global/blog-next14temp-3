@@ -26,7 +26,7 @@ export default function AboutBanner({ image }) {
             myFont.className
           )}
         >
-          About Me
+          About Us
         </h1>
       </Container>
     </FullContainer>

@@ -1,9 +1,10 @@
+import React from "react";
+import Head from "next/head";
+
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import Footer from "@/components/containers/Footer";
 import Navbar from "@/components/containers/Navbar";
-import Head from "next/head";
-import React from "react";
 import Map from "@/components/containers/Map";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
@@ -22,9 +23,7 @@ export default function Contact({
   logo,
   imagePath,
   blog_list,
-  about_me,
   categories,
-  copyright,
   contact_details,
   meta,
   domain,
@@ -245,8 +244,6 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "categories",
   });
-  const about_me = await callBackendApi({ domain, query, type: "about_me" });
-  const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const meta = await callBackendApi({ domain, query, type: "meta_contact" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
@@ -264,8 +261,6 @@ export async function getServerSideProps({ req, query }) {
       layout: layout?.data[0]?.value || null,
       contact_details: contact_details.data[0].value,
       categories: categories?.data[0]?.value || null,
-      about_me: about_me.data[0] || null,
-      copyright: copyright.data[0].value || null,
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       nav_type: nav_type?.data[0]?.value || {},

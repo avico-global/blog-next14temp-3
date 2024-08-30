@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 // Components
 import Container from "@/components/common/Container";
@@ -25,8 +25,6 @@ export default function PriavcyPolicy({
   blog_list,
   categories,
   meta,
-  copyright,
-  about_me,
   contact_details,
   policy,
   layout,
@@ -35,6 +33,14 @@ export default function PriavcyPolicy({
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(policy || "");
   const breadcrumbs = useBreadcrumbs();
+  const router = useRouter();
+  const currentPath = router.pathname;
+
+  useEffect(() => {
+    if (currentPath.includes("%20") || currentPath.includes(" ")) {
+      router.replace("/privacy-policy");
+    }
+  }, [currentPath, router]);
 
   const page = layout?.find((page) => page.page === "privacy policy");
 
@@ -212,6 +218,7 @@ import path from "path";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
 import JsonLd from "@/components/json/JsonLd";
+import { useRouter } from "next/router";
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
 
@@ -233,8 +240,6 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "contact_details",
   });
-  const about_me = await callBackendApi({ domain, query, type: "about_me" });
-  const copyright = await callBackendApi({ domain, query, type: "copyright" });
   const terms = await callBackendApi({ domain, query, type: "terms" });
   const policy = await callBackendApi({ domain, query, type: "policy" });
   const layout = await callBackendApi({ domain, type: "layout" });
@@ -254,8 +259,6 @@ export async function getServerSideProps({ req, query }) {
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,
-      copyright: copyright?.data[0].value || null,
-      about_me: about_me?.data[0] || null,
       contact_details: contact_details?.data[0]?.value,
       terms: terms?.data[0]?.value || "",
       policy: policy?.data[0]?.value || "",
