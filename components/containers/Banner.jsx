@@ -4,6 +4,7 @@ import Container from "../common/Container";
 import Image from "next/image";
 
 export default function Banner({ image, data }) {
+  console.log("👊 ~ Banner ~ image:", image)
   return (
     <FullContainer
       className="min-h-[63vh] overflow-hidden p-10 text-center"
