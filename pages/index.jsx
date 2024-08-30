@@ -15,6 +15,7 @@ import BlogCard from "@/components/common/BlogCard";
 
 import {
   callBackendApi,
+  downloadImages,
   getDomain,
   getImagePath,
   robotsTxt,
@@ -40,7 +41,9 @@ export default function Home({
   layout,
   tag_list,
   nav_type,
+  testData
 }) {
+  console.log("👊 ~ testData:", testData)
   const page = layout?.find((page) => page.page === "home");
 
   return (
@@ -358,7 +361,8 @@ export async function getServerSideProps({ req }) {
     type: "contact_details",
   });
   let project_id = logo?.data[0]?.project_id || null;
-  // const testData=await downloadImages({domain, project_id});
+  const testData=await downloadImages({domain, project_id});
+  console.log("👊 ~ getServerSideProps ~ testData:", testData)
   const about_me = await callBackendApi({ domain, type: "about_me" });
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });
@@ -372,6 +376,7 @@ export async function getServerSideProps({ req }) {
 
   return {
     props: {
+      testData,
       domain,
       imagePath,
       meta: meta?.data[0]?.value || null,
