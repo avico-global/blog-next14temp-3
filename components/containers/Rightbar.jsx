@@ -5,6 +5,7 @@ import Link from "next/link";
 import MarkdownIt from "markdown-it";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
+import { Button } from "../ui/button";
 
 const md = new MarkdownIt();
 
@@ -47,7 +48,7 @@ export default function Rightbar({
         className="mt-3"
         dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
       />
-      <p className="mt-3 underline text-sm font-bold">More about me?</p>
+      <p className="mt-3 underline font-bold">More about Us?</p>
     </Link>
   );
 
@@ -78,7 +79,7 @@ export default function Rightbar({
     <div className="border pt-5 px-4 flex flex-col items-center text-center">
       <h2 className="bg-white px-5 font-bold text-lg -mt-9">Article Tags</h2>
       <div className="flex items-center flex-wrap w-full text-left px-2 py-4 gap-2">
-        {tag_list.map((item, index) => (
+        {tag_list?.slice(0, 10)?.map((item, index) => (
           <Link
             key={index}
             title={item.tag}
@@ -94,6 +95,13 @@ export default function Rightbar({
           </Link>
         ))}
       </div>
+      <Link
+        title="Click to see all tags"
+        href="/tags"
+        className="my-3 underline font-bold"
+      >
+        Click To See All Tags
+      </Link>
     </div>
   );
 
