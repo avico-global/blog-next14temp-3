@@ -153,60 +153,67 @@ export default function Home({
 
                           <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
                             <div className="flex flex-col gap-10">
-                              {blog_list?.slice(0, 4).map((item, index) => (
-                                <BlogCard
-                                  key={index}
-                                  index={index}
-                                  title={item.title}
-                                  author={item.author}
-                                  published_at={item.published_at}
-                                  tagline={item.tagline}
-                                  content={item.articleContent}
-                                  image={
-                                    item.image
-                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                                      : "/no-image.png"
-                                  }
-                                  href={`/${item?.article_category?.name
-                                    ?.toLowerCase()
-                                    ?.replaceAll(" ", "-")}/${item?.title
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}`}
-                                  category={item?.article_category?.name}
-                                  imageHeight="h-72 md:h-[420px]"
-                                  imageTitle={item.imageTitle}
-                                  altImage={item.altImage}
-                                />
-                              ))}
+                              {blog_list
+                                ?.slice(0, blog_list?.length > 7 ? 4 : 2)
+                                .map((item, index) => (
+                                  <BlogCard
+                                    key={index}
+                                    index={index}
+                                    title={item.title}
+                                    author={item.author}
+                                    published_at={item.published_at}
+                                    tagline={item.tagline}
+                                    content={item.articleContent}
+                                    image={
+                                      item.image
+                                        ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                        : "/no-image.png"
+                                    }
+                                    href={`/${item?.article_category?.name
+                                      ?.toLowerCase()
+                                      ?.replaceAll(" ", "-")}/${item?.title
+                                      ?.replaceAll(" ", "-")
+                                      ?.toLowerCase()}`}
+                                    category={item?.article_category?.name}
+                                    imageHeight="h-72 md:h-[420px]"
+                                    imageTitle={item.imageTitle}
+                                    altImage={item.altImage}
+                                  />
+                                ))}
                             </div>
                             <div className="flex flex-col gap-10">
-                              {blog_list?.slice(5, 9).map((item, index) => (
-                                <BlogCard
-                                  key={index}
-                                  index={index}
-                                  title={item.title}
-                                  author={item.author}
-                                  published_at={item.published_at}
-                                  tagline={item.tagline}
-                                  content={item.articleContent}
-                                  image={
-                                    item.image
-                                      ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                                      : "/no-image.png"
-                                  }
-                                  href={`/${item?.article_category?.name
-                                    ?.toLowerCase()
-                                    ?.replaceAll(" ", "-")}/${item?.title
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}`}
-                                  category={item?.article_category?.name}
-                                  imageHeight={
-                                    index === 0 ? "h-40" : "h-72 md:h-[410px]"
-                                  }
-                                  imageTitle={item.imageTitle}
-                                  altImage={item.altImage}
-                                />
-                              ))}
+                              {blog_list
+                                ?.slice(
+                                  blog_list?.length > 7 ? 5 : 2,
+                                  blog_list?.length > 7 ? 9 : 4
+                                )
+                                .map((item, index) => (
+                                  <BlogCard
+                                    key={index}
+                                    index={index}
+                                    title={item.title}
+                                    author={item.author}
+                                    published_at={item.published_at}
+                                    tagline={item.tagline}
+                                    content={item.articleContent}
+                                    image={
+                                      item.image
+                                        ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                        : "/no-image.png"
+                                    }
+                                    href={`/${item?.article_category?.name
+                                      ?.toLowerCase()
+                                      ?.replaceAll(" ", "-")}/${item?.title
+                                      ?.replaceAll(" ", "-")
+                                      ?.toLowerCase()}`}
+                                    category={item?.article_category?.name}
+                                    imageHeight={
+                                      index === 0 ? "h-40" : "h-72 md:h-[410px]"
+                                    }
+                                    imageTitle={item.imageTitle}
+                                    altImage={item.altImage}
+                                  />
+                                ))}
                             </div>
                           </div>
                         </div>
