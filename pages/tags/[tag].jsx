@@ -50,8 +50,8 @@ export default function Categories({
     const currentPath = router.asPath;
 
     if (tag && (tag.includes("%20") || tag.includes(" "))) {
-      const newTag = tag.replace(/%20/g, "-").replace(/ /g, "-");
-      router.replace(`/${newTag}`);
+      const newTag = tag.replaceAll(/%20/g, "-").replaceAll(/ /g, "-");
+      router.replace(`/tags/${newTag}`);
     }
 
     if (currentPath.includes("contact-us")) {
@@ -357,8 +357,12 @@ export async function getServerSideProps({ req, query }) {
   let imagePath = await getImagePath(project_id, domain);
 
   const tagExists = tag_list?.data[0]?.value?.some(
-    (t) => t?.tag?.toLowerCase() === tag?.replaceAll("-", " ")?.toLowerCase()
+    (t) =>
+      t?.tag?.toLowerCase()?.replaceAll(" ", "-") ===
+      tag?.toLowerCase()?.replaceAll(" ", "-")
   );
+
+  console.log("Tag", tag?.toLowerCase()?.replaceAll(" ", "-"));
 
   if (!tagExists) {
     return {

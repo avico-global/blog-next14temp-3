@@ -47,7 +47,7 @@ export default function Tags({
         <Link
           key={index}
           title={item.tag}
-          href={`/tags/${item.tag?.replace(" ", "-").toLowerCase()}`}
+          href={`/tags/${item.tag?.replaceAll(" ", "-").toLowerCase()}`}
           className="bg-gray-200 hover:bg-gray-400 transition-all cursor-pointer rounded py-2 px-4 flex items-center gap-2"
         >
           {item.tag}
