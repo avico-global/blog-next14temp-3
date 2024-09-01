@@ -43,12 +43,7 @@ export default function Categories({
 
   const filteredBlogList = blog_list.filter((item) => {
     const searchContent = category?.replaceAll("-", " ")?.toLowerCase();
-    return (
-      item.title.toLowerCase().includes(searchContent) ||
-      item.article_category.name.toLowerCase().includes(searchContent) ||
-      item.tags?.some((tag) => tag.toLowerCase().includes(searchContent)) ||
-      item.articleContent.toLowerCase().includes(searchContent)
-    );
+    return item.article_category.name.toLowerCase().includes(searchContent);
   });
 
   useEffect(() => {
@@ -373,8 +368,7 @@ export async function getServerSideProps({ req, query }) {
   let imagePath = await getImagePath(project_id, domain);
 
   const categoryExists = categories?.data[0]?.value?.some(
-    (cat) =>
-      cat?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
+    (cat) => cat?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
   );
 
   if (!categoryExists) {

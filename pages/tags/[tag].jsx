@@ -80,7 +80,7 @@ export default function Categories({
         />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
-        <link rel="canonical" href={`https://www.${domain}/${category}`} />
+        <link rel="canonical" href={`https://www.${domain}/${tag}`} />
         {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
@@ -177,10 +177,10 @@ export default function Categories({
                                 </Link>
                                 <Link
                                   title={item?.title || "Article Link"}
-                                  href={`/${category
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}/${item?.title
-                                    ?.replaceAll(" ", "-")
+                                  href={`/${item.article_category.name
+                                    ?.toLowerCase()
+                                    ?.replaceAll(" ", "-")}/${item.title
+                                    ?.replace(/ /g, "-")
                                     ?.toLowerCase()}`}
                                 >
                                   <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
@@ -228,7 +228,6 @@ export default function Categories({
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    category={category}
                   />
                 );
               default:
@@ -243,8 +242,8 @@ export default function Categories({
           "@graph": [
             {
               "@type": "WebPage",
-              "@id": `http://${domain}/${category}`,
-              url: `http://${domain}/${category}`,
+              "@id": `http://${domain}/${tag}`,
+              url: `http://${domain}/${tag}`,
               name: meta?.title,
               isPartOf: {
                 "@id": `http://${domain}`,
