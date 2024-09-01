@@ -37,7 +37,7 @@ export default function Categories({
   nav_type,
 }) {
   const router = useRouter();
-  const { category, tag } = router.query;
+  const { tag } = router.query;
 
   const breadcrumbs = useBreadcrumbs();
 
@@ -80,7 +80,7 @@ export default function Categories({
         />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
-        <link rel="canonical" href={`https://www.${domain}/${tag}`} />
+        <link rel="canonical" href={`https://www.${domain}/tags/${tag}`} />
         {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
