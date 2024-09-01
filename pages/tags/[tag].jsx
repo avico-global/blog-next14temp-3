@@ -42,7 +42,7 @@ export default function Categories({
   const breadcrumbs = useBreadcrumbs();
 
   const filteredBlogList = blog_list.filter((item) => {
-    const searchContent = tag?.toLowerCase();
+    const searchContent = tag?.replaceAll("-", " ")?.toLowerCase();
     return item.tags?.some((tag) => tag.toLowerCase().includes(searchContent));
   });
 
@@ -140,7 +140,7 @@ export default function Categories({
                       <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
                         <div>
                           <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
-                            Tag: {tag}
+                            Tag: {tag?.replaceAll("-", " ")}
                           </h1>
                           {filteredBlogList?.length > 0 ? (
                             ""
