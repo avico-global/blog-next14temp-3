@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Head from "next/head";
 import Footer from "@/components/containers/Footer";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
-import Image from "next/image";
 import FullContainer from "@/components/common/FullContainer";
 import Container from "@/components/common/Container";
 import { useRouter } from "next/router";
-import dayjs from "dayjs";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
@@ -87,7 +85,7 @@ export default function Tags({
         />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
-        <link rel="canonical" href={`https://www.${domain}/${category}`} />
+        <link rel="canonical" href={`https://www.${domain}/tags`} />
         {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
         <link rel="manifest" href="/manifest.json" />
