@@ -8,7 +8,6 @@ const BlogCard = ({
   title,
   image,
   href,
-  category,
   published_at,
   content,
   className,
@@ -37,12 +36,6 @@ const BlogCard = ({
         />
       </Link>
       <div className="flex flex-col items-center gap-2 mt-3">
-        {/* <p className="italic text-xs w-fit text-center text-gray-400">
-          in
-          <span className="uppercase text-blue-700 font-medium ml-2 text-xs">
-            {category}
-          </span>
-        </p> */}
         <Link title={title || "Article Link"} href={href || ""}>
           <h2 className="font-extrabold md:text-lg leading-tight hover:underline">
             {title}

@@ -10,11 +10,11 @@ import Style4 from "./Style4";
 
 const Navbar = ({
   logo,
+  nav_type,
+  imagePath,
   blog_list,
   categories,
   category,
-  imagePath,
-  nav_type,
 }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [openSearch, setOpenSearch] = useState(false);

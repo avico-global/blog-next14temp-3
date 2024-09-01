@@ -43,20 +43,15 @@ export default function Categories({
 
   const filteredBlogList = blog_list.filter((item) => {
     const searchContent = tag?.toLowerCase();
-    return (
-      item.title.toLowerCase().includes(searchContent) ||
-      item.article_category.name.toLowerCase().includes(searchContent) ||
-      item.tags?.some((tag) => tag.toLowerCase().includes(searchContent)) ||
-      item.articleContent.toLowerCase().includes(searchContent)
-    );
+    return item.tags?.some((tag) => tag.toLowerCase().includes(searchContent));
   });
 
   useEffect(() => {
     const currentPath = router.asPath;
 
-    if (category && (category.includes("%20") || category.includes(" "))) {
-      const newCategory = category.replace(/%20/g, "-").replace(/ /g, "-");
-      router.replace(`/${newCategory}`);
+    if (tag && (tag.includes("%20") || tag.includes(" "))) {
+      const newTag = tag.replace(/%20/g, "-").replace(/ /g, "-");
+      router.replace(`/${newTag}`);
     }
 
     if (currentPath.includes("contact-us")) {
@@ -65,7 +60,7 @@ export default function Categories({
     if (currentPath.includes("about-us")) {
       router.replace("/about");
     }
-  }, [category, router]);
+  }, [tag, router]);
 
   const page = layout?.find((page) => page.page === "Tag Page");
 
@@ -125,11 +120,9 @@ export default function Categories({
                     key={index}
                     logo={logo}
                     nav_type={nav_type}
-                    category={category}
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
-                    contact_details={contact_details}
                   />
                 );
               case "breadcrumbs":
@@ -153,7 +146,7 @@ export default function Categories({
                             ""
                           ) : (
                             <div className="flex items-center justify-center border px-10 py-40 text-lg bg-gray-200">
-                              No articles found related to {category}
+                              No articles found related to {tag}
                             </div>
                           )}
                           <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -161,10 +154,10 @@ export default function Categories({
                               <div key={index}>
                                 <Link
                                   title={item?.title || "Article Link"}
-                                  href={`/${category
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}/${item?.title
-                                    ?.replaceAll(" ", "-")
+                                  href={`/${item.article_category.name
+                                    ?.toLowerCase()
+                                    ?.replaceAll(" ", "-")}/${item.title
+                                    ?.replace(/ /g, "-")
                                     ?.toLowerCase()}`}
                                 >
                                   <div className="overflow-hidden relative min-h-40 rounded lg:min-h-52 w-full bg-black flex-1">
@@ -355,7 +348,7 @@ export async function getServerSideProps({ req, query }) {
     query,
     type: "categories",
   });
-  const meta = await callBackendApi({ domain, query, type: "meta_category" });
+  const meta = await callBackendApi({ domain, query, type: "meta_tag" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
