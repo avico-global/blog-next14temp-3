@@ -83,7 +83,7 @@ export default function Rightbar({
           <Link
             key={index}
             title={item.tag}
-            href={`/${item.tag?.replace(" ", "-").toLowerCase()}`}
+            href={`/tags/${item.tag?.replace(" ", "-").toLowerCase()}`}
             className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-sm px-2"
           >
             {item.tag}

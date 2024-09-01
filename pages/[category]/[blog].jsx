@@ -329,23 +329,30 @@ export default function Blog({
   );
 }
 
-export async function getServerSideProps({ params, req }) {
+export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
+  const { category, blog } = query;
+
   const categories = await callBackendApi({ domain, type: "categories" });
   const blog_list = await callBackendApi({ domain, type: "blog_list" });
 
   const isValidBlog = blog_list?.data[0]?.value?.find(
-    (item) => item.title?.replaceAll(" ", "-")?.toLowerCase() === params.blog
+    (item) =>
+      item.title?.replaceAll(" ", "-")?.toLowerCase() ===
+      blog?.replaceAll(" ", "-")
   );
 
-  // if (!isValidBlog) {
-  //   return {
-  //     notFound: true,
-  //   };
-  // }
+  const categoryExists = categories?.data[0]?.value?.some(
+    (cat) => cat?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
+  );
 
-  const blog = await callBackendApi({ domain, type: isValidBlog?.key });
+  if (!categoryExists || !isValidBlog) {
+    return {
+      notFound: true,
+    };
+  }
 
+  const myblog = await callBackendApi({ domain, type: isValidBlog?.key });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const logo = await callBackendApi({ domain, type: "logo" });
   const favicon = await callBackendApi({ domain, type: "favicon" });
@@ -359,16 +366,14 @@ export async function getServerSideProps({ params, req }) {
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
-  let imagePath = null;
-
-  imagePath = await getImagePath(project_id, domain);
+  let imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
       logo: logo?.data[0] || null,
-      myblog: blog?.data[0] || {},
+      myblog: myblog?.data[0] || {},
       layout: layout?.data[0]?.value || null,
       blog_list: blog_list.data[0]?.value || null,
       tag_list: tag_list?.data[0]?.value || null,

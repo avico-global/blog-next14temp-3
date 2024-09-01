@@ -37,12 +37,12 @@ export default function Categories({
   nav_type,
 }) {
   const router = useRouter();
-  const { category } = router.query;
+  const { category, tag } = router.query;
 
   const breadcrumbs = useBreadcrumbs();
 
   const filteredBlogList = blog_list.filter((item) => {
-    const searchContent = category?.replaceAll("-", " ")?.toLowerCase();
+    const searchContent = tag?.toLowerCase();
     return (
       item.title.toLowerCase().includes(searchContent) ||
       item.article_category.name.toLowerCase().includes(searchContent) ||
@@ -67,7 +67,7 @@ export default function Categories({
     }
   }, [category, router]);
 
-  const page = layout?.find((page) => page.page === "category");
+  const page = layout?.find((page) => page.page === "Tag Page");
 
   return (
     <div
@@ -78,18 +78,10 @@ export default function Categories({
     >
       <Head>
         <meta charSet="UTF-8" />
-        <title>
-          {meta?.title?.replaceAll(
-            "##category##",
-            category?.replaceAll("-", " ")
-          )}
-        </title>
+        <title>{meta?.title?.replaceAll("##tag##", tag)}</title>
         <meta
           name="description"
-          content={meta?.description.replaceAll(
-            "##category##",
-            category?.replaceAll("-", " ")
-          )}
+          content={meta?.description.replaceAll("##tag##", tag)}
         />
         <link rel="author" href={`https://www.${domain}`} />
         <link rel="publisher" href={`https://www.${domain}`} />
@@ -148,14 +140,14 @@ export default function Categories({
                     </Container>
                   </FullContainer>
                 );
-              case "search result":
+              case "page result":
                 return (
                   <FullContainer key={index} className="mb-12">
                     <Container>
                       <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
                         <div>
                           <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
-                            Browsing: {category?.replaceAll("-", " ")}
+                            Tag: {tag}
                           </h1>
                           {filteredBlogList?.length > 0 ? (
                             ""
@@ -333,7 +325,7 @@ export default function Categories({
 
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
-  const { category } = query;
+  const { tag } = query;
 
   const logo = await callBackendApi({
     domain,
@@ -372,12 +364,11 @@ export async function getServerSideProps({ req, query }) {
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = await getImagePath(project_id, domain);
 
-  const categoryExists = categories?.data[0]?.value?.some(
-    (cat) =>
-      cat?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
+  const tagExists = tag_list?.data[0]?.value?.some(
+    (t) => t?.tag?.toLowerCase() === tag?.replaceAll("-", " ")?.toLowerCase()
   );
 
-  if (!categoryExists) {
+  if (!tagExists) {
     return {
       notFound: true,
     };
