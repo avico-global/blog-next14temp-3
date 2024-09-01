@@ -258,7 +258,6 @@ export default function Tags({
 
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
-  const { category } = query;
 
   const logo = await callBackendApi({
     domain,
