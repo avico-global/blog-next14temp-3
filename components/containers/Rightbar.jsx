@@ -152,7 +152,7 @@ export default function Rightbar({
                   {item.title}
                 </p>
               </Link>
-              <div className="flex items-center gap-2 mt-1 justify-between text-gray-400">
+              <div className="flex items-center gap-2 mt-1 justify-between text-gray-500">
                 <p className="text-xs">{item.author}</p>
                 <p className="text-xs whitespace-nowrap">{item.published_at}</p>
               </div>
