@@ -49,7 +49,7 @@ function BlogCard({ title, image, href, category, imageTitle, altImage }) {
       <Link
         title={imageTitle || "Article Thumbnail"}
         href={href || ""}
-        className="relative overflow-hidden w-full h-[195px]"
+        className="relative overflow-hidden w-full"
       >
         <Image
           src={image}
@@ -59,8 +59,9 @@ function BlogCard({ title, image, href, category, imageTitle, altImage }) {
           width={298}
           height={195}
           loading="lazy"
-          sizes="400px, 300px"
-          className="w-full h-full object-cover absolute top-0 left-0 hover:scale-110 transition-all"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 300px"
+          layout="responsive"
+          className="w-full object-cover hover:scale-110 transition-all"
         />
       </Link>
       <Link href={`/${category?.toLowerCase().replaceAll(" ", "-")}`}>
