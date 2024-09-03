@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import Banner from "@/components/containers/Banner";
 import Container from "@/components/common/Container";
@@ -39,6 +39,17 @@ export default function Home({
   tag_list,
   nav_type,
 }) {
+  useEffect(() => {
+    fetch("/api/get-images")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Image files:", data.images);
+      })
+      .catch((error) => {
+        console.error("Error fetching image files:", error);
+      });
+  }, []);
+
   const page = layout?.find((page) => page.page === "home");
 
   const renderSections = () => {
