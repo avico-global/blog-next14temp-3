@@ -104,7 +104,8 @@ export default function Contact({
                     <Container>
                       {contact_details?.mapDetails?.mapUrl ? (
                         <LoadScript
-                          googleMapsApiKey={process.env.NEXT_MAP_API_KEY}
+                          // googleMapsApiKey={process.env.NEXT_MAP_API_KEY}
+                          googleMapsApiKey="AIzaSyAPeJFoV41Bq2QOImPkf3Dai8hP6aZ7MFg"
                         >
                           <GoogleMap
                             mapContainerClassName="h-[500px] w-full rouded-md"
