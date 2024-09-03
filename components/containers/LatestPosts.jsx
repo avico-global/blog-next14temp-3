@@ -18,11 +18,7 @@ export default function LatestPosts({ blog_list, imagePath }) {
               ?.replaceAll(" ", "-")}/${item?.title
               ?.replaceAll(" ", "-")
               ?.toLowerCase()}`}
-            image={
-              item.image
-                ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                : "/no-image.png"
-            }
+            image={item.image ? `/images/${item.image}` : "/no-image.png"}
             author={item.author}
             date={item.published_at}
             imageTitle={item.imageTitle}

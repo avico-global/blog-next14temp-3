@@ -121,6 +121,8 @@ export default function Home({
       : "Page Disabled, under maintenance";
   };
 
+  // `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+
   const renderBlogList = () => {
     return (
       <div className="grid grid-cols-2 gap-5 md:gap-10">
@@ -136,11 +138,7 @@ export default function Home({
                 published_at={item.published_at}
                 tagline={item.tagline}
                 content={item.articleContent}
-                image={
-                  item.image
-                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                    : "/no-image.png"
-                }
+                image={item.image ? `/images/${item.image}` : "/no-image.png"}
                 href={`/${item?.article_category?.name
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
@@ -168,11 +166,7 @@ export default function Home({
                 published_at={item.published_at}
                 tagline={item.tagline}
                 content={item.articleContent}
-                image={
-                  item.image
-                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                    : "/no-image.png"
-                }
+                image={item.image ? `/images/${item.image}` : "/no-image.png"}
                 href={`/${item?.article_category?.name
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
