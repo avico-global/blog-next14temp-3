@@ -75,7 +75,7 @@ export default function Home({
                 <Banner
                   key={index}
                   data={banner.value}
-                  image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
+                  image={`/images/${banner?.file_name}`}
                 />
               );
             case "most popular":
