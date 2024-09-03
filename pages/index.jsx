@@ -1,6 +1,4 @@
 import React from "react";
-
-// Components
 import Head from "next/head";
 import Banner from "@/components/containers/Banner";
 import Container from "@/components/common/Container";
@@ -15,12 +13,12 @@ import BlogCard from "@/components/common/BlogCard";
 
 import {
   callBackendApi,
+  downloadImagesIfNeeded,
   getDomain,
   getImagePath,
   robotsTxt,
 } from "@/lib/myFun";
 
-// Font
 import { Raleway } from "next/font/google";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
@@ -42,6 +40,143 @@ export default function Home({
   nav_type,
 }) {
   const page = layout?.find((page) => page.page === "home");
+
+  const renderSections = () => {
+    return page?.enable
+      ? page.sections.map((item, index) => {
+          if (!item.enable) return null;
+
+          switch (item.section?.toLowerCase()) {
+            case "navbar":
+              return (
+                <Navbar
+                  key={index}
+                  logo={logo}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  nav_type={nav_type}
+                  contact_details={contact_details}
+                />
+              );
+            case "banner":
+              return (
+                <Banner
+                  key={index}
+                  data={banner.value}
+                  image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
+                />
+              );
+            case "most popular":
+              return (
+                <MostPopular
+                  key={index}
+                  blog_list={blog_list}
+                  imagePath={imagePath}
+                />
+              );
+            case "articles":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+                      {renderBlogList(blog_list)}
+                      <Rightbar
+                        about_me={about_me}
+                        imagePath={imagePath}
+                        categories={categories}
+                        contact_details={contact_details}
+                        tag_list={tag_list}
+                        widgets={page?.widgets}
+                        blog_list={blog_list}
+                      />
+                    </div>
+                  </Container>
+                </FullContainer>
+              );
+            case "footer":
+              return (
+                <Footer
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                />
+              );
+            default:
+              return null;
+          }
+        })
+      : "Page Disabled, under maintenance";
+  };
+
+  const renderBlogList = () => {
+    return (
+      <div className="grid grid-cols-2 gap-5 md:gap-10">
+        <div className="flex flex-col gap-10">
+          {blog_list
+            ?.slice(0, blog_list?.length > 7 ? 4 : 2)
+            .map((item, index) => (
+              <BlogCard
+                key={index}
+                index={index}
+                title={item.title}
+                author={item.author}
+                published_at={item.published_at}
+                tagline={item.tagline}
+                content={item.articleContent}
+                image={
+                  item.image
+                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                    : "/no-image.png"
+                }
+                href={`/${item?.article_category?.name
+                  ?.toLowerCase()
+                  ?.replaceAll(" ", "-")}/${item?.title
+                  ?.replaceAll(" ", "-")
+                  ?.toLowerCase()}`}
+                category={item?.article_category?.name}
+                imageHeight="h-72 md:h-[420px]"
+                imageTitle={item.imageTitle}
+                altImage={item.altImage}
+              />
+            ))}
+        </div>
+        <div className="flex flex-col gap-10">
+          {blog_list
+            ?.slice(
+              blog_list?.length > 7 ? 5 : 2,
+              blog_list?.length > 7 ? 9 : 4
+            )
+            .map((item, index) => (
+              <BlogCard
+                key={index}
+                index={index}
+                title={item.title}
+                author={item.author}
+                published_at={item.published_at}
+                tagline={item.tagline}
+                content={item.articleContent}
+                image={
+                  item.image
+                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                    : "/no-image.png"
+                }
+                href={`/${item?.article_category?.name
+                  ?.toLowerCase()
+                  ?.replaceAll(" ", "-")}/${item?.title
+                  ?.replaceAll(" ", "-")
+                  ?.toLowerCase()}`}
+                category={item?.article_category?.name}
+                imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
+                imageTitle={item.imageTitle}
+                altImage={item.altImage}
+              />
+            ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className={`min-h-screen ${myFont.className}`}>
@@ -80,171 +215,7 @@ export default function Home({
         />
       </Head>
 
-      {page?.enable
-        ? page?.sections?.map((item, index) => {
-            if (!item.enable) return null;
-
-            switch (item.section?.toLowerCase()) {
-              case "navbar":
-                return (
-                  <Navbar
-                    key={index}
-                    logo={logo}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    nav_type={nav_type}
-                    contact_details={contact_details}
-                  />
-                );
-
-              case "banner":
-                return (
-                  <Banner
-                    key={index}
-                    data={banner.value}
-                    image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`}
-                  />
-                );
-
-              case "most popular":
-                return (
-                  <MostPopular
-                    key={index}
-                    blog_list={blog_list}
-                    imagePath={imagePath}
-                  />
-                );
-
-              case "articles":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                        <div>
-                          {blog_list
-                            ?.slice(-1)
-                            .reverse()
-                            .map((item, index) => (
-                              <BlogCard
-                                key={index}
-                                index={index}
-                                title={item.title}
-                                author={item.author}
-                                published_at={item.published_at}
-                                tagline={item.tagline}
-                                content={item.articleContent}
-                                image={
-                                  item.image
-                                    ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                                    : "/no-image.png"
-                                }
-                                href={`/${item?.article_category?.name
-                                  ?.toLowerCase()
-                                  ?.replaceAll(" ", "-")}/${item?.title
-                                  ?.replaceAll(" ", "-")
-                                  ?.toLowerCase()}`}
-                                category={item?.article_category?.name}
-                                imageHeight="h-96 lg:h-[420px]"
-                                imageTitle={item.imageTitle}
-                                altImage={item.altImage}
-                              />
-                            ))}
-
-                          <div className="grid grid-cols-2 gap-5 md:gap-10 mt-12">
-                            <div className="flex flex-col gap-10">
-                              {blog_list
-                                ?.slice(0, blog_list?.length > 7 ? 4 : 2)
-                                .map((item, index) => (
-                                  <BlogCard
-                                    key={index}
-                                    index={index}
-                                    title={item.title}
-                                    author={item.author}
-                                    published_at={item.published_at}
-                                    tagline={item.tagline}
-                                    content={item.articleContent}
-                                    image={
-                                      item.image
-                                        ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                                        : "/no-image.png"
-                                    }
-                                    href={`/${item?.article_category?.name
-                                      ?.toLowerCase()
-                                      ?.replaceAll(" ", "-")}/${item?.title
-                                      ?.replaceAll(" ", "-")
-                                      ?.toLowerCase()}`}
-                                    category={item?.article_category?.name}
-                                    imageHeight="h-72 md:h-[420px]"
-                                    imageTitle={item.imageTitle}
-                                    altImage={item.altImage}
-                                  />
-                                ))}
-                            </div>
-                            <div className="flex flex-col gap-10">
-                              {blog_list
-                                ?.slice(
-                                  blog_list?.length > 7 ? 5 : 2,
-                                  blog_list?.length > 7 ? 9 : 4
-                                )
-                                .map((item, index) => (
-                                  <BlogCard
-                                    key={index}
-                                    index={index}
-                                    title={item.title}
-                                    author={item.author}
-                                    published_at={item.published_at}
-                                    tagline={item.tagline}
-                                    content={item.articleContent}
-                                    image={
-                                      item.image
-                                        ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-                                        : "/no-image.png"
-                                    }
-                                    href={`/${item?.article_category?.name
-                                      ?.toLowerCase()
-                                      ?.replaceAll(" ", "-")}/${item?.title
-                                      ?.replaceAll(" ", "-")
-                                      ?.toLowerCase()}`}
-                                    category={item?.article_category?.name}
-                                    imageHeight={
-                                      index === 0 ? "h-40" : "h-72 md:h-[410px]"
-                                    }
-                                    imageTitle={item.imageTitle}
-                                    altImage={item.altImage}
-                                  />
-                                ))}
-                            </div>
-                          </div>
-                        </div>
-                        <Rightbar
-                          about_me={about_me}
-                          imagePath={imagePath}
-                          categories={categories}
-                          contact_details={contact_details}
-                          tag_list={tag_list}
-                          widgets={page?.widgets}
-                          blog_list={blog_list}
-                        />
-                      </div>
-                    </Container>
-                  </FullContainer>
-                );
-
-              case "footer":
-                return (
-                  <Footer
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                  />
-                );
-              default:
-                return null;
-            }
-          })
-        : "Page Disabled, under maintenance"}
+      {renderSections()}
 
       <JsonLd
         data={{
@@ -270,11 +241,6 @@ export default function Home({
                 "@type": "WebPage",
                 "@id": `http://${domain}/`,
               },
-              // potentialAction: {
-              //   "@type": "SearchAction",
-              //   target: `http://${domain}/search?q={search_term_string}`,
-              //   "query-input": "required name=search_term_string",
-              // },
             },
             {
               "@type": "WebSite",
@@ -283,11 +249,6 @@ export default function Home({
               name: domain,
               description: meta?.description,
               inLanguage: "en-US",
-              // potentialAction: {
-              //   "@type": "SearchAction",
-              //   target: `http://${domain}/search?q={search_term_string}`,
-              //   "query-input": "required name=search_term_string",
-              // },
               publisher: {
                 "@type": "Organization",
                 "@id": `http://${domain}`,
@@ -364,19 +325,41 @@ export async function getServerSideProps({ req }) {
     domain,
     type: "contact_details",
   });
-  let project_id = logo?.data[0]?.project_id || null;
-  // const testData=await downloadImages({domain, project_id});
-  // console.log("👊 ~ getServerSideProps ~ testData:", testData)
+  const project_id = logo?.data[0]?.project_id || null;
   const about_me = await callBackendApi({ domain, type: "about_me" });
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
-  let imagePath = null;
-  imagePath = await getImagePath(project_id, domain);
+  const all_data = await callBackendApi({ domain, type: "" });
+  const imagePath = await getImagePath(project_id, domain);
+
+  const imageUrls = [
+    {
+      type: "logo",
+      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.data[0]?.file_name}`,
+    },
+    {
+      type: "about_me",
+      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me?.data[0]?.file_name}`,
+    },
+    {
+      type: "favicon",
+      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon?.data[0]?.file_name}`,
+    },
+    {
+      type: "banner",
+      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.data[0]?.file_name}`,
+    },
+    ...blog_list?.data[0]?.value?.map((item) => ({
+      type: "blog",
+      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`,
+    })),
+  ].filter(({ url }) => Boolean(url)); // Ensure URLs are valid
 
   robotsTxt({ domain });
+  await downloadImagesIfNeeded(imageUrls);
 
   return {
     props: {
@@ -394,6 +377,7 @@ export async function getServerSideProps({ req }) {
       contact_details: contact_details?.data[0]?.value,
       nav_type: nav_type?.data[0]?.value || {},
       tag_list: tag_list?.data[0]?.value || null,
+      all_data,
     },
   };
 }

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import { data as imageMappings } from "@/public/images/imageMappings"; // Adjust the path if necessary
 
 const Logo = ({ logo, imagePath }) => {
   if (!logo || !logo.value) {
@@ -16,7 +17,9 @@ const Logo = ({ logo, imagePath }) => {
     isItalic,
   } = logo.value;
 
-  const imageSrc = `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
+  // Find the image URL from imageMappings for the logo
+  const logoMapping = imageMappings.find((item) => item.type === "logo");
+  const imageSrc = logoMapping.image;
 
   return (
     <Link
