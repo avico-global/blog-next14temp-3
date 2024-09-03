@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { data as imageMappings } from "@/public/images/imageMappings"; // Adjust the path if necessary
+import { data as imageMappings } from "@/public/images/imageMappings";
 
 const Logo = ({ logo, imagePath }) => {
   if (!logo || !logo.value) {
@@ -17,9 +17,13 @@ const Logo = ({ logo, imagePath }) => {
     isItalic,
   } = logo.value;
 
-  // Find the image URL from imageMappings for the logo
-  const logoMapping = imageMappings.find((item) => item.type === "logo");
-  const imageSrc = logoMapping.image;
+  const logoMapping = imageMappings?.find((item) => item.type === "logo");
+  console.log("Logo", logoMapping);
+  const imageSrc = logoMapping?.image;
+
+  // const imageSrc = logoMapping
+  // ? logoMapping.image
+  // : `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
 
   return (
     <Link
