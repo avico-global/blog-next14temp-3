@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { data as imageMappings } from "@/public/images/imageMappings";
+import { data } from "@/public/images/imageMappings";
 
 const Logo = ({ logo, imagePath }) => {
   if (!logo || !logo.value) {
@@ -17,7 +17,7 @@ const Logo = ({ logo, imagePath }) => {
     isItalic,
   } = logo.value;
 
-  const logoMapping = imageMappings?.find((item) => item.type === "logo");
+  const logoMapping = data?.find((item) => item.type === "logo");
   console.log("Logo", logoMapping);
   const imageSrc = logoMapping?.image;
 
