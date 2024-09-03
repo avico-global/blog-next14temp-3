@@ -1,42 +1,59 @@
 export const data = [
   {
-    "type": "logo",
-    "image": "/images/1722451927016-e5cqm4.png"
+    "image": "/images/1717878232733-9ykfv4.png"
   },
   {
-    "type": "about_me",
-    "image": "/images/1725343438509-2i1vxu.jpg"
+    "image": "/images/1718001384019-vtreyq.jpg"
   },
   {
-    "type": "favicon",
-    "image": "/images/1722452063953-fb26b7.jpg"
+    "image": "/images/1721744480254-v1amyk.png"
   },
   {
-    "type": "banner",
-    "image": "/images/1722862403823-c9j3tc.jpg"
+    "image": "/images/1719898785525-3gc5oq.jpg"
   },
   {
-    "type": "blog",
-    "image": "/images/1724865349495-z0611s.jpg"
+    "image": "/images/1718779275562-au0km0.jpg"
   },
   {
-    "type": "blog",
-    "image": "/images/1724866073205-1s0j5f.jpg"
+    "image": "/images/1718779947736-5tkar3.jpg"
   },
   {
-    "type": "blog",
-    "image": "/images/1724866299367-41elme.png"
+    "image": "/images/1718780143036-ybrqyu.jpg"
   },
   {
-    "type": "blog",
-    "image": "/images/1724866455067-u071yw.png"
+    "image": "/images/1718793235492-0810dk.jpg"
   },
   {
-    "type": "blog",
-    "image": "/images/1724866651651-681cr3.png"
+    "image": "/images/1718780492420-tc8mcr.jpg"
   },
   {
-    "type": "blog",
-    "image": "/images/1724866797066-pz93co.png"
+    "image": "/images/1718791493855-ihbqxq.jpg"
+  },
+  {
+    "image": "/images/1718791981461-7ytgo9.webp"
+  },
+  {
+    "image": "/images/1718792497340-7q9rlz.webp"
+  },
+  {
+    "image": "/images/1718792620373-6z3cjk.webp"
+  },
+  {
+    "image": "/images/1718792881683-bowrbe.webp"
+  },
+  {
+    "image": "/images/1718799220729-02z2le.webp"
+  },
+  {
+    "image": "/images/1718799316521-agrv8o.webp"
+  },
+  {
+    "image": "/images/1718799815823-w5va6e.webp"
+  },
+  {
+    "image": "/images/1718800286488-lw1jd0.webp"
+  },
+  {
+    "image": "/images/1718871355347-q0kljd.png"
   }
 ];

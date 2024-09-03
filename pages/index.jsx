@@ -346,31 +346,16 @@ export async function getServerSideProps({ req }) {
   const all_data = await callBackendApi({ domain, type: "" });
   const imagePath = await getImagePath(project_id, domain);
 
-  const imageUrls = [
-    {
-      type: "logo",
-      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo?.data[0]?.file_name}`,
-    },
-    {
-      type: "about_me",
-      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me?.data[0]?.file_name}`,
-    },
-    {
-      type: "favicon",
-      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon?.data[0]?.file_name}`,
-    },
-    {
-      type: "banner",
-      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.data[0]?.file_name}`,
-    },
-    ...blog_list?.data[0]?.value?.map((item) => ({
-      type: "blog",
-      url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`,
-    })),
-  ].filter(({ url }) => Boolean(url)); // Ensure URLs are valid
+  const imagesList = [
+    logo?.data[0]?.file_name,
+    about_me?.data[0]?.file_name,
+    favicon?.data[0]?.file_name,
+    banner?.data[0]?.file_name,
+    ...blog_list?.data[0]?.value?.map((item) => item.image),
+  ].filter(Boolean); // Corrected filtering to remove falsy values
 
+  await downloadImagesIfNeeded(imagesList, project_id);
   robotsTxt({ domain });
-  await downloadImagesIfNeeded(imageUrls);
 
   return {
     props: {
