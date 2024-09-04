@@ -75,7 +75,7 @@ export default function Home({
                 <Banner
                   key={index}
                   data={banner.value}
-                  image={`/img/1719898785525-3gc5oq.jpg`}
+                  image={`/images/${banner?.file_name}`}
                 />
               );
             case "most popular":
