@@ -52,3 +52,4 @@ public/images/*.webp
 
 # Allow the directory itself to be pushed
 !public/images/
+public/img/*

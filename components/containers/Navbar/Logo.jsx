@@ -16,7 +16,7 @@ const Logo = ({ logo }) => {
     isItalic,
   } = logo.value;
 
-  const imageSrc = `/images/${logo.file_name}`;
+  const imageSrc = `/img/${logo.file_name}`;
 
   // const imageSrc = logoMapping
   // ? logoMapping.image
