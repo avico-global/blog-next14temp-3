@@ -10,6 +10,7 @@ export default async function handler(req, res) {
   // Resolve the file path from the static_images directory
   const fullPath = path.resolve(`./static_images/${req.headers.host}/`, filename);
 
+  console.log("🚀 ~ handler ~ fullPath:", fullPath)
   try {
     // Check if the file exists
     if (fs.existsSync(fullPath)) {
