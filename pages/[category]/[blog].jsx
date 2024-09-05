@@ -132,7 +132,7 @@ export default function Blog({
                     }}
                   >
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`}
+                      src={`${imagePath}/${myblog?.file_name}`}
                       alt={myblog?.value.imageAltText || "No Banner found"}
                       title={myblog?.value.imageTitle || myblog?.value.title}
                       priority={true}

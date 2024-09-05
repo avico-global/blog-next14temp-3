@@ -102,9 +102,7 @@ export default function About({
                 );
               case "banner":
                 return (
-                  <AboutBanner
-                    image={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${about_me.file_name}`}
-                  />
+                  <AboutBanner image={`${imagePath}/${about_me.file_name}`} />
                 );
               case "breadcrumbs":
                 return (
