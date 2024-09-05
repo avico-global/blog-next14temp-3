@@ -8,7 +8,7 @@ export default async function handler(req, res) {
   const { filename } = req.query;
 
   // Resolve the file path from the static_images directory
-  const fullPath = path.resolve(`./static_images/${req.headers.host.replace(/^www\./, "")}`, filename);
+  const fullPath = path.resolve(`./public/static_images/${req.headers.host.replace(/^www\./, "")}`, filename);
 
   console.log("🚀 ~ handler ~ fullPath:", fullPath)
   try {
