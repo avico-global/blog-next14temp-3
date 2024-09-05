@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-const Logo = ({ logo }) => {
+const Logo = ({ logo, imagePath }) => {
   if (!logo || !logo.value) {
     return null;
   }
@@ -16,11 +16,7 @@ const Logo = ({ logo }) => {
     isItalic,
   } = logo.value;
 
-  const imageSrc = `/img/${logo.file_name}`;
-
-  // const imageSrc = logoMapping
-  // ? logoMapping.image
-  // : `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`;
+  const imageSrc = `${imagePath}/${logo.file_name}`;
 
   return (
     <Link

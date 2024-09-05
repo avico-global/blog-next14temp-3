@@ -23,7 +23,9 @@ export default function MostPopular({ blog_list, imagePath }) {
                   date={item.published_at}
                   tagline={item.tagline}
                   description={item.articleContent}
-                  image={item.image ? `/img/${item.image}` : "/no-image.png"}
+                  image={
+                    item.image ? `${imagePath}/${item.image}` : "/no-image.png"
+                  }
                   href={`/${item?.article_category?.name}/${item?.title
                     ?.replaceAll(" ", "-")
                     ?.toLowerCase()}`}

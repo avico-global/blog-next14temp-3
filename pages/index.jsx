@@ -74,7 +74,7 @@ export default function Home({
                 <Banner
                   key={index}
                   data={banner.value}
-                  image={`/img/${banner?.file_name}`}
+                  image={`${imagePath}/${banner?.file_name}`}
                 />
               );
             case "most popular":
@@ -137,7 +137,9 @@ export default function Home({
                 published_at={item.published_at}
                 tagline={item.tagline}
                 content={item.articleContent}
-                image={item.image ? `/img/${item.image}` : "/no-image.png"}
+                image={
+                  item.image ? `${imagePath}/${item.image}` : "/no-image.png"
+                }
                 href={`/${item?.article_category?.name
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
@@ -165,7 +167,9 @@ export default function Home({
                 published_at={item.published_at}
                 tagline={item.tagline}
                 content={item.articleContent}
-                image={item.image ? `/img/${item.image}` : "/no-image.png"}
+                image={
+                  item.image ? `${imagePath}/${item.image}` : "/no-image.png"
+                }
                 href={`/${item?.article_category?.name
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
@@ -339,15 +343,6 @@ export async function getServerSideProps({ req }) {
   const all_data = await callBackendApi({ domain, type: "" });
   const imagePath = await getImagePath(project_id, domain);
 
-  // const imagesList = [
-  //   logo?.data[0]?.file_name,
-  //   about_me?.data[0]?.file_name,
-  //   favicon?.data[0]?.file_name,
-  //   banner?.data[0]?.file_name,
-  //   ...blog_list?.data[0]?.value?.map((item) => item.image),
-  // ].filter(Boolean); // Corrected filtering to remove falsy values
-
-  // await downloadImagesIfNeeded(imagesList, project_id);
   robotsTxt({ domain });
 
   return {

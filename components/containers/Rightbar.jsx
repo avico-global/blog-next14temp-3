@@ -34,7 +34,7 @@ export default function Rightbar({
       <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
       <div className="relative overflow-hidden w-full h-[150px] mt-8">
         <Image
-          src={`/img/${about_me.file_name}`}
+          src={`${imagePath}/${about_me.file_name}`}
           title="About Thumbnail"
           alt="Thumbnail Not Found"
           priority
@@ -127,7 +127,9 @@ export default function Rightbar({
               <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                 <Image
                   title={item?.title || item?.imageTitle || "Article Thumbnail"}
-                  src={item.image ? `/img/${item.image}` : "/no-image.png"}
+                  src={
+                    item.image ? `${imagePath}/${item.image}` : "/no-image.png"
+                  }
                   fill
                   loading="lazy"
                   alt={item?.title || "Article Title"}
