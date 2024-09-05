@@ -175,7 +175,7 @@ export default function Categories({
                                       title={item?.title || item.imageTitle}
                                       src={
                                         item.image
-                                          ? `/${imagePath}/${item.image}`
+                                          ? `${imagePath}/${item.image}`
                                           : "/no-image.png"
                                       }
                                       fill={true}
