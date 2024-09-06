@@ -26,7 +26,9 @@ export default function MostPopular({ blog_list, imagePath }) {
                   image={
                     item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                   }
-                  href={`/${item?.article_category?.name}/${item?.title
+                  href={`/${item?.article_category?.name
+                    ?.toLowerCase()
+                    ?.replaceAll(" ", "-")}/${item?.title
                     ?.replaceAll(" ", "-")
                     ?.toLowerCase()}`}
                   category={item.article_category.name}
@@ -41,18 +43,26 @@ export default function MostPopular({ blog_list, imagePath }) {
   );
 }
 
-function BlogCard({ title, image, href, category, imageTitle, altImage }) {
+function BlogCard({
+  title,
+  image,
+  href,
+  category,
+  imageTitle,
+  altImage,
+  tagline,
+}) {
   return (
     <div className="flex flex-col items-center text-center">
       <Link
-        title={imageTitle || "Article Thumbnail"}
+        title={imageTitle || title || "Article Thumbnail"}
         href={href || ""}
         className="relative overflow-hidden w-full h-[195px]"
       >
         <Image
           src={image}
-          title={imageTitle || "Article Thumbnail"}
-          alt={altImage || "No Thumbnail Found"}
+          title={imageTitle || title || "Article Thumbnail"}
+          alt={altImage || tagline || "No Thumbnail Found"}
           priority={false}
           width={298}
           height={195}

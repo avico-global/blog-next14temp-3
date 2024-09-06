@@ -120,8 +120,6 @@ export default function Home({
       : "Page Disabled, under maintenance";
   };
 
-  // `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
-
   const renderBlogList = () => {
     return (
       <div className="grid grid-cols-2 gap-5 md:gap-10">
@@ -147,8 +145,8 @@ export default function Home({
                   ?.toLowerCase()}`}
                 category={item?.article_category?.name}
                 imageHeight="h-72 md:h-[420px]"
-                imageTitle={item.imageTitle}
-                altImage={item.altImage}
+                imageTitle={item.imageTitle || item.title || "Blog Image Title"}
+                altImage={item.altImage || item.tagline || "Article Thumbnail"}
               />
             ))}
         </div>
@@ -177,8 +175,8 @@ export default function Home({
                   ?.toLowerCase()}`}
                 category={item?.article_category?.name}
                 imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
-                imageTitle={item.imageTitle}
-                altImage={item.altImage}
+                imageTitle={item.imageTitle || item.title || "Blog Image Title"}
+                altImage={item.altImage || item.tagline || "Article Thumbnail"}
               />
             ))}
         </div>

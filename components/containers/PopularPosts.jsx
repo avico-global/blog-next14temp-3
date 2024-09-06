@@ -24,6 +24,7 @@ export default function PopularPosts({ blog_list, imagePath }) {
               date={item.published_at}
               imageTitle={item.imageTitle}
               altImage={item.altImage}
+              tagline={item.tagline}
             />
           )
       )}
@@ -31,7 +32,16 @@ export default function PopularPosts({ blog_list, imagePath }) {
   );
 }
 
-function Blog({ image, title, href, author, date, imageTitle, altImage }) {
+function Blog({
+  image,
+  title,
+  href,
+  author,
+  date,
+  imageTitle,
+  altImage,
+  tagline,
+}) {
   return (
     <div className="flex items-center gap-3 mt-5 cursor-pointer">
       <Link
@@ -45,8 +55,8 @@ function Blog({ image, title, href, author, date, imageTitle, altImage }) {
           loading="eager"
           priority={true}
           sizes="200px, 150px"
-          title={title || imageTitle || "Article Thumbnail"}
-          alt={title || altImage || "No Thumbnail Found"}
+          title={imageTitle || title || "Article Thumbnail"}
+          alt={altImage || tagline || "No Thumbnail Found"}
           className="w-full h-full object-cover absolute top-0 hover:scale-110 transition-all"
         />
       </Link>

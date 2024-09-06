@@ -23,13 +23,23 @@ export default function LatestPosts({ blog_list, imagePath }) {
             date={item.published_at}
             imageTitle={item.imageTitle}
             altImage={item.altImage}
+            tagline={item.tagline}
           />
         ))}
     </div>
   );
 }
 
-function Blog({ image, title, href, author, date, altImage, imageTitle }) {
+function Blog({
+  image,
+  title,
+  href,
+  author,
+  date,
+  altImage,
+  imageTitle,
+  tagline,
+}) {
   return (
     <div className="flex items-center gap-3 mt-5 cursor-pointer">
       <Link
@@ -43,8 +53,8 @@ function Blog({ image, title, href, author, date, altImage, imageTitle }) {
           loading="eager"
           priority={true}
           sizes="200px, 150px"
-          title={title || imageTitle || "Article"}
-          alt={altImage || "No Thumbnail Found"}
+          title={imageTitle || title || "Article"}
+          alt={altImage || tagline || "No Thumbnail Found"}
           className="w-full h-full object-cover absolute top-0 hover:scale-110 transition-all"
         />
       </Link>

@@ -26,12 +26,12 @@ const BlogCard = ({
       >
         <Image
           src={image}
-          title={imageTitle || title || "Article Thumbnail"}
-          alt={altImage || "No Thumbnail Found"}
-          priority={false}
           width={331}
-          height={parseInt(imageHeight, 10) || 420}
           loading="lazy"
+          alt={altImage}
+          priority={false}
+          title={imageTitle}
+          height={parseInt(imageHeight, 10) || 420}
           className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
         />
       </Link>

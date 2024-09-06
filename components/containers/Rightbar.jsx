@@ -5,7 +5,6 @@ import Link from "next/link";
 import MarkdownIt from "markdown-it";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
-import { Button } from "../ui/button";
 
 const md = new MarkdownIt();
 
@@ -35,8 +34,8 @@ export default function Rightbar({
       <div className="relative overflow-hidden w-full h-[150px] mt-8">
         <Image
           src={`${imagePath}/${about_me.file_name}`}
-          title="About Thumbnail"
-          alt="Thumbnail Not Found"
+          title={`${content.slice(0, 100)}...`}
+          alt={`${content.slice(0, 100)}...`}
           priority
           width={241}
           height={150}
@@ -126,13 +125,13 @@ export default function Rightbar({
             >
               <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                 <Image
-                  title={item?.title || item?.imageTitle || "Article Thumbnail"}
+                  title={item?.imageTitle || item?.title || "Article Thumbnail"}
+                  alt={item?.tagline || item?.altText || "Article Thumbnail"}
                   src={
                     item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                   }
                   fill
                   loading="lazy"
-                  alt={item?.title || "Article Title"}
                   className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
                 />
               </div>

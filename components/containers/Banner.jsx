@@ -4,7 +4,7 @@ import Container from "../common/Container";
 import Image from "next/image";
 
 export default function Banner({ image, data }) {
-  console.log("👊 ~ Banner ~ image:", image)
+  console.log("👊 ~ Banner ~ image:", image);
   return (
     <FullContainer
       className="min-h-[63vh] overflow-hidden p-10 text-center"
@@ -15,8 +15,8 @@ export default function Banner({ image, data }) {
     >
       <Image
         src={image}
-        title={data.imageTitle || "Banner"}
-        alt={data.altImage || "No Banner Found"}
+        title={data.imageTitle || data.title || "Banner"}
+        alt={data.altImage || data.tagline || "No Banner Found"}
         priority={true}
         fill={true}
         loading="eager"
