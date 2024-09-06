@@ -165,7 +165,7 @@ export default function Categories({
                                       title={item?.title || item.imageTitle}
                                       src={
                                         item.image
-                                          ? `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${item.image}`
+                                          ? `${imagePath}/${item.image}`
                                           : "/no-image.png"
                                       }
                                       fill={true}
