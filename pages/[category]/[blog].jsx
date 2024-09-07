@@ -23,6 +23,12 @@ const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
 
+// Helper function to replace special characters in URLs
+const sanitizeUrl = (text) => {
+  return text?.replaceAll(/%20/g, "-").replaceAll(" ", "-");
+};
+
+// Main Blog component
 export default function Blog({
   logo,
   myblog,
@@ -32,29 +38,35 @@ export default function Blog({
   domain,
   about_me,
   contact_details,
-  copyright,
   favicon,
   tag_list,
   layout,
   nav_type,
+  project_id,
 }) {
   const router = useRouter();
   const { category, blog } = router.query;
+
   const markdownIt = new MarkdownIt();
-  const content = markdownIt.render(myblog?.value?.articleContent || "");
+  const content = markdownIt.render(
+    myblog?.value?.articleContent?.replaceAll(
+      `https://api.sitebuilderz.com/images/project_images/${project_id}/`,
+      imagePath
+    ) || ""
+  );
+
   const breadcrumbs = useBreadcrumbs();
 
   useEffect(() => {
+    // Handle URL sanitization
     if (
       category.includes("%20") ||
       category.includes(" ") ||
       blog.includes("%20") ||
       blog.includes(" ", "-")
     ) {
-      const newCategory = category
-        ?.replaceAll(/%20/g, "-")
-        ?.replaceAll(" ", "-");
-      const newBlog = blog?.replaceAll(/%20/g, "-")?.replaceAll(" ", "-");
+      const newCategory = sanitizeUrl(category);
+      const newBlog = sanitizeUrl(blog);
       router.replace(`/${newCategory}/${newBlog}`);
     }
   }, [category, router, blog]);
@@ -68,40 +80,23 @@ export default function Blog({
         <title>{myblog?.value?.meta_title}</title>
         <meta name="description" content={myblog?.value?.meta_description} />
         <link rel="author" href={`https://www.${domain}`} />
-        <link rel="publisher" href={`https://www.${domain}`} />
         <link
           rel="canonical"
           href={`https://www.${domain}/${category}/${blog}`}
         />
-        {/* <meta name="robots" content="noindex" /> */}
         <meta name="theme-color" content="#008DE5" />
-        <link rel="manifest" href="/manifest.json" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <GoogleTagManager />
-        <meta
-          name="google-site-verification"
-          content="zbriSQArMtpCR3s5simGqO5aZTDqEZZi9qwinSrsRPk"
-        />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
-        />
         <link
           rel="icon"
           type="image/png"
           sizes="32x32"
           href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
         />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href={`${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${favicon}`}
-        />
       </Head>
 
+      {/* Conditional rendering based on page layout */}
       {page?.enable
         ? page?.sections?.map((item, index) => {
             if (!item.enable) return null;
@@ -133,7 +128,11 @@ export default function Blog({
                   >
                     <Image
                       src={`${imagePath}/${myblog?.file_name}`}
-                      alt={myblog?.value.imageAltText || "No Banner found"}
+                      alt={
+                        myblog?.value.imageAltText ||
+                        myblog?.value?.tagline ||
+                        "No Banner Found"
+                      }
                       title={myblog?.value.imageTitle || myblog?.value.title}
                       priority={true}
                       fill={true}
@@ -156,7 +155,7 @@ export default function Blog({
                         {myblog?.value.tagline}
                       </p>
                       <div className="flex items-center justify-center gap-4">
-                        <p>{myblog?.value.author}</p> -
+                        <p>{myblog?.value.author}</p> -{" "}
                         <p>{myblog?.value.published_at}</p>
                       </div>
                     </Container>
@@ -193,7 +192,7 @@ export default function Blog({
                                 myblog?.article_category?.name
                               }/${myblog?.title
                                 ?.replaceAll(" ", "-")
-                                ?.toLowerCase()}}`}
+                                ?.toLowerCase()}`}
                               title={myblog?.value.title}
                             />
                           </div>
@@ -244,11 +243,9 @@ export default function Blog({
               mainEntityOfPage: {
                 "@type": "WebPage",
                 "@id": myblog
-                  ? `http://${domain}${
+                  ? `http://${domain}${sanitizeUrl(
                       myblog?.article_category?.name
-                    }/${myblog?.value?.title
-                      ?.replaceAll(" ", "-")
-                      ?.toLowerCase()}`
+                    )}/${sanitizeUrl(myblog?.value?.title)}`
                   : "",
               },
               headline: myblog?.value?.title,
@@ -267,61 +264,6 @@ export default function Blog({
                 item: `http://${domain}${breadcrumb.url}`,
               })),
             },
-            {
-              "@type": "ItemList",
-              url: `http://${domain}${
-                myblog?.article_category?.name
-              }/${myblog?.value?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
-              name: "blog",
-              itemListElement: blog_list?.map((blog, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                item: {
-                  "@type": "Article",
-                  url: `http://${domain}${
-                    blog?.article_category?.name
-                  }/${blog?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
-                  name: blog.title,
-                },
-              })),
-            },
-            {
-              "@type": "WebPage",
-              "@id": `http://${domain}/${myblog?.key}`,
-              url: `http://${domain}/${
-                myblog?.article_category?.name
-              }/${myblog?.value?.title?.replaceAll(" ", "-")?.toLowerCase()}`,
-              name: myblog?.value?.meta_title,
-              description: myblog?.value?.meta_description,
-              publisher: {
-                "@id": `http://${domain}`,
-              },
-              inLanguage: "en-US",
-              isPartOf: { "@id": `http://${domain}` },
-              primaryImageOfPage: {
-                "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`,
-              },
-              datePublished: myblog?.value?.published_at,
-              dateModified: myblog?.value?.published_at,
-            },
-            {
-              "@type": "WebSite",
-              "@id": `http://${domain}/#website`,
-              url: `http://${domain}/`,
-              name: domain,
-              description: myblog?.value?.meta_description,
-              inLanguage: "en-US",
-              // potentialAction: {
-              //   "@type": "SearchAction",
-              //   target: `http://${domain}/search?q={search_term_string}`,
-              //   "query-input": "required name=search_term_string",
-              // },
-              publisher: {
-                "@type": "Organization",
-                "@id": `http://${domain}`,
-              },
-            },
           ],
         }}
       />
@@ -329,6 +271,7 @@ export default function Blog({
   );
 }
 
+// Server-side rendering with better error handling
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const { category, blog } = query;
@@ -338,12 +281,14 @@ export async function getServerSideProps({ req, query }) {
 
   const isValidBlog = blog_list?.data[0]?.value?.find(
     (item) =>
-      item.title?.replaceAll(" ", "-")?.toLowerCase() ===
-      blog?.replaceAll(" ", "-")
+      sanitizeUrl(item.title)?.toLowerCase()?.replaceAll(" ", "-") ===
+      sanitizeUrl(blog)?.toLowerCase()?.replaceAll(" ", "-")
   );
 
   const categoryExists = categories?.data[0]?.value?.some(
-    (cat) => cat?.toLowerCase() === category?.replaceAll("-", " ").toLowerCase()
+    (cat) =>
+      cat?.toLowerCase()?.replaceAll(" ", "-") ===
+      sanitizeUrl(category)?.toLowerCase()?.replaceAll(" ", "-")
   );
 
   if (!categoryExists || !isValidBlog) {
@@ -361,7 +306,6 @@ export async function getServerSideProps({ req, query }) {
     domain,
     type: "contact_details",
   });
-  const copyright = await callBackendApi({ domain, type: "copyright" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
@@ -380,9 +324,9 @@ export async function getServerSideProps({ req, query }) {
       categories: categories?.data[0]?.value || null,
       about_me: about_me.data[0] || null,
       contact_details: contact_details.data[0].value,
-      copyright: copyright.data[0].value || null,
       favicon: favicon?.data[0]?.file_name || null,
       nav_type: nav_type?.data[0]?.value || {},
+      project_id,
     },
   };
 }

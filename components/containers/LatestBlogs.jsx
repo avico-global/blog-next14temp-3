@@ -52,14 +52,14 @@ function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
   return (
     <div>
       <Link
-        title={title || imageTitle || "Article Thumbnail"}
+        title={imageTitle || title || "Article Thumbnail"}
         href={href || ""}
       >
         <div className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all">
           <Image
             src={image}
-            title={title || imageTitle || "Article Thumbnail"}
-            alt={altImage || "No Thumbnail Found"}
+            title={imageTitle || title || "Article Thumbnail"}
+            alt={altImage || tagline || "No Thumbnail Found"}
             priority={true}
             fill={true}
             loading="eager"
