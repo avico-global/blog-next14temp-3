@@ -144,6 +144,9 @@ export default function Tags({
                 return (
                   <FullContainer key={index} className="mb-12">
                     <Container>
+                      <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
+                        {meta?.title}
+                      </h1>
                       <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
                         <div> {renderTags()}</div>
                         <Rightbar
