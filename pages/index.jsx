@@ -91,7 +91,7 @@ export default function Home({
                 <FullContainer key={index} className="pt-12">
                   <Container>
                     <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                      <div>
+                      <div className="flex flex-col gap-12">
                         {blog_list?.map(
                           (item, index) =>
                             item.isFeatured && (
