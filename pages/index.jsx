@@ -19,6 +19,7 @@ import {
 } from "@/lib/myFun";
 
 import { Raleway } from "next/font/google";
+import MustRead from "@/components/containers/MustRead";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -87,10 +88,48 @@ export default function Home({
               );
             case "articles":
               return (
-                <FullContainer key={index}>
+                <FullContainer key={index} className="pt-12">
                   <Container>
                     <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                      {renderBlogList(blog_list)}
+                      <div>
+                        {blog_list?.map(
+                          (item, index) =>
+                            item.isFeatured && (
+                              <BlogCard
+                                key={index}
+                                index={index}
+                                title={item.title}
+                                author={item.author}
+                                published_at={item.published_at}
+                                tagline={item.tagline}
+                                content={item.articleContent}
+                                image={
+                                  item.image
+                                    ? `${imagePath}/${item.image}`
+                                    : "/no-image.png"
+                                }
+                                href={`/${item?.article_category?.name
+                                  ?.toLowerCase()
+                                  ?.replaceAll(" ", "-")}/${item?.title
+                                  ?.replaceAll(" ", "-")
+                                  ?.toLowerCase()}`}
+                                category={item?.article_category?.name}
+                                imageHeight="h-72 md:h-[420px]"
+                                imageTitle={
+                                  item.imageTitle ||
+                                  item.title ||
+                                  "Blog Image Title"
+                                }
+                                altImage={
+                                  item.altImage ||
+                                  item.tagline ||
+                                  "Article Thumbnail"
+                                }
+                              />
+                            )
+                        )}
+                        {renderBlogList(blog_list)}
+                      </div>
                       <Rightbar
                         about_me={about_me}
                         imagePath={imagePath}
@@ -103,6 +142,14 @@ export default function Home({
                     </div>
                   </Container>
                 </FullContainer>
+              );
+            case "must read":
+              return (
+                <MustRead
+                  key={index}
+                  blog_list={blog_list}
+                  imagePath={imagePath}
+                />
               );
             case "footer":
               return (

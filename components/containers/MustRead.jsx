@@ -5,18 +5,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
 
-export default function MostPopular({ blog_list = [], imagePath }) {
-  const popularBlogs = blog_list.filter((item) => item.isPopular);
+export default function MustRead({ blog_list = [], imagePath }) {
+  const mustReadBlogs = blog_list.filter((item) => item.isMustRead);
 
   return (
-    popularBlogs?.length > 0 && (
+    mustReadBlogs?.length > 0 && (
       <FullContainer className="py-16 text-center">
         <Container className="border border-gray-100 px-3 py-9 md:px-9">
-          <h2 className="font-bold text-3xl -mt-14 bg-white px-6">
-            Most Popular
-          </h2>
+          <h2 className="font-bold text-3xl -mt-14 bg-white px-6">Must Read</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-11 mb-3">
-            {popularBlogs.map((item, index) => (
+            {mustReadBlogs.map((item, index) => (
               <BlogCard
                 key={item.id || index}
                 title={item.title}
