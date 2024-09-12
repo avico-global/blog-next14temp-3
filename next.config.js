@@ -11,7 +11,7 @@ const nextConfig = {
         hostname: "custom-wheels-car-rims.com",
       },
     ],
-    domains: ["api.sitebuilderz.com"],
+    domains: ["api.sitebuilderz.com", "custom-wheels-car-rims.com"],
   },
   reactStrictMode: true,
 };
