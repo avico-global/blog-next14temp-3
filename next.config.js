@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: "https",
         hostname: "api.sitebuilderz.com",
       },
+      {
+        protocol: "https",
+        hostname: "custom-wheels-car-rims.com",
+      },
     ],
     domains: ["api.sitebuilderz.com"],
   },
