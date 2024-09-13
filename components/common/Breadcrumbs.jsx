@@ -16,17 +16,22 @@ export default function Breadcrumbs({ breadcrumbs, className }) {
           {index > 0 && <ChevronsRight className="w-4" />}
           {index === breadcrumbs.length - 1 ? (
             <span className="text-black">
-              {breadcrumb.label?.replaceAll("%20", " ")}
+              {breadcrumb.label
+                ?.replaceAll("%20", " ")
+                ?.replaceAll("%E2%80%99", "'")}
             </span>
           ) : (
             <Link
               title={breadcrumb.label
                 ?.replaceAll(" ", "-")
-                ?.replaceAll("%20", "-")}
+                ?.replaceAll("%20", "-")
+                ?.replaceAll("%E2%80%99", "'")}
               href={breadcrumb.url}
               className="hover:underline transition-all"
             >
-              {breadcrumb.label?.replaceAll("%20", " ")}
+              {breadcrumb.label
+                ?.replaceAll("%20", " ")
+                ?.replaceAll("%E2%80%99", "'")}
             </Link>
           )}
         </span>
