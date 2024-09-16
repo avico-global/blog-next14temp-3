@@ -41,8 +41,8 @@ const Logo = ({ logo, imagePath }) => {
           title={`Logo - ${hostName}`}
           alt={`${logoText || "logo"} - ${hostName}`}
           sizes="(max-width: 768px) 100px, (max-width: 1200px) 150px, 200px"
-          className="h-8 md:h-10"
-          style={{ height: `${logoHeight}px`, width: `${logoWidth}px` }}
+          className={`h-10 lg:h-[${logoHeight}px] w-auto lg:w-[${logoWidth}px]`}
+          // style={{ height: `${logoHeight}px`, width: `${logoWidth}px` }}
         />
       ) : logoType === "text" ? (
         <h2
