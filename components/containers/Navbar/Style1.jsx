@@ -1,7 +1,6 @@
 import FullContainer from "@/components/common/FullContainer";
 import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
@@ -22,8 +21,8 @@ export default function Style1({
   searchQuery,
 }) {
   return (
-    <FullContainer className="sticky top-0 z-20 bg-white shadow">
-      <div className="grid grid-cols-nav w-11/12 md:w-10/12 mx-auto items-center">
+    <FullContainer className="sticky top-0 z-20 bg-white shadow py-2 lg:py-0">
+      <div className="flex justify-between lg:grid grid-cols-nav w-11/12 md:w-10/12 mx-auto items-center">
         <div className="hidden lg:flex items-center">
           {staticPages.map((item, index) => (
             <Link
@@ -41,7 +40,7 @@ export default function Style1({
         </div>
         <Logo logo={logo} imagePath={imagePath} />
         <div
-          className="flex items-center justify-end gap-3 text-gray-500 relative"
+          className="flex items-center justify-end gap-3 text-gray-500 relative "
           ref={searchContainerRef}
         >
           <div className="hidden lg:flex items-center justify-end">
@@ -60,42 +59,53 @@ export default function Style1({
               </Link>
             ))}
           </div>
-          <Search
-            className="w-5 md:w-4 text-black cursor-pointer"
-            onClick={handleSearchToggle}
-          />
-          <Menu
-            onClick={toggleSidebar}
-            className="w-6 h-6 ml-1 text-black lg:hidden"
-          />
+          <div className="flex items-center justify-end gap-2">
+            <Search
+              className="w-5 md:w-4 text-black cursor-pointer"
+              onClick={handleSearchToggle}
+            />
+            <Menu
+              onClick={toggleSidebar}
+              className="w-6 h-6 ml-1 text-black lg:hidden"
+            />
+          </div>
           {openSearch && (
             <>
-              {searchQuery && (
-                <div className="absolute top-full p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
-                  {filteredBlogs?.map((item, index) => (
-                    <Link
-                      key={index}
-                      title={item.title}
-                      href={`/${item.article_category.name
-                        ?.toLowerCase()
-                        ?.replaceAll(" ", "-")}/${item?.title
-                        ?.replaceAll(" ", "-")
-                        ?.toLowerCase()}`}
-                    >
-                      <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
-                        {item.title}
+              <div className="fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  className="lg:text-xl border border-gray-300 inputField rounded-md outline-none bg-white shadow-xl p-2 px-3 mx-auto transition-opacity duration-300 ease-in-out opacity-100 w-5/6 lg:w-[650px] focus:ring-2 focus:ring-yellow-500"
+                  placeholder="Search..."
+                  autoFocus
+                />
+                {searchQuery && (
+                  <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
+                    {filteredBlogs?.length > 0 ? (
+                      filteredBlogs.map((item, index) => (
+                        <Link
+                          key={index}
+                          title={item.title}
+                          href={`/${item.article_category.name
+                            ?.toLowerCase()
+                            ?.replaceAll(" ", "-")}/${item?.title
+                            ?.replaceAll(" ", "-")
+                            ?.toLowerCase()}`}
+                        >
+                          <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
+                            {item.title}
+                          </div>
+                        </Link>
+                      ))
+                    ) : (
+                      <div className="p-2 text-gray-600">
+                        No articles found.
                       </div>
-                    </Link>
-                  ))}
-                </div>
-              )}
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
-                placeholder="Search..."
-              />
+                    )}
+                  </div>
+                )}
+              </div>
             </>
           )}
         </div>

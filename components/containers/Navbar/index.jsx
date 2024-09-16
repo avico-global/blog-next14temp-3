@@ -173,6 +173,26 @@ const Navbar = ({
           >
             Contact
           </Link>
+          <Link
+            title="Privacy Policy"
+            href="/privacy-policy"
+            className={cn(
+              "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
+              isActive("/privacy-policy") && "border-black text-black"
+            )}
+          >
+            Privacy Policy
+          </Link>
+          <Link
+            title="Terms & Conditions"
+            href="/terms-and-conditions"
+            className={cn(
+              "font-semibold text-gray-500 capitalize border-b hover:text-black hover:border-black transition-all px-2 py-3",
+              isActive("/terms-and-conditions") && "border-black text-black"
+            )}
+          >
+            Terms & Conditions
+          </Link>
         </div>
       </div>
     </>
