@@ -1,14 +1,14 @@
 import { getDomain } from "@/lib/myFun";
 import fs from "fs";
 
-const e = () => <></>
+const e = () => <></>;
 export default e;
 
 export const getServerSideProps = async ({ req, res }) => {
   const domain = getDomain(req?.headers?.host);
   try {
     const robots = fs.readFileSync(
-      `${process.cwd()}/public/json/${domain}/robots.txt`
+      `${process.cwd()}/public/robots/${domain}/robots.txt`
     );
 
     res.setHeader("Content-Type", "text/plain");

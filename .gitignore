@@ -37,6 +37,7 @@ next-env.d.ts
 
 
 public/json
+public/robots
 /package-lock.json
 
 # Ignore all image files inside the public/images directory
