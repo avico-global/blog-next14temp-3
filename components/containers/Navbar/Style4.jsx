@@ -18,7 +18,7 @@ export default function Style4({
 }) {
   const [hoveredCategory, setHoveredCategory] = useState(false);
   const navLink =
-    "font-semibold capitalize hover:text-white border-b-2 border-transparent hover:text-black hover:border-black transition-all px-3 py-2 whitespace-nowrap";
+    "font-semibold capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all p-2 whitespace-nowrap";
 
   const searchInputRef = useRef(null);
 
@@ -55,14 +55,15 @@ export default function Style4({
             onMouseEnter={() => setHoveredCategory(true)}
             onMouseLeave={() => setHoveredCategory(false)}
           >
-            <button className="font-semibold capitalize hover:text-black hover:bg-gray-200 px-3 py-2 rounded-md">
-              Categories
-            </button>
+            <button className={navLink}>Categories</button>
             {hoveredCategory && (
-              <div className="absolute left-0 mt-2 w-40 bg-white border rounded shadow-lg">
+              <div className="absolute right-0 w-auto bg-white border rounded shadow-lg">
                 <ul>
                   {categories?.map((item, index) => (
-                    <li key={index} className="px-4 py-2 hover:bg-gray-100">
+                    <li
+                      key={index}
+                      className="px-4 py-2 hover:bg-gray-200 whitespace-nowrap border-b last:border-none font-semibold hover:text-black transition-all"
+                    >
                       <Link
                         href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
                       >

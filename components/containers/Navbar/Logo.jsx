@@ -4,10 +4,25 @@ import Image from "next/image";
 
 const Logo = ({ logo, imagePath }) => {
   const [hostName, setHostName] = useState("");
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  ); // Default width
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setHostName(window.location.hostname);
+
+      // Event listener to track window resizing
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+
+      window.addEventListener("resize", handleResize);
+
+      // Clean up the event listener
+      return () => {
+        window.removeEventListener("resize", handleResize);
+      };
     }
   }, []);
 
@@ -27,6 +42,13 @@ const Logo = ({ logo, imagePath }) => {
 
   const imageSrc = `${imagePath}/${logo.file_name}`;
 
+  const dynamicLogoSize = {
+    height:
+      windowWidth < 768 ? 50 : windowWidth < 1200 ? logoHeight / 2 : logoHeight,
+    width:
+      windowWidth < 768 ? 100 : windowWidth < 1200 ? logoWidth / 2 : logoWidth,
+  };
+
   return (
     <Link
       title={`Logo - ${hostName}`}
@@ -35,14 +57,16 @@ const Logo = ({ logo, imagePath }) => {
     >
       {logoType === "image" ? (
         <Image
-          height={logoHeight}
-          width={logoWidth}
+          height={dynamicLogoSize.height}
+          width={dynamicLogoSize.width}
           src={imageSrc}
           title={`Logo - ${hostName}`}
           alt={`${logoText || "logo"} - ${hostName}`}
           sizes="(max-width: 768px) 100px, (max-width: 1200px) 150px, 200px"
-          className={`h-10 lg:h-[${logoHeight}px] w-auto lg:w-[${logoWidth}px]`}
-          // style={{ height: `${logoHeight}px`, width: `${logoWidth}px` }}
+          style={{
+            height: `${dynamicLogoSize.height}px`,
+            width: `${dynamicLogoSize.width}px`,
+          }}
         />
       ) : logoType === "text" ? (
         <h2
