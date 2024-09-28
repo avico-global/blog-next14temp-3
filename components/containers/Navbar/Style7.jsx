@@ -28,7 +28,7 @@ export default function Style7({
 
   return (
     <>
-     <div className="p-14 border-b">
+      <div className="p-14 border-b">
         <Logo logo={logo} imagePath={imagePath} />
       </div>
       <div className=" bg-white lg:bg-black   sticky top-0 z-20  ">
@@ -65,12 +65,10 @@ export default function Style7({
           </div>
 
           <div
-            className="flex  items-center justify-end  gap-56  lg:gap-3  relative"
+            className="flex  items-center justify-end  gap-14  lg:gap-3  relative"
             ref={searchContainerRef}
           >
-            <div>
-             
-            </div>
+            <div></div>
 
             {openSearch ? (
               <>
@@ -117,8 +115,6 @@ export default function Style7({
           </div>
         </div>
       </div>
-
-     
     </>
   );
 }
