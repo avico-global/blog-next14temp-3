@@ -11,6 +11,7 @@ export default function Footer({ categories, blog_list, imagePath, category }) {
     e.preventDefault();
     window.location.href = "/sitemap.xml";
   };
+
   return (
     <FullContainer className="bg-black text-white py-16 mt-12">
       <Container>
@@ -23,14 +24,14 @@ export default function Footer({ categories, blog_list, imagePath, category }) {
               {categories?.map((item, index) => (
                 <Link
                   key={index}
-                  title={item || "Article Link"}
-                  href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
+                  title={item?.title || "Article Link"}
+                  href={`/${item?.title.toLowerCase()?.replaceAll(" ", "-")}`}
                   className={cn(
                     "uppercase text-sm mb-2 hover:border-b w-fit transition-all",
-                    category === item && "border-b-2 border-purple-500"
+                    category === item.title && "border-b-2 border-purple-500"
                   )}
                 >
-                  {item}
+                  {item.title}
                 </Link>
               ))}
             </div>

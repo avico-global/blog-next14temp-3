@@ -6,7 +6,6 @@ import Image from "next/image";
 export default function Style7({ image, data }) {
   return (
     <>
-      
       <FullContainer
         className="min-h-[63vh] overflow-hidden p-10 text-center"
         style={{
