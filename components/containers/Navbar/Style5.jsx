@@ -25,9 +25,12 @@ export default function Style5({
 
   return (
     <>
-      <div className=" border-b ">
+      {/* <div className=" border-b ">
         <div className=" flex items-center justify-between mx-auto  max-w-[1400px] p-2     ">
-          <p className="text-xs lg:text-lg" > Latest Posts: Latest New Ideas For Mens fashion</p>
+          <p className="text-xs lg:text-lg">
+            {" "}
+            Latest Posts: Latest New Ideas For Mens fashion
+          </p>
           <SocialShare
             url={`http://${domain}${
               myblog?.article_category?.name
@@ -35,7 +38,7 @@ export default function Style5({
             title={myblog?.value.title}
           />
         </div>
-      </div>
+      </div> */}
 
       <div className="p-10 lg:my-4 w-full border-b">
         <Logo logo={logo} imagePath={imagePath} />
@@ -59,15 +62,15 @@ export default function Style5({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                title={item}
-                href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
+                title={item?.title}
+                href={`/${item?.title?.toLowerCase()?.replaceAll(" ", "-")}`}
                 className={cn(
                   navLink,
-                  (category === item || isActive(`/${item}`)) &&
+                  (category === item.title || isActive(`/${item.title}`)) &&
                     "border-black text-black"
                 )}
               >
-                {item}
+                {item.title}
               </Link>
             ))}
           </div>

@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
@@ -47,15 +46,15 @@ export default function Style6({
             {categories?.map((item, index) => (
               <Link
                 key={index}
-                title={item}
-                href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
+                title={item?.title}
+                href={`/${item?.title?.toLowerCase()?.replaceAll(" ", "-")}`}
                 className={cn(
                   navLink,
-                  (category === item || isActive(`/${item}`)) &&
+                  (category === item.title || isActive(`/${item.title}`)) &&
                     "border-black text-white"
                 )}
               >
-                {item}
+                {item.title}
               </Link>
             ))}
           </div>
@@ -64,9 +63,7 @@ export default function Style6({
             className="flex  items-center justify-end  gap-56  lg:gap-3  relative"
             ref={searchContainerRef}
           >
-            <div>
-             
-            </div>
+            <div></div>
 
             {openSearch ? (
               <>

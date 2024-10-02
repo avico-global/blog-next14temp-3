@@ -60,16 +60,16 @@ export default function Style9({
               <div className="absolute right-0 w-auto bg-white border rounded shadow-lg">
                 <ul>
                   {categories?.map((item, index) => (
-                    <li
+                    <Link
                       key={index}
+                      title={item?.title}
+                      href={`/${item?.title
+                        ?.toLowerCase()
+                        ?.replaceAll(" ", "-")}`}
                       className="px-4 py-2 hover:bg-gray-200 whitespace-nowrap border-b last:border-none font-semibold hover:text-black transition-all"
                     >
-                      <Link
-                        href={`/${item?.toLowerCase()?.replaceAll(" ", "-")}`}
-                      >
-                        {item}
-                      </Link>
-                    </li>
+                      {item.title}
+                    </Link>
                   ))}
                 </ul>
               </div>

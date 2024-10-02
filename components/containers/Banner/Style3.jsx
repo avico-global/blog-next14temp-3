@@ -5,13 +5,7 @@ import Image from "next/image";
 import { Search } from "lucide-react";
 import Link from "next/link";
 
-export default function Style3({
-  image,
-  data,
-  searchQuery,
-  filteredBlogs,
-  searchContainerRef,
-}) {
+export default function Style3({ image, data, searchQuery, filteredBlogs }) {
   return (
     <FullContainer
       className="min-h-[63vh] overflow-hidden p-10 flex flex-col items-start"

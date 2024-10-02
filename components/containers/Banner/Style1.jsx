@@ -6,7 +6,7 @@ import Image from "next/image";
 export default function Style1({ image, data }) {
   return (
     <FullContainer
-      className="min-h-[44vh] mx-auto max-w-[1500px] overflow-hidden p-10 mt-12 text-center  "
+      className="min-h-[44vh] mx-auto max-w-[1500px] overflow-hidden p-10 text-center  "
       style={{
         backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
         color: data.textColor || "white",

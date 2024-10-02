@@ -59,7 +59,7 @@ export default function Rightbar({
           <Link
             key={index}
             title={item?.title}
-            href={`/${item.title.toLowerCase().replace(/ /g, "-")}`}
+            href={`/${item?.title?.toLowerCase().replace(/ /g, "-")}`}
             className={cn(
               "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
               (category === item.title || isActive(`/${item.title}`)) &&
