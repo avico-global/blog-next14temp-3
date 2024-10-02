@@ -39,7 +39,6 @@ const Logo = ({ logo, imagePath }) => {
 
   const imageSrc = `${imagePath}/${logo.file_name}`;
 
-  // Calculate dynamic height for different screen sizes
   const dynamicLogoHeight =
     windowWidth < 768
       ? 30
@@ -47,17 +46,15 @@ const Logo = ({ logo, imagePath }) => {
       ? Math.floor(logoHeight / 2)
       : logoHeight;
 
-  // Default width for small and medium screens (you can adjust the ratio here)
   const dynamicLogoWidth =
     windowWidth >= 1200
       ? logoWidth
       : Math.floor((logoWidth / logoHeight) * dynamicLogoHeight);
 
-  // Inline style to apply auto width using CSS
   const logoStyle = {
     height: `${dynamicLogoHeight}px`,
     width: windowWidth >= 1200 ? `${logoWidth}px` : "auto",
-    maxWidth: "100%", // Ensure it doesn't overflow its container
+    maxWidth: "100%",
   };
 
   return (
@@ -69,7 +66,7 @@ const Logo = ({ logo, imagePath }) => {
       {logoType === "image" ? (
         <Image
           height={dynamicLogoHeight}
-          width={dynamicLogoWidth} // Always pass a numeric width
+          width={dynamicLogoWidth}
           src={imageSrc}
           title={`Logo - ${hostName}`}
           alt={`${logoText || "logo"} - ${hostName}`}

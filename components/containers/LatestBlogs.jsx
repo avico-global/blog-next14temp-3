@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import FullContainer from "../common/FullContainer";
-import Container from "../common/Container";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "../ui/button";
+import Container from "../common/Container";
+import FullContainer from "../common/FullContainer";
 
 export default function LatestBlogs({ blogs, imagePath }) {
   const [visibleBlogs, setVisibleBlogs] = useState(6);
@@ -73,7 +73,7 @@ function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
           {title}
         </h3>
       </Link>
-      <p className="text-gray-500 mt-2 text-sm">{tagline.slice(0, 200)}</p>
+      <p className="text-gray-500 mt-2 text-sm">{tagline}</p>
     </div>
   );
 }

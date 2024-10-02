@@ -58,7 +58,6 @@ export default function Blog({
   const breadcrumbs = useBreadcrumbs();
 
   useEffect(() => {
-    // Handle URL sanitization
     if (
       category.includes("%20") ||
       category.includes(" ") ||
@@ -177,7 +176,7 @@ export default function Blog({
                   <FullContainer key={index}>
                     <Container>
                       <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
-                        <div>
+                        <div className="">
                           <article className="prose lg:prose-xl max-w-full">
                             <div
                               dangerouslySetInnerHTML={{ __html: content }}
@@ -287,7 +286,7 @@ export async function getServerSideProps({ req, query }) {
 
   const categoryExists = categories?.data[0]?.value?.some(
     (cat) =>
-      cat?.toLowerCase()?.replaceAll(" ", "-") ===
+      cat?.title?.toLowerCase()?.replaceAll(" ", "-") ===
       sanitizeUrl(category)?.toLowerCase()?.replaceAll(" ", "-")
   );
 

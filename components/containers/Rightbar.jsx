@@ -58,16 +58,16 @@ export default function Rightbar({
         {categories.map((item, index) => (
           <Link
             key={index}
-            title={item}
-            href={`/${item.toLowerCase().replace(/ /g, "-")}`}
+            title={item?.title}
+            href={`/${item.title.toLowerCase().replace(/ /g, "-")}`}
             className={cn(
               "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
-              (category === item || isActive(`/${item}`)) &&
+              (category === item.title || isActive(`/${item.title}`)) &&
                 "border-black text-black"
             )}
           >
             <Circle className="w-2 h-2 text-blue-800" />
-            {item}
+            {item.title}
           </Link>
         ))}
       </div>
