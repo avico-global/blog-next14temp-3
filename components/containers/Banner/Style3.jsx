@@ -2,7 +2,8 @@ import React from "react";
 import FullContainer from "../../common/FullContainer";
 import Container from "../../common/Container";
 import Image from "next/image";
-import { Search } from "lucide-react"; 
+import { Search } from "lucide-react";
+import Link from "next/link";
 
 export default function Style3({
   image,
