@@ -28,7 +28,7 @@ export default function LatestBlogs({ blogs, imagePath }) {
               image={
                 item.image ? `${imagePath}/${item.image}` : "/no-image.png"
               }
-              href={`/${item.article_category.name
+              href={`/${item.article_category
                 ?.toLowerCase()
                 ?.replaceAll(" ", "-")}/${item?.title
                 ?.replaceAll(" ", "-")

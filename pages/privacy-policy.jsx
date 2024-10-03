@@ -194,9 +194,9 @@ export default function PriavcyPolicy({
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${
-                    blog?.article_category?.name
-                  }/${blog.title?.replaceAll(" ", "-")?.toLowerCase()}`,
+                  url: `http://${domain}/${blog?.article_category}/${blog.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}`,
                   name: blog.title,
                 },
               })),

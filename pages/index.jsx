@@ -108,12 +108,12 @@ export default function Home({
                                     ? `${imagePath}/${item.image}`
                                     : "/no-image.png"
                                 }
-                                href={`/${item?.article_category?.name
+                                href={`/${item?.article_category
                                   ?.toLowerCase()
                                   ?.replaceAll(" ", "-")}/${item?.title
                                   ?.replaceAll(" ", "-")
                                   ?.toLowerCase()}`}
-                                category={item?.article_category?.name}
+                                category={item?.article_category}
                                 imageHeight="h-72 md:h-[420px]"
                                 imageTitle={
                                   item.imageTitle ||
@@ -185,12 +185,12 @@ export default function Home({
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={`/${item?.article_category?.name
+                href={`/${item?.article_category
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
                   ?.replaceAll(" ", "-")
                   ?.toLowerCase()}`}
-                category={item?.article_category?.name}
+                category={item?.article_category}
                 imageHeight="h-72 md:h-[420px]"
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
                 altImage={item.altImage || item.tagline || "Article Thumbnail"}
@@ -215,12 +215,12 @@ export default function Home({
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={`/${item?.article_category?.name
+                href={`/${item?.article_category
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
                   ?.replaceAll(" ", "-")
                   ?.toLowerCase()}`}
-                category={item?.article_category?.name}
+                category={item?.article_category}
                 imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
                 altImage={item.altImage || item.tagline || "Article Thumbnail"}
@@ -333,7 +333,7 @@ export default function Home({
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category?.name}/${blog.key}`,
+                  url: `http://${domain}/${blog?.article_category}/${blog.key}`,
                   name: blog.title,
                   author: {
                     "@type": "Person",
@@ -351,7 +351,7 @@ export default function Home({
                   description: blog.description,
                   mainEntityOfPage: {
                     "@type": "WebPage",
-                    "@id": `http://${domain}/${blog?.article_category?.name
+                    "@id": `http://${domain}/${blog?.article_category
                       ?.replaceAll(" ", "-")
                       ?.toLowerCase()}/${blog.title
                       ?.replaceAll(" ", "-")

@@ -23,12 +23,12 @@ export default function MustRead({ blog_list = [], imagePath }) {
                 tagline={item.tagline}
                 description={item.articleContent}
                 image={`${imagePath}/${item.image || "no-image.png"}`}
-                href={`/${item?.article_category?.name
+                href={`/${item.article_category
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
                   ?.replaceAll(" ", "-")
                   ?.toLowerCase()}`}
-                category={item.article_category.name}
+                category={item.article_category}
                 imageTitle={item.imageTitle}
                 altImage={item.altImage}
               />

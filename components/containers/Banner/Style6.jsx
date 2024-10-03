@@ -3,11 +3,7 @@ import FullContainer from "../../common/FullContainer";
 import Link from "next/link";
 import { Search } from "lucide-react";
 
-export default function Style6({
-  data,
-  searchQuery,
-  filteredBlogs,
-}) {
+export default function Style6({ data, searchQuery, filteredBlogs }) {
   return (
     <div
       style={{
@@ -53,7 +49,7 @@ export default function Style6({
                   <Link
                     key={index}
                     title={item.title}
-                    href={`/${item.article_category.name
+                    href={`/${item.article_category
                       ?.toLowerCase()
                       ?.replaceAll(" ", "-")}/${item?.title
                       ?.replaceAll(" ", "-")

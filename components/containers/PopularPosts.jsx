@@ -12,7 +12,7 @@ export default function PopularPosts({ blog_list, imagePath }) {
             <Blog
               key={index}
               title={item.title}
-              href={`/${item?.article_category?.name
+              href={`/${item.article_category
                 ?.toLowerCase()
                 ?.replaceAll(" ", "-")}/${item?.title
                 ?.replaceAll(" ", "-")

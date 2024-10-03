@@ -74,7 +74,7 @@ export default function Style8({
                   <Link
                     key={index}
                     title={item.title}
-                    href={`/${item.article_category.name
+                    href={`/${item.article_category
                       ?.toLowerCase()
                       ?.replaceAll(" ", "-")}/${item?.title
                       ?.replaceAll(" ", "-")

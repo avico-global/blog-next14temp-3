@@ -117,7 +117,7 @@ export default function Rightbar({
           >
             <Link
               title={item.title || "Article"}
-              href={`/${item.article_category.name
+              href={`/${item.article_category
                 ?.toLowerCase()
                 ?.replaceAll(" ", "-")}/${item.title
                 .replace(/ /g, "-")
@@ -139,7 +139,7 @@ export default function Rightbar({
             <div>
               <Link
                 title={item.title || "Article Link"}
-                href={`/${item.article_category.name
+                href={`/${item.article_category
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item.title
                   .replace(/ /g, "-")

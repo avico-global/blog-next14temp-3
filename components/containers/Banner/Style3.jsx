@@ -72,7 +72,7 @@ export default function Style3({ image, data, searchQuery, filteredBlogs }) {
                   <Link
                     key={index}
                     title={item.title}
-                    href={`/${item.article_category.name
+                    href={`/${item.article_category
                       ?.toLowerCase()
                       ?.replaceAll(" ", "-")}/${item?.title
                       ?.replaceAll(" ", "-")
