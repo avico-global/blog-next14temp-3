@@ -11,7 +11,7 @@ export default function MustRead({ blog_list = [], imagePath }) {
   return (
     mustReadBlogs?.length > 0 && (
       <FullContainer className="py-16 text-center">
-        <Container className="border border-gray-100 px-3 py-9 md:px-9">
+        <Container className="border border-gray-200 px-3 py-9 md:px-9">
           <h2 className="font-bold text-3xl -mt-14 bg-white px-6">Must Read</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-11 mb-3">
             {mustReadBlogs.map((item, index) => (
@@ -45,8 +45,8 @@ function BlogCard({
   image,
   href,
   category,
-  imageTitle = "Article Thumbnail", // Default value
-  altImage = "No Thumbnail Found", // Default value
+  imageTitle = "Article Thumbnail",
+  altImage = "No Thumbnail Found",
   tagline,
 }) {
   return (

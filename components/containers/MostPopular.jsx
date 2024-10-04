@@ -11,7 +11,7 @@ export default function MostPopular({ blog_list = [], imagePath }) {
   return (
     popularBlogs?.length > 0 && (
       <FullContainer className="py-16 text-center">
-        <Container className="border border-gray-100 px-3 py-9 md:px-9">
+        <Container className="border border-gray-200 px-3 py-9 md:px-9">
           <h2 className="font-bold text-3xl -mt-14 bg-white px-6">
             Most Popular
           </h2>
