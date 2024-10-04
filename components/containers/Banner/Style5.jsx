@@ -22,7 +22,9 @@ export default function Style5({
         className="min-h-[63vh] overflow-hidden p-0  grid grid-cols-1 lg:grid-cols-2 items-center gap-0" // Removed padding from grid for flush layout
       >
         {/* Image Column (Left) */}
-        <div className="relative w-full h-full"> {/* Ensure the image takes full width and height */}
+        <div className="relative w-full h-full">
+          {" "}
+          {/* Ensure the image takes full width and height */}
           <Image
             src={image || "/images/banner.webp"} // Fallback image
             title={data.imageTitle || data.title || "Banner"}
@@ -30,12 +32,12 @@ export default function Style5({
             priority={true}
             fill={true} // Fills the parent div
             loading="eager"
-            className="   "  // Use cover to maintain aspect ratio while filling the div
+            className="   " // Use cover to maintain aspect ratio while filling the div
           />
         </div>
 
         {/* Text Column (Right) */}
-        <div className="flex flex-col justify-center items-center lg:items-start space-y-5 lg:h-full py-14 lg:py-0 px-10 bg-black text-center lg:text-left text-white"> 
+        <div className="flex flex-col justify-center items-center lg:items-start space-y-5 lg:h-full py-14 lg:py-0 px-10 bg-black text-center lg:text-left text-white">
           <div className="flex flex-col gap-4 w-full lg:max-w-[80%]">
             <h1
               style={{ fontSize: data.titleFontSize || 48 }}
@@ -75,7 +77,7 @@ export default function Style5({
                     <Link
                       key={index}
                       title={item.title}
-                      href={`/${item.article_category.name
+                      href={`/${item.article_category
                         ?.toLowerCase()
                         ?.replaceAll(" ", "-")}/${item?.title
                         ?.replaceAll(" ", "-")

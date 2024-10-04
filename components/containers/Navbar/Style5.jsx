@@ -33,7 +33,7 @@ export default function Style5({
           </p>
           <SocialShare
             url={`http://${domain}${
-              myblog?.article_category?.name
+              myblog?.article_category
             }/${myblog?.title?.replaceAll(" ", "-")?.toLowerCase()}`}
             title={myblog?.value.title}
           />
@@ -81,7 +81,7 @@ export default function Style5({
                   <Link
                     key={index}
                     title={item.title}
-                    href={`/${item.article_category.name
+                    href={`/${item.article_category
                       ?.toLowerCase()
                       ?.replaceAll(" ", "-")}/${item?.title
                       ?.replaceAll(" ", "-")

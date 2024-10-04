@@ -1,9 +1,9 @@
 import React from "react";
-import FullContainer from "../common/FullContainer";
-import Container from "../common/Container";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { Badge } from "../ui/badge";
+import Container from "../common/Container";
+import FullContainer from "../common/FullContainer";
 
 export default function MostPopular({ blog_list = [], imagePath }) {
   const popularBlogs = blog_list.filter((item) => item.isPopular);
@@ -25,12 +25,12 @@ export default function MostPopular({ blog_list = [], imagePath }) {
                 tagline={item.tagline}
                 description={item.articleContent}
                 image={`${imagePath}/${item.image || "no-image.png"}`}
-                href={`/${item?.article_category?.name
+                href={`/${item.article_category
                   ?.toLowerCase()
                   ?.replaceAll(" ", "-")}/${item?.title
                   ?.replaceAll(" ", "-")
                   ?.toLowerCase()}`}
-                category={item.article_category.name}
+                category={item.article_category}
                 imageTitle={item.imageTitle}
                 altImage={item.altImage}
               />
@@ -47,8 +47,8 @@ function BlogCard({
   image,
   href,
   category,
-  imageTitle = "Article Thumbnail", // Default value
-  altImage = "No Thumbnail Found", // Default value
+  imageTitle = "Article Thumbnail",
+  altImage = "No Thumbnail Found",
   tagline,
 }) {
   return (

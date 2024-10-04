@@ -23,12 +23,10 @@ const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
 
-// Helper function to replace special characters in URLs
 const sanitizeUrl = (text) => {
   return text?.replaceAll(/%20/g, "-").replaceAll(" ", "-");
 };
 
-// Main Blog component
 export default function Blog({
   logo,
   myblog,
@@ -139,7 +137,7 @@ export default function Blog({
                       className="-z-10 w-full h-full object-cover absolute top-0"
                     />
                     <Container className="gap-8">
-                      <Badge>{myblog?.value?.article_category?.name}</Badge>
+                      <Badge>{myblog?.value?.article_category}</Badge>
                       <h1
                         style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
                         className="font-bold capitalize max-w-screen-md"
@@ -187,9 +185,9 @@ export default function Blog({
                               Share this article:
                             </h3>
                             <SocialShare
-                              url={`http://${domain}${
-                                myblog?.article_category?.name
-                              }/${myblog?.title
+                              url={`http://${domain}${myblog?.article_category
+                                ?.replaceAll(" ", "-")
+                                ?.toLowerCase()}/${myblog?.title
                                 ?.replaceAll(" ", "-")
                                 ?.toLowerCase()}`}
                               title={myblog?.value.title}
@@ -243,7 +241,9 @@ export default function Blog({
                 "@type": "WebPage",
                 "@id": myblog
                   ? `http://${domain}${sanitizeUrl(
-                      myblog?.article_category?.name
+                      myblog?.article_category
+                        ?.replaceAll(" ", "-")
+                        ?.toLowerCase()
                     )}/${sanitizeUrl(myblog?.value?.title)}`
                   : "",
               },
@@ -270,7 +270,6 @@ export default function Blog({
   );
 }
 
-// Server-side rendering with better error handling
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const { category, blog } = query;
