@@ -19,6 +19,7 @@ import SocialShare from "@/components/common/SocialShare";
 
 // Font
 import { Raleway } from "next/font/google";
+import BlogBanner from "@/components/containers/BlogBanner";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
@@ -41,6 +42,7 @@ export default function Blog({
   layout,
   nav_type,
   project_id,
+  blog_type,
 }) {
   const router = useRouter();
   const { category, blog } = router.query;
@@ -113,50 +115,12 @@ export default function Blog({
                 );
               case "banner":
                 return (
-                  <FullContainer
+                  <BlogBanner
                     key={index}
-                    className="min-h-[62vh] overflow-hidden p-10 text-center"
-                    style={{
-                      backgroundColor: `rgba(0, 0, 0, ${
-                        myblog?.value?.opacity / 100
-                      })`,
-                      color: myblog?.value?.textColor || "white",
-                    }}
-                  >
-                    <Image
-                      src={`${imagePath}/${myblog?.file_name}`}
-                      alt={
-                        myblog?.value.imageAltText ||
-                        myblog?.value?.tagline ||
-                        "No Banner Found"
-                      }
-                      title={myblog?.value.imageTitle || myblog?.value.title}
-                      priority={true}
-                      fill={true}
-                      loading="eager"
-                      className="-z-10 w-full h-full object-cover absolute top-0"
-                    />
-                    <Container className="gap-8">
-                      <Badge>{myblog?.value?.article_category}</Badge>
-                      <h1
-                        style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
-                        className="font-bold capitalize max-w-screen-md"
-                      >
-                        {myblog?.value.title}
-                      </h1>
-                      <p
-                        style={{
-                          fontSize: myblog?.value?.taglineFontSize || 18,
-                        }}
-                      >
-                        {myblog?.value.tagline}
-                      </p>
-                      <div className="flex items-center justify-center gap-4">
-                        <p>{myblog?.value.author}</p> -{" "}
-                        <p>{myblog?.value.published_at}</p>
-                      </div>
-                    </Container>
-                  </FullContainer>
+                    myblog={myblog}
+                    imagePath={imagePath}
+                    blog_type={blog_type}
+                  />
                 );
               case "breadcrumbs":
                 return (
@@ -306,7 +270,7 @@ export async function getServerSideProps({ req, query }) {
   });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
-
+  const blog_type = await callBackendApi({ domain, type: "blog_type" });
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = await getImagePath(project_id, domain);
 
@@ -324,6 +288,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details.data[0].value,
       favicon: favicon?.data[0]?.file_name || null,
       nav_type: nav_type?.data[0]?.value || {},
+      blog_type: blog_type?.data[0]?.value || {},
       project_id,
     },
   };

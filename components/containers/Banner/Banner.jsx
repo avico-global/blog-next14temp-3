@@ -80,6 +80,5 @@ export default function Banner({ image, data, blog_list }) {
         return null;
     }
   };
-
   return renderActiveStyle();
 }
