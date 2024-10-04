@@ -96,7 +96,7 @@ export default function Home({
                         {blog_list?.map(
                           (item, index) =>
                             item.isFeatured && (
-                              <div>
+                              <div key={index}>
                                 <div className="flex items-center justify-between gap-5 mb-6 -mt-3">
                                   <h2 className="font-bold text-xl">
                                     Featured Article

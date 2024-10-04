@@ -42,7 +42,7 @@ export default function About({
   const reversedLastFiveBlogs = useMemo(() => {
     const lastFiveBlogs = blog_list?.slice(-5);
     return lastFiveBlogs ? [...lastFiveBlogs].reverse() : [];
-  }, [blog_list, imagePath]);
+  }, [blog_list]);
 
   const breadcrumbs = useBreadcrumbs();
 
