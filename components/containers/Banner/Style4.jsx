@@ -1,65 +1,55 @@
 import React from "react";
-import FullContainer from "../../common/FullContainer";
 import Image from "next/image";
-import Link from "next/link";
+import Container from "@/components/common/Container";
+import FullContainer from "@/components/common/FullContainer";
+import { Button } from "@/components/ui/button";
 
-export default function Style4({
-  image,
-  data,
-  searchQuery,
-  filteredBlogs,
-  searchContainerRef,
-}) {
+export default function Style4({ image, data }) {
   return (
-    <div
-      style={{
-        backgroundColor: `rgba(100, 62, 43, ${data?.opacity})`,
-        color: data.textColor || "white",
-      }}
-    >
-      <FullContainer
-        className="min-h-[63vh] overflow-hidden p-4 mx-auto max-w-[1700px] grid grid-cols-1 lg:grid-cols-2 items-center gap-10 lg:gap-20" // Adjusted gap for responsiveness
-        style={{
-          color: data.textColor || "white",
-        }}
-      >
-        {/* Text Column */}
-        <div className="flex flex-col justify-center items-center lg:items-start space-y-5 py-14 lg:py-28 lg:px-6 bg-banner lg:rounded-lg text-center lg:text-left"> 
-          <div className="flex flex-col gap-4">
+    <FullContainer>
+      <Container>
+        <div className="grid grid-cols-2 gap-10 w-full py-10">
+          <div className="flex flex-col gap-4 py-28">
             <h1
               style={{ fontSize: data.titleFontSize || 48 }}
-              className="font-bold capitalize text-amber-800 text-4xl lg:text-5xl" // Responsive text size
+              className="font-bold capitalize text-4xl lg:text-5xl"
             >
               {data.title}
             </h1>
             {data.tagline && (
               <h2
                 style={{ fontSize: data.taglineFontSize || 18 }}
-                className="leading-tight text-amber-800 text-lg lg:text-xl" // Responsive tagline size
+                className="leading-tight text-lg lg:text-xl"
               >
                 {data.tagline}
               </h2>
             )}
+            <Button className="w-fit">Explore</Button>
           </div>
-          <Link
-            href="/"
-            className="inline-block text-white bg-amber-900 py-3 px-6 rounded-full text-lg lg:text-xl hover:bg-amber-800 transition-colors duration-300"
-          >
-            View Our Blogs
-          </Link>
+          <div className="relative rounded-xl overflow-hidden">
+            <Image
+              src={image}
+              title={data.imageTitle || data.title || "Banner"}
+              alt={data.altImage || data.tagline || "No Banner Found"}
+              priority={true}
+              fill={true}
+              loading="eager"
+              className="-z-10 w-full object-cover absolute top-0"
+              objectFit="cover"
+              sizes="(max-width: 320px) 320px,
+               (max-width: 480px) 480px,
+               (max-width: 768px) 768px,
+               (max-width: 1024px) 1024px,
+               (max-width: 1280px) 1280px,
+               (max-width: 1600px) 1600px,
+               (max-width: 1920px) 1920px,
+               (max-width: 2560px) 2560px,
+               (max-width: 3840px) 3840px,
+               100vw"
+            />
+          </div>
         </div>
-
-        {/* Image Column */}
-        <div className="w-full flex justify-center lg:justify-start lg:mr-20 p-4">
-          <Image
-            src= "/images/banner.webp"
-            height={600} // Adjusted image size for better responsiveness
-            width={600}
-            alt="Image"
-            className="rounded-lg shadow-lg object-cover" // Added styling for the image
-          />
-        </div>
-      </FullContainer>
-    </div>
+      </Container>
+    </FullContainer>
   );
 }

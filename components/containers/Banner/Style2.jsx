@@ -1,17 +1,11 @@
 import React from "react";
-import FullContainer from "../../common/FullContainer";
-import Container from "../../common/Container";
 import Image from "next/image";
+import Container from "../../common/Container";
+import FullContainer from "../../common/FullContainer";
 
 export default function Style2({ image, data }) {
   return (
-    <FullContainer
-      className="min-h-[63vh]  overflow-hidden p-10  text-left "
-      style={{
-        backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
-        color: data.textColor || "white",
-      }}
-    >
+    <FullContainer className="min-h-[50vh]  overflow-hidden p-10  text-left ">
       <Image
         src={image}
         title={data.imageTitle || data.title || "Banner"}
@@ -32,7 +26,13 @@ export default function Style2({ image, data }) {
                (max-width: 3840px) 3840px,
                100vw"
       />
-      <Container className="gap-8 text-left bg-black py-36 ">
+      <Container
+        className="gap-5 text-left py-24"
+        style={{
+          backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
+          color: data.textColor || "white",
+        }}
+      >
         <h1
           style={{ fontSize: data.titleFontSize || 48 }}
           className="font-bold capitalize  text-left  "

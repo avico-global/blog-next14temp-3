@@ -1,7 +1,4 @@
-import React from "react";
-import FullContainer from "../../common/FullContainer";
-import Container from "../../common/Container";
-import Image from "next/image";
+import React, { useState, useRef, useEffect } from "react";
 import Style1 from "./Style1";
 import Style2 from "./Style2";
 import Style3 from "./Style3";
@@ -11,9 +8,51 @@ import Style6 from "./Style6";
 import Style7 from "./Style7";
 import Style8 from "./Style8";
 import Style9 from "./Style9";
-export default function Banner({ image, data }) {
+
+export default function Banner({ image, data, blog_list }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [openSearch, setOpenSearch] = useState(false);
+  const filteredBlogs = blog_list?.filter((item) =>
+    item?.title?.toLowerCase()?.includes(searchQuery.toLowerCase())
+  );
+  const searchContainerRef = useRef(null);
+
+  const handleSearchChange = (event) => setSearchQuery(event.target.value);
+
+  const handleSearchToggle = () => {
+    setOpenSearch((prev) => !prev);
+    if (!openSearch) setSearchQuery("");
+  };
+
+  const handleClickOutside = (event) => {
+    if (
+      searchContainerRef.current &&
+      !searchContainerRef.current.contains(event.target)
+    ) {
+      setOpenSearch(false);
+      setSearchQuery("");
+    }
+  };
+
+  useEffect(() => {
+    if (openSearch) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [openSearch]);
+
   const renderActiveStyle = () => {
     const props = {
+      openSearch,
+      searchQuery,
+      searchContainerRef,
+      handleSearchChange,
+      handleSearchToggle,
+      filteredBlogs,
       image,
       data,
     };
@@ -42,55 +81,5 @@ export default function Banner({ image, data }) {
     }
   };
 
-  console.log("👊 ~ Banner ~ image:", image);
-  return (
-    <>
-      {renderActiveStyle()}
-      {/* 
-      <FullContainer
-        className="min-h-[63vh] overflow-hidden p-10 text-center"
-        style={{
-          backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
-          color: data.textColor || "white",
-        }}
-      >
-        <Image
-          src={image}
-          title={data.imageTitle || data.title || "Banner"}
-          alt={data.altImage || data.tagline || "No Banner Found"}
-          priority={true}
-          fill={true}
-          loading="eager"
-          className="-z-10 w-full h-full object-cover absolute top-0"
-          objectFit="cover"
-          sizes="(max-width: 320px) 320px,
-               (max-width: 480px) 480px,
-               (max-width: 768px) 768px,
-               (max-width: 1024px) 1024px,
-               (max-width: 1280px) 1280px,
-               (max-width: 1600px) 1600px,
-               (max-width: 1920px) 1920px,
-               (max-width: 2560px) 2560px,
-               (max-width: 3840px) 3840px,
-               100vw"
-        />
-        <Container className="gap-8">
-          <h1
-            style={{ fontSize: data.titleFontSize || 48 }}
-            className="font-bold capitalize max-w-screen-md"
-          >
-            {data.title}
-          </h1>
-          {data.tagline && (
-            <p
-              style={{ fontSize: data.taglineFontSize || 18 }}
-              className="leading-tight md:leading-none"
-            >
-              {data.tagline}
-            </p>
-          )}
-        </Container>
-      </FullContainer> */}
-    </>
-  );
+  return renderActiveStyle();
 }

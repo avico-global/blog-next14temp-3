@@ -76,6 +76,7 @@ export default function Home({
                   key={index}
                   data={banner.value}
                   image={`${imagePath}/${banner?.file_name}`}
+                  blog_list={blog_list}
                 />
               );
             case "most popular":
@@ -88,44 +89,52 @@ export default function Home({
               );
             case "articles":
               return (
-                <FullContainer key={index} className="pt-12">
+                <FullContainer key={index} className="pt-5">
                   <Container>
                     <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                      <div className="flex flex-col gap-12 w-full">
+                      <div className="flex flex-col gap-10 w-full">
                         {blog_list?.map(
                           (item, index) =>
                             item.isFeatured && (
-                              <BlogCard
-                                key={index}
-                                index={index}
-                                title={item.title}
-                                author={item.author}
-                                published_at={item.published_at}
-                                tagline={item.tagline}
-                                content={item.articleContent}
-                                image={
-                                  item.image
-                                    ? `${imagePath}/${item.image}`
-                                    : "/no-image.png"
-                                }
-                                href={`/${item?.article_category?.name
-                                  ?.toLowerCase()
-                                  ?.replaceAll(" ", "-")}/${item?.title
-                                  ?.replaceAll(" ", "-")
-                                  ?.toLowerCase()}`}
-                                category={item?.article_category?.name}
-                                imageHeight="h-72 md:h-[420px]"
-                                imageTitle={
-                                  item.imageTitle ||
-                                  item.title ||
-                                  "Blog Image Title"
-                                }
-                                altImage={
-                                  item.altImage ||
-                                  item.tagline ||
-                                  "Article Thumbnail"
-                                }
-                              />
+                              <div>
+                                <div className="flex items-center justify-between gap-5 mb-6 -mt-3">
+                                  <h2 className="font-bold text-xl">
+                                    Featured Article
+                                  </h2>
+                                  <div className="flex-1 h-[1px] bg-gray-200"></div>
+                                </div>
+                                <BlogCard
+                                  key={index}
+                                  index={index}
+                                  title={item.title}
+                                  author={item.author}
+                                  published_at={item.published_at}
+                                  tagline={item.tagline}
+                                  content={item.articleContent}
+                                  image={
+                                    item.image
+                                      ? `${imagePath}/${item.image}`
+                                      : "/no-image.png"
+                                  }
+                                  href={`/${item?.article_category?.name
+                                    ?.toLowerCase()
+                                    ?.replaceAll(" ", "-")}/${item?.title
+                                    ?.replaceAll(" ", "-")
+                                    ?.toLowerCase()}`}
+                                  category={item?.article_category?.name}
+                                  imageHeight="h-72 md:h-[420px]"
+                                  imageTitle={
+                                    item.imageTitle ||
+                                    item.title ||
+                                    "Blog Image Title"
+                                  }
+                                  altImage={
+                                    item.altImage ||
+                                    item.tagline ||
+                                    "Article Thumbnail"
+                                  }
+                                />
+                              </div>
                             )
                         )}
                         {renderBlogList(blog_list)}

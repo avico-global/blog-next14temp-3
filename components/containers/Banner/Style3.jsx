@@ -5,10 +5,19 @@ import Image from "next/image";
 import { Search } from "lucide-react";
 import Link from "next/link";
 
-export default function Style3({ image, data, searchQuery, filteredBlogs }) {
+export default function Style3({
+  openSearch,
+  searchQuery,
+  searchContainerRef,
+  handleSearchChange,
+  filteredBlogs,
+  image,
+  data,
+  f,
+}) {
   return (
     <FullContainer
-      className="min-h-[63vh] overflow-hidden p-10 flex flex-col items-start"
+      className="h-auto min-h-[50vh] overflow-hidden"
       style={{
         backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
         color: data.textColor || "white",
@@ -34,39 +43,36 @@ export default function Style3({ image, data, searchQuery, filteredBlogs }) {
                (max-width: 3840px) 3840px,
                100vw"
       />
-      <Container className="gap-4 flex flex-col items-center lg:items-start lg:ml-40 ">
+      <Container className="gap-3 flex flex-col items-center justify-center py-28 text-center">
         <h1
           style={{ fontSize: data.titleFontSize || 48 }}
-          className="font-bold capitalize ml-5"
+          className="font-bold capitalize"
         >
           {data.title}
         </h1>
         {data.tagline && (
-          <h2
+          <p
             style={{ fontSize: data.taglineFontSize || 18 }}
-            className="leading-tight md:leading-none ml-5 "
+            className="leading-tight md:leading-none"
           >
             {data.tagline}
-          </h2>
+          </p>
         )}
-
-        <div className="lg:ml-0 w-full lg:w-fit flex flex-col lg:items-start justify-start">
-          {/* Wrapping input field and icon in a relative div */}
-          <div className="relative w-5/6 lg:w-[650px] mx-auto">
-            {/* Search Icon */}
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-
-            <input
-              type="text"
-              value={searchQuery}
-              className="lg:text-xl border border-gray-300 inputField rounded-full outline-none text-black bg-white shadow-xl p-4 pl-12 pr-5 transition-opacity duration-300 ease-in-out opacity-100 w-full focus:ring-2 focus:ring-yellow-500"
-              placeholder="Search..."
-              autoFocus
-            />
-          </div>
-
+        <div
+          ref={searchContainerRef}
+          className="relative w-6/12 flex items-center gap-5 py-2 px-5 bg-white rounded-full mt-4"
+        >
+          <Search className="text-gray-400 w-5 h-5" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="flex-1 bg-transparent"
+            placeholder="Search..."
+            autoFocus
+          />
           {searchQuery && (
-            <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
+            <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
               {filteredBlogs?.length > 0 ? (
                 filteredBlogs.map((item, index) => (
                   <Link
