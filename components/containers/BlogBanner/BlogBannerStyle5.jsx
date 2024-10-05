@@ -9,8 +9,8 @@ export default function BlogBannerStyle5({ myblog, imagePath }) {
     <>
       <div
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${data?.opacity || 0.85})`, // Black background with optional opacity
-          color: data.textColor || "white",
+          backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity || 0.85})`, // Black background with optional opacity
+          color: myblog?.textColor || "white",
         }}
       >
         <FullContainer
@@ -19,7 +19,6 @@ export default function BlogBannerStyle5({ myblog, imagePath }) {
           {/* Image Column (Left) */}
           <div className="relative w-full h-full">
             {" "}
-            {/* Ensure the image takes full width and height */}
             <Image
               src={`${imagePath}/${myblog?.file_name}`}
               alt={
@@ -39,7 +38,7 @@ export default function BlogBannerStyle5({ myblog, imagePath }) {
           <div className="flex flex-col justify-center items-center lg:items-start space-y-5 lg:h-full py-14 lg:py-0 px-10 bg-black text-center lg:text-left text-white">
             <div className="flex flex-col gap-4 w-full lg:max-w-[80%]">
               <div className="flex flex-col gap-4 py-28">
-                <Badge>{myblog?.value?.article_category}</Badge>
+                <Badge className={` w-48 `} >{myblog?.value?.article_category}</Badge>
                 <h1
                   style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
                   className="font-bold capitalize max-w-screen-md"
@@ -50,9 +49,9 @@ export default function BlogBannerStyle5({ myblog, imagePath }) {
                   style={{
                     fontSize: myblog?.value?.taglineFontSize || 18,
                   }}
-                  className="bg-red-800 py-40"
+                  className="  text-white py-40"
                 >
-                  {myblog?.value.tagline}
+                  {myblog?.value?.tagline}
                 </p>
                 <div className="flex items-center justify-center gap-4">
                   <p>{myblog?.value.author}</p> -{" "}

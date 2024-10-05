@@ -8,10 +8,10 @@ export default function BlogBannerStyle3({ myblog, imagePath }) {
   return (
     <>
       <FullContainer
-        className="h-auto min-h-[50vh] overflow-hidden"
+        className=" mx-auto max-w-[1100px]  overflow-hidden"
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
-          color: data.textColor || "white",
+          backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity / 100})`,
+          color: myblog?.textColor || "white",
         }}
       >
         <Image

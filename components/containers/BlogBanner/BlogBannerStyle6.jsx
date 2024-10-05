@@ -9,15 +9,28 @@ export default function BlogBannerStyle6({ myblog, imagePath }) {
     <>
       <div
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${data?.opacity || 0.85})`,
-          color: data.textColor || "white",
+          backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity || 0.85})`,
+          color: myblog?.textColor || "white",
         }}
       >
-        <FullContainer className="min-h-[63vh] flex flex-col justify-center items-center p-10">
+        <FullContainer className="min-h-[63vh] flex flex-col justify-start items-start p-10">
+        <Image
+          src={`${imagePath}/${myblog?.file_name}`}
+          alt={
+            myblog?.value.imageAltText ||
+            myblog?.value?.tagline ||
+            "No Banner Found"
+          }
+          title={myblog?.value.imageTitle || myblog?.value?.title}
+          priority={true}
+          fill={true}
+          loading="eager"
+          className="-z-10 w-full h-full object-cover absolute top-0"
+        />
           {/* Text Column */}
           <div className="flex flex-col justify-center items-center lg:items-start space-y-5 lg:h-full">
             <div className="flex flex-col gap-4 py-28">
-              <Badge>{myblog?.value?.article_category}</Badge>
+              <Badge className={` w-48 `} >{myblog?.value?.article_category}</Badge>
               <h1
                 style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
                 className="font-bold capitalize max-w-screen-md"
@@ -28,7 +41,7 @@ export default function BlogBannerStyle6({ myblog, imagePath }) {
                 style={{
                   fontSize: myblog?.value?.taglineFontSize || 18,
                 }}
-                className="bg-red-800 py-40"
+                className=" py-40"
               >
                 {myblog?.value.tagline}
               </p>

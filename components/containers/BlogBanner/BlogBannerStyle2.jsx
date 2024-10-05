@@ -15,7 +15,7 @@ export default function BlogBannerStyle2({ myblog, imagePath }) {
             myblog?.value?.tagline ||
             "No Banner Found"
           }
-          title={myblog?.value.imageTitle || myblog?.value.title}
+          title={myblog?.value.imageTitle || myblog?.value?.title}
           priority={true}
           fill={true}
           loading="eager"
@@ -24,8 +24,8 @@ export default function BlogBannerStyle2({ myblog, imagePath }) {
         <Container
           className="gap-8 text-left py-24"
           style={{
-            backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
-            color: data.textColor || "white",
+            backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity / 100})`,
+            color: myblog?.textColor || "white",
           }}
         >
           <Badge>{myblog?.value?.article_category}</Badge>

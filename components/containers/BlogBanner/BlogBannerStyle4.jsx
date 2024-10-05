@@ -22,7 +22,7 @@ export default function BlogBannerStyle4({ myblog, imagePath }) {
                 style={{
                   fontSize: myblog?.value?.taglineFontSize || 18,
                 }}
-                className="bg-red-800 py-40"
+                className=" py-40"
               >
                 {myblog?.value.tagline}
               </p>
@@ -43,7 +43,7 @@ export default function BlogBannerStyle4({ myblog, imagePath }) {
                 priority={true}
                 fill={true}
                 loading="eager"
-                className="-z-10 w-full h-full object-cover absolute top-0"
+                className="-z-10 w-full  object-cover  top-0"
               />
             </div>
           </div>
