@@ -1,19 +1,24 @@
 import React from "react";
-import FullContainer from "../common/FullContainer";
-import Container from "../common/Container";
-import PopularPosts from "./PopularPosts";
-import LatestPosts from "./LatestPosts";
+import FullContainer from "../../common/FullContainer";
+import Container from "../../common/Container";
+import PopularPosts from "../PopularPosts";
+import LatestPosts from "../LatestPosts";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-export default function Footer({ categories, blog_list, imagePath, category }) {
+export default function FooterStyle1({
+  categories,
+  blog_list,
+  imagePath,
+  category,
+}) {
   const handleClick = (e) => {
     e.preventDefault();
     window.location.href = "/sitemap.xml";
   };
 
   return (
-    <FullContainer className="bg-black text-white py-16 mt-12">
+    <FullContainer className="bg-white text-black py-16 mt-12 border-t ">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-footer gap-10 w-full">
           <LatestPosts blog_list={blog_list} imagePath={imagePath} />

@@ -8,9 +8,9 @@ export default function BlogBannerStyle3({ myblog, imagePath }) {
   return (
     <>
       <FullContainer
-        className=" mx-auto max-w-[1100px]  overflow-hidden"
+        className=" mx-auto max-w-[1100px]  overflow-hidden bg-black/50 "
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity / 100})`,
+          backgroundColor: `rgba(10, 0, 0, ${myblog?.opacity / 100})`,
           color: myblog?.textColor || "white",
         }}
       >
@@ -39,7 +39,6 @@ export default function BlogBannerStyle3({ myblog, imagePath }) {
             style={{
               fontSize: myblog?.value?.taglineFontSize || 18,
             }}
-            className="bg-red-800 py-40"
           >
             {myblog?.value.tagline}
           </p>

@@ -27,9 +27,9 @@ export default function Style2({ image, data }) {
                100vw"
       />
       <Container
-        className="gap-5 text-left py-24"
+        className="gap-5 text-left py-24  "
         style={{
-          backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
+          backgroundColor: `rgba(0, 0, 0, ${data?.opacity/50 })`,
           color: data.textColor || "white",
         }}
       >

@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import React from "react";
 
-export default function BlogBannerStyle5({ myblog, imagePath }) {
+export default function BlogBannerStyle10({ myblog, imagePath }) {
   return (
     <>
       <div
@@ -35,13 +35,13 @@ export default function BlogBannerStyle5({ myblog, imagePath }) {
           </div>
 
           {/* Text Column (Right) */}
-          <div className="flex flex-col justify-center items-center lg:items-start space-y-5 lg:h-full py-14 lg:py-0 px-10 bg-black text-center lg:text-left text-white">
+          <div className="flex flex-col justify-center items-center lg:items-start space-y-5 lg:h-full py-14 lg:py-0 px-10 bg-gray-100 text-center lg:text-left text-white">
             <div className="flex flex-col gap-4 w-full lg:max-w-[80%]">
               <div className="flex flex-col gap-4 py-28">
                 <Badge className={`  justify-center lg:justify-start  lg:w-48 `} >{myblog?.value?.article_category}</Badge>
                 <h1
                   style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
-                  className="font-bold capitalize max-w-screen-md"
+                  className="font-bold capitalize max-w-screen-md text-black"
                 >
                   {myblog?.value.title}
                 </h1>
@@ -49,7 +49,7 @@ export default function BlogBannerStyle5({ myblog, imagePath }) {
                   style={{
                     fontSize: myblog?.value?.taglineFontSize || 18,
                   }}
-                  className="  text-white "
+                  className="  text-black "
                 >
                   {myblog?.value?.tagline}
                 </p>

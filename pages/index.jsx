@@ -38,6 +38,7 @@ export default function Home({
   layout,
   tag_list,
   nav_type,
+  footer_type,
 }) {
   useEffect(() => {
     fetch("/api/get-images")
@@ -167,6 +168,7 @@ export default function Home({
                   imagePath={imagePath}
                   blog_list={blog_list}
                   categories={categories}
+                  footer_type={footer_type}
                 />
               );
             default:
@@ -394,6 +396,7 @@ export async function getServerSideProps({ req }) {
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
+  const footer_type = await callBackendApi({ domain, type: "footer_type" });
   const all_data = await callBackendApi({ domain, type: "" });
   const imagePath = await getImagePath(project_id, domain);
 
@@ -414,6 +417,7 @@ export async function getServerSideProps({ req }) {
       banner: banner?.data[0],
       contact_details: contact_details?.data[0]?.value,
       nav_type: nav_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
       tag_list: tag_list?.data[0]?.value || null,
       all_data,
     },

@@ -10,6 +10,8 @@ export default function Style5({
   searchQuery,
   filteredBlogs,
   searchContainerRef,
+  handleSearchChange,
+
 }) {
   return (
     <div
@@ -55,45 +57,43 @@ export default function Style5({
             )}
           </div>
 
-          <div className="lg:ml-0 w-full lg:w-fit flex flex-col lg:items-start justify-start">
-            {/* Wrapping input field and icon in a relative div */}
-            <div className="relative w-5/6 lg:w-[650px] mx-auto">
-              {/* Search Icon */}
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
-
-              <input
-                type="text"
-                value={searchQuery}
-                className="lg:text-xl border border-gray-300 inputField rounded-full outline-none text-black bg-white shadow-xl p-4 pl-12 pr-5 transition-opacity duration-300 ease-in-out opacity-100 w-full focus:ring-2 focus:ring-yellow-500"
-                placeholder="Search..."
-                autoFocus
-              />
+          <div
+          ref={searchContainerRef}
+          className="relative w-6/12 flex items-center gap-5 py-2 px-5 bg-white rounded-full mt-4"
+        >
+          <Search className="text-gray-400 w-5 h-5" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="flex-1 bg-transparent outline-none py-2 text-black"
+            placeholder="Search..."
+            autoFocus
+          />
+          {searchQuery && (
+            <div className="absolute top-full p-1 text-start  lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-11/12 lg:w-[500px]">
+              {filteredBlogs?.length > 0 ? (
+                filteredBlogs.map((item, index) => (
+                  <Link
+                    key={index}
+                    title={item.title}
+                    href={`/${item.article_category
+                      ?.toLowerCase()
+                      ?.replaceAll(" ", "-")}/${item?.title
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}`}
+                  >
+                    <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
+                      {item.title}
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <div className="p-2 text-gray-600">No articles found.</div>
+              )}
             </div>
-
-            {searchQuery && (
-              <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
-                {filteredBlogs?.length > 0 ? (
-                  filteredBlogs.map((item, index) => (
-                    <Link
-                      key={index}
-                      title={item.title}
-                      href={`/${item.article_category
-                        ?.toLowerCase()
-                        ?.replaceAll(" ", "-")}/${item?.title
-                        ?.replaceAll(" ", "-")
-                        ?.toLowerCase()}`}
-                    >
-                      <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
-                        {item.title}
-                      </div>
-                    </Link>
-                  ))
-                ) : (
-                  <div className="p-2 text-gray-600">No articles found.</div>
-                )}
-              </div>
-            )}
-          </div>
+          )}
+        </div>
         </div>
       </FullContainer>
     </div>

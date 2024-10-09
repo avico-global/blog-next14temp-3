@@ -14,7 +14,7 @@ export default function BlogBannerStyle8({ myblog, imagePath }) {
         }}
       >
         <FullContainer
-          className="min-h-[60vh] overflow-hidden p-4 mx-auto lg:max-w-[1550px] grid lg:grid-cols-2 items-center "
+          className="overflow-hidden p-4 mx-auto lg:max-w-[1200px] grid lg:grid-cols-2 items-center "
           style={{
             color: myblog?.value?.textColor || "white",
           }}
@@ -22,24 +22,25 @@ export default function BlogBannerStyle8({ myblog, imagePath }) {
           {/* Text Column */}
           <div className="flex flex-col justify-center items-center lg:items-start space-y-5 py-14 lg:py-28 lg:px-6 lg:rounded-lg text-center lg:text-left">
             <div className="flex flex-col gap-4 text-center justify-center items-center ">
-            <Badge  >{myblog?.value?.article_category}</Badge>
-          <h1
-            style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
-            className="font-bold capitalize max-w-screen-md  text-black text-center"
-          >
-            {myblog?.value.title}
-          </h1>
-          <p
-            style={{
-              fontSize: myblog?.value?.taglineFontSize || 18,
-            }}
-            className=""
-          >
-            {myblog?.value.tagline}
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <p>{myblog?.value?.author}</p> - <p>{myblog?.value.published_at}</p>
-          </div>
+              <Badge>{myblog?.value?.article_category}</Badge>
+              <h1
+                style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
+                className="font-bold capitalize max-w-screen-md  text-black text-center"
+              >
+                {myblog?.value.title}
+              </h1>
+              <p
+                style={{
+                  fontSize: myblog?.value?.taglineFontSize || 18,
+                }}
+                className=" text-black"
+              >
+                {myblog?.value.tagline}
+              </p>
+              <div className="text-black flex items-center justify-center gap-4">
+                <p>{myblog?.value?.author}</p> -{" "}
+                <p>{myblog?.value.published_at}</p>
+              </div>
             </div>
           </div>
 

@@ -9,7 +9,7 @@ export default function BlogBannerStyle4({ myblog, imagePath }) {
     <>
       <FullContainer>
         <Container>
-          <div className="grid grid-cols-2 gap-10 w-full py-10">
+          <div className="grid lg:grid-cols-2 gap-10 w-full py-10">
             <div className="flex flex-col gap-4 py-28">
               <Badge>{myblog?.value?.article_category}</Badge>
               <h1
@@ -22,16 +22,16 @@ export default function BlogBannerStyle4({ myblog, imagePath }) {
                 style={{
                   fontSize: myblog?.value?.taglineFontSize || 18,
                 }}
-                className=" py-40"
+               
               >
                 {myblog?.value.tagline}
               </p>
               <div className="flex items-center justify-center gap-4">
-                <p>{myblog?.value.author}</p> -{" "}
-                <p>{myblog?.value.published_at}</p>
+                <p className=" bg-black text-white p-1 px-2 rounded-full " >{myblog?.value.author}</p> -{" "}
+                <p className=" bg-black text-white  p-1 px-3  rounded-full " >{myblog?.value.published_at}</p>
               </div>
             </div>
-            <div className="relative rounded-xl overflow-hidden">
+            <div className="relative rounded-xl overflow-hidden bg-black/10">
               <Image
                 src={`${imagePath}/${myblog?.file_name}`}
                 alt={

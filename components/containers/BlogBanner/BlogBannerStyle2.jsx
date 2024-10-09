@@ -7,7 +7,34 @@ import React from "react";
 export default function BlogBannerStyle2({ myblog, imagePath }) {
   return (
     <>
-      <FullContainer className="min-h-[50vh]  overflow-hidden p-10  text-left ">
+      <div
+        className=" flex items-center justify-center text-center gap-8 py-24"
+        style={{
+          backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity / 100})`,
+          color: myblog?.textColor || "white",
+        }}
+      >
+        <div>
+          <Badge>{myblog?.value?.article_category}</Badge>
+          <h1
+            style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
+            className="font-bold text-black capitalize max-w-screen-md "
+          >
+            {myblog?.value.title}
+          </h1>
+
+          <div className="flex text-black items-center justify-center gap-4">
+            <p>{myblog?.value.author}</p> - <p>{myblog?.value.published_at}</p>
+          </div>
+        </div>
+      </div>
+      <FullContainer
+        style={{
+          backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity / 50})`,
+          color: myblog?.textColor || "black",
+        }}
+        className=" min-h-[58vh]  mx-auto max-w-[1000px]  overflow-hidden p-10  text-left "
+      >
         <Image
           src={`${imagePath}/${myblog?.file_name}`}
           alt={
@@ -19,34 +46,8 @@ export default function BlogBannerStyle2({ myblog, imagePath }) {
           priority={true}
           fill={true}
           loading="eager"
-          className="-z-10 w-full h-full object-cover absolute top-0"
+          className="-z-10 w-full h-full object-cover absolute top-0 "
         />
-        <Container
-          className="gap-8 text-left py-24"
-          style={{
-            backgroundColor: `rgba(0, 0, 0, ${myblog?.opacity / 100})`,
-            color: myblog?.textColor || "white",
-          }}
-        >
-          <Badge>{myblog?.value?.article_category}</Badge>
-          <h1
-            style={{ fontSize: myblog?.value?.titleFontSize || 48 }}
-            className="font-bold capitalize max-w-screen-md"
-          >
-            {myblog?.value.title}
-          </h1>
-          <p
-            style={{
-              fontSize: myblog?.value?.taglineFontSize || 18,
-            }}
-            className="bg-red-800 py-40"
-          >
-            {myblog?.value.tagline}
-          </p>
-          <div className="flex items-center justify-center gap-4">
-            <p>{myblog?.value.author}</p> - <p>{myblog?.value.published_at}</p>
-          </div>
-        </Container>
       </FullContainer>
     </>
   );

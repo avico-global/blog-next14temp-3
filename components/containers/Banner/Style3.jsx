@@ -67,12 +67,12 @@ export default function Style3({
             type="text"
             value={searchQuery}
             onChange={handleSearchChange}
-            className="flex-1 bg-transparent"
+            className="flex-1 bg-transparent outline-none text-black"
             placeholder="Search..."
             autoFocus
           />
           {searchQuery && (
-            <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
+            <div className="absolute top-full p-1 text-start  lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-11/12 lg:w-[500px]">
               {filteredBlogs?.length > 0 ? (
                 filteredBlogs.map((item, index) => (
                   <Link

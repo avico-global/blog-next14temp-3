@@ -7,7 +7,7 @@ import Image from "next/image";
 export default function BlogBannerStyle1({ myblog, imagePath }) {
   return (
     <FullContainer
-      className="min-h-[62vh] mx-auto max-w[1200px]   overflow-hidden p-10 text-center"
+      className="min-h-[62vh] mx-auto max-w[1200px]   overflow-hidden p-10 text-center bg-black/45"
       style={{
         backgroundColor: `rgba(0, 0, 0, ${myblog?.value?.opacity / 100})`,
         color: myblog?.value?.textColor || "white",
@@ -38,7 +38,7 @@ export default function BlogBannerStyle1({ myblog, imagePath }) {
           style={{
             fontSize: myblog?.value?.taglineFontSize || 18,
           }}
-          className="bg-red-800 py-40"
+         
         >
           {myblog?.value?.tagline}
         </p>

@@ -24,7 +24,7 @@ export default function Style8({
         }}
       >
         {/* Title Column */}
-        <div className="flex flex-col justify-center items-center lg:items-start space-y-5 py-14 lg:py-28 lg:px-6 lg:rounded-lg text-center lg:text-left"> 
+        <div className="flex flex-col justify-center items-center lg:items-start space-y-5 py-14 lg:py-28 lg:px-6 lg:rounded-lg text-center lg:text-left">
           <div className="flex flex-col gap-4">
             <h1
               style={{ fontSize: data.titleFontSize || 48 }}
@@ -38,9 +38,9 @@ export default function Style8({
         {/* Image Column */}
         <div className="w-full flex justify-center lg:justify-center border-4 rounded-full ">
           <Image
-            src="/images/banner1.webp"
-            height={300} // Adjusted image size to be smaller
-            width={300}
+            src={image}
+            height={800} // Adjusted image size to be smaller
+            width={800}
             alt="Image"
             className="rounded-full shadow-lg object-cover border-4 " // Rounded image style
           />
