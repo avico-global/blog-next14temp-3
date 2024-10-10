@@ -196,11 +196,13 @@ export default function Home({
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={`/${item?.article_category
-                  ?.toLowerCase()
-                  ?.replaceAll(" ", "-")}/${item?.title
-                  ?.replaceAll(" ", "-")
-                  ?.toLowerCase()}`}
+                href={
+                  `/${item?.article_category
+                    ?.toLowerCase()
+                    ?.replaceAll(" ", "-")}/${item?.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}` || "#"
+                }
                 category={item?.article_category}
                 imageHeight="h-72 md:h-[420px]"
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
@@ -222,15 +224,16 @@ export default function Home({
                 author={item.author}
                 published_at={item.published_at}
                 tagline={item.tagline}
-                content={item.articleContent}
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={`/${item?.article_category
-                  ?.toLowerCase()
-                  ?.replaceAll(" ", "-")}/${item?.title
-                  ?.replaceAll(" ", "-")
-                  ?.toLowerCase()}`}
+                href={
+                  `/${item?.article_category
+                    ?.toLowerCase()
+                    ?.replaceAll(" ", "-")}/${item?.title
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}` || "#"
+                }
                 category={item?.article_category}
                 imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}

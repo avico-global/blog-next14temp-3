@@ -5,23 +5,23 @@ import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
 const BlogCard = ({
-  title,
-  image,
-  href,
-  published_at,
-  content,
-  className,
-  imageHeight,
-  altImage,
-  imageTitle,
+  href = "#",
+  image = "/default-image.jpg",
+  title = "Untitled Article",
+  tagline = "No content available.",
+  altImage = "Article Thumbnail",
+  className = "",
+  imageTitle = "Article Image",
+  imageHeight = "420",
+  published_at = "Unknown Date",
 }) => {
   return (
     <div
       className={cn("flex flex-col items-center text-center h-fit", className)}
     >
       <Link
-        title={imageTitle || title || "Article Thumbnail"}
-        href={href || ""}
+        title={imageTitle}
+        href={href}
         className={cn("relative overflow-hidden w-full", imageHeight)}
       >
         <Image
@@ -36,16 +36,18 @@ const BlogCard = ({
         />
       </Link>
       <div className="flex flex-col items-center gap-2 mt-3">
-        <Link title={title || "Article Link"} href={href || ""}>
-          <h2 className="font-extrabold md:text-lg leading-tight hover:underline">
-            {title}
-          </h2>
+        <Link
+          className="font-extrabold md:text-lg leading-tight hover:underline"
+          title={title}
+          href={href || "#"}
+        >
+          {title}
         </Link>
         <p className="text-sm font-medium text-gray-700">{published_at}</p>
       </div>
-      <p className="mt-3 text-xs md:hidden">{content.slice(0, 100)}</p>
-      <p className="mt-3 text-sm hidden md:block">{content}</p>
-      <Link href={href || ""} className="mt-3">
+      <p className="mt-3 text-xs md:hidden">{tagline.slice(0, 100)}</p>
+      <p className="mt-3 text-sm hidden md:block">{tagline}</p>
+      <Link href={href} className="mt-3">
         <Button className="rounded-full">Read Article</Button>
       </Link>
     </div>
@@ -53,14 +55,15 @@ const BlogCard = ({
 };
 
 BlogCard.propTypes = {
-  title: PropTypes.string.isRequired,
-  image: PropTypes.string.isRequired,
-  href: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
-  published_at: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  image: PropTypes.string,
+  href: PropTypes.string,
+  published_at: PropTypes.string,
+  content: PropTypes.string,
   className: PropTypes.string,
   imageHeight: PropTypes.string,
+  altImage: PropTypes.string,
+  imageTitle: PropTypes.string,
 };
 
 export default BlogCard;

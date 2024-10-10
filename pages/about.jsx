@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
+import Head from "next/head";
+import MarkdownIt from "markdown-it";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 import AboutBanner from "@/components/containers/AboutBanner";
 import Footer from "@/components/containers/Footer";
 import Navbar from "@/components/containers/Navbar";
 import Rightbar from "@/components/containers/Rightbar";
-import Head from "next/head";
-import MarkdownIt from "markdown-it";
 import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 
 import GoogleTagManager from "@/lib/GoogleTagManager";
