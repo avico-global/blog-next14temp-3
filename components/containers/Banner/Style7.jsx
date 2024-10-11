@@ -1,28 +1,27 @@
 import React from "react";
-import FullContainer from "../../common/FullContainer";
-import Container from "../../common/Container";
 import Image from "next/image";
+import Container from "../../common/Container";
+import FullContainer from "../../common/FullContainer";
 
-export default function Style7({ image, data }) {
+export default function Style1({ image, data }) {
   return (
-    <>
-      <FullContainer
-        className="min-h-[63vh] overflow-hidden p-10 text-center"
-        style={{
-          backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
-          color: data.textColor || "white",
-        }}
-      >
-        <Image
-          src={image}
-          title={data.imageTitle || data.title || "Banner"}
-          alt={data.altImage || data.tagline || "No Banner Found"}
-          priority={true}
-          fill={true}
-          loading="eager"
-          className="-z-10 w-full h-full object-cover absolute top-0"
-          objectFit="cover"
-          sizes="(max-width: 320px) 320px,
+    <FullContainer
+      className="min-h-[44vh] mx-auto max-w-[1500px] overflow-hidden p-10 text-center"
+      style={{
+        backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
+        color: data.textColor || "white",
+      }}
+    >
+      <Image
+        src={image}
+        title={data.imageTitle || data.title || "Banner"}
+        alt={data.altImage || data.tagline || "No Banner Found"}
+        priority={true}
+        fill={true}
+        loading="eager"
+        className="-z-10 w-full absolute top-0"
+        style={{ objectFit: "cover" }}
+        sizes="(max-width: 320px) 320px,
                (max-width: 480px) 480px,
                (max-width: 768px) 768px,
                (max-width: 1024px) 1024px,
@@ -32,24 +31,23 @@ export default function Style7({ image, data }) {
                (max-width: 2560px) 2560px,
                (max-width: 3840px) 3840px,
                100vw"
-        />
-        <Container className="gap-8">
-          <h1
-            style={{ fontSize: data.titleFontSize || 48 }}
-            className="font-bold capitalize max-w-screen-md"
+      />
+      <Container className="gap-8">
+        <h1
+          style={{ fontSize: data.titleFontSize || 48 }}
+          className="font-bold capitalize max-w-screen-md"
+        >
+          {data.title}
+        </h1>
+        {data.tagline && (
+          <p
+            style={{ fontSize: data.taglineFontSize || 18 }}
+            className="leading-tight md:leading-none"
           >
-            {data.title}
-          </h1>
-          {data.tagline && (
-            <p
-              style={{ fontSize: data.taglineFontSize || 18 }}
-              className="leading-tight md:leading-none"
-            >
-              {data.tagline}
-            </p>
-          )}
-        </Container>
-      </FullContainer>
-    </>
+            {data.tagline}
+          </p>
+        )}
+      </Container>
+    </FullContainer>
   );
 }

@@ -1,21 +1,24 @@
-import React, { useEffect } from "react";
-import FullContainer from "@/components/common/FullContainer";
-import Rightbar from "@/components/containers/Rightbar";
-import Container from "@/components/common/Container";
-import Navbar from "@/components/containers/Navbar";
-import { useRouter } from "next/router";
-import MarkdownIt from "markdown-it";
-import LatestBlogs from "@/components/containers/LatestBlogs";
-import Footer from "@/components/containers/Footer";
 import Head from "next/head";
-import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
+import MarkdownIt from "markdown-it";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import JsonLd from "@/components/json/JsonLd";
-import GoogleTagManager from "@/lib/GoogleTagManager";
-import Breadcrumbs from "@/components/common/Breadcrumbs";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
-import Image from "next/image";
-import { Badge } from "@/components/ui/badge";
+import Navbar from "@/components/containers/Navbar";
+import Container from "@/components/common/Container";
+import Rightbar from "@/components/containers/Rightbar";
 import SocialShare from "@/components/common/SocialShare";
+import LatestBlogs from "@/components/containers/LatestBlogs";
+import {
+  callBackendApi,
+  getDomain,
+  getImagePath,
+  sanitizeUrl,
+} from "@/lib/myFun";
+import FullContainer from "@/components/common/FullContainer";
+import Breadcrumbs from "@/components/common/Breadcrumbs";
+import GoogleTagManager from "@/lib/GoogleTagManager";
+import Footer from "@/components/containers/Footer";
 
 // Font
 import { Raleway } from "next/font/google";
@@ -23,10 +26,6 @@ import BlogBanner from "@/components/containers/BlogBanner";
 const myFont = Raleway({
   subsets: ["cyrillic", "cyrillic-ext", "latin", "latin-ext"],
 });
-
-const sanitizeUrl = (text) => {
-  return text?.replaceAll(/%20/g, "-").replaceAll(" ", "-");
-};
 
 export default function Blog({
   logo,

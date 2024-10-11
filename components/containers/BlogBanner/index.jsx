@@ -35,16 +35,12 @@ export default function BlogBanner({ myblog, imagePath, blog_type }) {
         return <BlogBannerStyle8 {...props} />;
       case "style_9":
         return <BlogBannerStyle9 {...props} />;
-        case "style_10":
+      case "style_10":
         return <BlogBannerStyle10 {...props} />;
       default:
         return null;
     }
   };
 
-  return (
-    <>
-      {renderActiveStyle()}
-    </>
-  );
+  return <>{renderActiveStyle()}</>;
 }

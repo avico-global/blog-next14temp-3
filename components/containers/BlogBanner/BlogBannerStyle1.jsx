@@ -1,13 +1,13 @@
 import React from "react";
+import Image from "next/image";
+import { Badge } from "@/components/ui/badge";
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
 
 export default function BlogBannerStyle1({ myblog, imagePath }) {
   return (
     <FullContainer
-      className="min-h-[62vh] mx-auto max-w[1200px]   overflow-hidden p-10 text-center bg-black/45"
+      className="min-h-[60vh] mx-auto max-w[1200px] overflow-hidden p-10 text-center"
       style={{
         backgroundColor: `rgba(0, 0, 0, ${myblog?.value?.opacity / 100})`,
         color: myblog?.value?.textColor || "white",
@@ -38,7 +38,6 @@ export default function BlogBannerStyle1({ myblog, imagePath }) {
           style={{
             fontSize: myblog?.value?.taglineFontSize || 18,
           }}
-         
         >
           {myblog?.value?.tagline}
         </p>

@@ -59,7 +59,9 @@ export default function Rightbar({
           <Link
             key={index}
             title={item?.title}
-            href={`/${item?.title?.toLowerCase().replace(/ /g, "-")}`}
+            href={`/${encodeURI(
+              item?.title?.toLowerCase().replace(/ /g, "-")
+            )}`}
             className={cn(
               "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
               (category === item.title || isActive(`/${item.title}`)) &&
@@ -82,7 +84,9 @@ export default function Rightbar({
           <Link
             key={index}
             title={item.tag}
-            href={`/tags/${item.tag?.replaceAll(" ", "-").toLowerCase()}`}
+            href={`/tags/${encodeURI(
+              item.tag?.replaceAll(" ", "-").toLowerCase()
+            )}`}
             className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-sm px-2"
           >
             {item.tag}
@@ -117,11 +121,9 @@ export default function Rightbar({
           >
             <Link
               title={item.title || "Article"}
-              href={`/${item.article_category
-                ?.toLowerCase()
-                ?.replaceAll(" ", "-")}/${item.title
-                .replace(/ /g, "-")
-                .toLowerCase()}`}
+              href={`/${encodeURI(
+                item.article_category?.toLowerCase()?.replaceAll(" ", "-")
+              )}/${encodeURI(item.title.replace(/ /g, "-").toLowerCase())}`}
             >
               <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                 <Image
@@ -132,18 +134,18 @@ export default function Rightbar({
                   }
                   fill
                   loading="lazy"
-                  className="w-full h-full object-cover absolute top-0 hover:scale-125 transition-all"
+                  className="object-cover hover:scale-125 transition-all"
+                  style={{ objectFit: "cover" }}
                 />
               </div>
             </Link>
+
             <div>
               <Link
                 title={item.title || "Article Link"}
-                href={`/${item.article_category
-                  ?.toLowerCase()
-                  ?.replaceAll(" ", "-")}/${item.title
-                  .replace(/ /g, "-")
-                  .toLowerCase()}`}
+                href={`/${encodeURI(
+                  item.article_category?.toLowerCase()?.replaceAll(" ", "-")
+                )}/${encodeURI(item.title.replace(/ /g, "-").toLowerCase())}`}
               >
                 <p className="font-semibold leading-tight hover:underline">
                   {item.title}

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import Banner from "@/components/containers/Banner/Banner";
 import Container from "@/components/common/Container";
@@ -40,17 +40,6 @@ export default function Home({
   nav_type,
   footer_type,
 }) {
-  useEffect(() => {
-    fetch("/api/get-images")
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Image files:", data.images);
-      })
-      .catch((error) => {
-        console.error("Error fetching image files:", error);
-      });
-  }, []);
-
   const page = layout?.find((page) => page.page === "home");
 
   const renderSections = () => {
@@ -106,23 +95,24 @@ export default function Home({
                                 </div>
                                 <BlogCard
                                   key={index}
-                                  index={index}
                                   title={item.title}
-                                  author={item.author}
                                   published_at={item.published_at}
                                   tagline={item.tagline}
-                                  content={item.articleContent}
                                   image={
                                     item.image
                                       ? `${imagePath}/${item.image}`
                                       : "/no-image.png"
                                   }
-                                  href={`/${item?.article_category?.name
-                                    ?.toLowerCase()
-                                    ?.replaceAll(" ", "-")}/${item?.title
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}`}
-                                  category={item?.article_category?.name}
+                                  href={encodeURI(
+                                    `/${item?.article_category
+                                      ?.toLowerCase()
+                                      ?.replaceAll(" ", "-")}/${item?.title
+                                      ?.replaceAll(" ", "-")
+                                      ?.replaceAll(":", "")
+                                      ?.replaceAll("/", "-")
+                                      ?.replaceAll("?", "")
+                                      ?.toLowerCase()}`
+                                  )}
                                   imageHeight="h-72 md:h-[420px]"
                                   imageTitle={
                                     item.imageTitle ||
@@ -141,13 +131,12 @@ export default function Home({
                         {renderBlogList(blog_list)}
                       </div>
                       <Rightbar
+                        widgets={page?.widgets}
                         about_me={about_me}
+                        tag_list={tag_list}
+                        blog_list={blog_list}
                         imagePath={imagePath}
                         categories={categories}
-                        contact_details={contact_details}
-                        tag_list={tag_list}
-                        widgets={page?.widgets}
-                        blog_list={blog_list}
                       />
                     </div>
                   </Container>
@@ -187,23 +176,22 @@ export default function Home({
             .map((item, index) => (
               <BlogCard
                 key={index}
-                index={index}
                 title={item.title}
-                author={item.author}
                 published_at={item.published_at}
                 tagline={item.tagline}
-                content={item.articleContent}
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={
+                href={encodeURI(
                   `/${item?.article_category
                     ?.toLowerCase()
                     ?.replaceAll(" ", "-")}/${item?.title
                     ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}` || "#"
-                }
-                category={item?.article_category}
+                    ?.replaceAll(":", "")
+                    ?.replaceAll("/", "-")
+                    ?.replaceAll("?", "")
+                    ?.toLowerCase()}`
+                )}
                 imageHeight="h-72 md:h-[420px]"
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
                 altImage={item.altImage || item.tagline || "Article Thumbnail"}
@@ -219,22 +207,22 @@ export default function Home({
             .map((item, index) => (
               <BlogCard
                 key={index}
-                index={index}
                 title={item.title}
-                author={item.author}
                 published_at={item.published_at}
                 tagline={item.tagline}
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={
+                href={encodeURI(
                   `/${item?.article_category
                     ?.toLowerCase()
                     ?.replaceAll(" ", "-")}/${item?.title
                     ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}` || "#"
-                }
-                category={item?.article_category}
+                    ?.replaceAll(":", "")
+                    ?.replaceAll("/", "-")
+                    ?.replaceAll("?", "")
+                    ?.toLowerCase()}`
+                )}
                 imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
                 altImage={item.altImage || item.tagline || "Article Thumbnail"}

@@ -56,7 +56,7 @@ function BlogCard({
   return (
     <div className="flex flex-col items-center text-center">
       <Link
-        href={href || ""}
+        href={href || "#"}
         title={imageTitle}
         className="relative overflow-hidden w-full h-[195px]"
       >
@@ -67,12 +67,13 @@ function BlogCard({
           priority={false}
           width={298}
           height={195}
-          layout="responsive"
           loading="lazy"
           sizes="(max-width: 768px) 100vw, (min-width: 768px) 50vw, 33vw"
-          className="w-full h-full object-cover hover:scale-110 transition-all"
+          className="w-full h-full hover:scale-110 transition-all"
+          style={{ objectFit: "cover" }}
         />
       </Link>
+
       <Link href={`/${category?.toLowerCase().replaceAll(" ", "-")}`}>
         <Badge className="text-center whitespace-nowrap my-2">{category}</Badge>
       </Link>

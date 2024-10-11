@@ -4,9 +4,7 @@ import Image from "next/image";
 
 const Logo = ({ logo, imagePath }) => {
   const [hostName, setHostName] = useState("");
-  const [windowWidth, setWindowWidth] = useState(
-    typeof window !== "undefined" ? window.innerWidth : 1200
-  );
+  const [windowWidth, setWindowWidth] = useState(1200);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -15,6 +13,9 @@ const Logo = ({ logo, imagePath }) => {
       const handleResize = () => {
         setWindowWidth(window.innerWidth);
       };
+
+      handleResize();
+
       window.addEventListener("resize", handleResize);
 
       return () => {
