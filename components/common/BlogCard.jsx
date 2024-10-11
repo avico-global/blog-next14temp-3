@@ -57,4 +57,16 @@ const BlogCard = ({
   );
 };
 
+BlogCard.propTypes = {
+  title: PropTypes.string,
+  image: PropTypes.string,
+  href: PropTypes.string,
+  published_at: PropTypes.string,
+  content: PropTypes.string,
+  className: PropTypes.string,
+  imageHeight: PropTypes.string,
+  altImage: PropTypes.string,
+  imageTitle: PropTypes.string,
+};
+
 export default BlogCard;
