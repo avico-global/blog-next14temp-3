@@ -5,6 +5,7 @@ import PopularPosts from "../PopularPosts";
 import LatestPosts from "../LatestPosts";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function FooterStyle1({
   categories,
@@ -30,7 +31,7 @@ export default function FooterStyle1({
                 <Link
                   key={index}
                   title={item?.title || "Article Link"}
-                  href={`/${item?.title.toLowerCase()?.replaceAll(" ", "-")}`}
+                  href={`/${sanitizeUrl(item.title)}`}
                   className={cn(
                     "uppercase text-sm mb-2 hover:border-b w-fit transition-all",
                     category === item.title && "border-b-2 border-purple-500"

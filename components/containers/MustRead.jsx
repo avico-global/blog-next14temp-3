@@ -4,6 +4,7 @@ import Container from "../common/Container";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "../ui/badge";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function MustRead({ blog_list = [], imagePath }) {
   const mustReadBlogs = blog_list.filter((item) => item.isMustRead);
@@ -24,11 +25,9 @@ export default function MustRead({ blog_list = [], imagePath }) {
                 description={item.articleContent}
                 image={`${imagePath}/${item.image || "no-image.png"}`}
                 href={
-                  `/${item.article_category
-                    ?.toLowerCase()
-                    ?.replaceAll(" ", "-")}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}` || "#"
+                  `/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                    item?.title
+                  )}` || "#"
                 }
                 category={item.article_category}
                 imageTitle={item.imageTitle}

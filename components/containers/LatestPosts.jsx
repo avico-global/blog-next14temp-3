@@ -13,11 +13,9 @@ export default function LatestPosts({ blog_list, imagePath }) {
           <Blog
             key={index}
             title={item.title}
-            href={`/${item?.article_category
-              ?.toLowerCase()
-              ?.replaceAll(" ", "-")}/${item?.title
-              ?.replaceAll(" ", "-")
-              ?.toLowerCase()}`}
+            href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+              item?.title
+            )}`}
             image={item.image ? `${imagePath}/${item.image}` : "/no-image.png"}
             author={item.author}
             date={item.published_at}
@@ -44,7 +42,7 @@ function Blog({
     <div className="flex items-center gap-3 mt-5 cursor-pointer">
       <Link
         title={title || "Article Thumbnail"}
-        href={href || ""}
+        href={href || "#"}
         className="relative overflow-hidden w-2/6 h-20"
       >
         <Image
@@ -59,7 +57,7 @@ function Blog({
         />
       </Link>
       <div className="flex-1">
-        <Link title={title || "Article Link"} href={href || ""}>
+        <Link title={title || "Article Link"} href={href || "#"}>
           <p className="font-bold text-sm hover:underline">{title}</p>
         </Link>
         <div className="flex items-center gap-2">

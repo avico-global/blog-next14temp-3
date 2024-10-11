@@ -5,6 +5,7 @@ import Link from "next/link";
 import MarkdownIt from "markdown-it";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/router";
+import { sanitizeUrl } from "@/lib/myFun";
 
 const md = new MarkdownIt();
 
@@ -59,9 +60,7 @@ export default function Rightbar({
           <Link
             key={index}
             title={item?.title}
-            href={`/${encodeURI(
-              item?.title?.toLowerCase().replace(/ /g, "-")
-            )}`}
+            href={`/${encodeURI(sanitizeUrl(item.title))}`}
             className={cn(
               "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
               (category === item.title || isActive(`/${item.title}`)) &&
@@ -84,9 +83,7 @@ export default function Rightbar({
           <Link
             key={index}
             title={item.tag}
-            href={`/tags/${encodeURI(
-              item.tag?.replaceAll(" ", "-").toLowerCase()
-            )}`}
+            href={`/tags/${encodeURI(sanitizeUrl(item.tag))}`}
             className="bg-gray-100 hover:bg-gray-200 transition-all cursor-pointer rounded py-1 text-sm px-2"
           >
             {item.tag}
@@ -122,8 +119,8 @@ export default function Rightbar({
             <Link
               title={item.title || "Article"}
               href={`/${encodeURI(
-                item.article_category?.toLowerCase()?.replaceAll(" ", "-")
-              )}/${encodeURI(item.title.replace(/ /g, "-").toLowerCase())}`}
+                sanitizeUrl(item.article_category)
+              )}/${encodeURI(sanitizeUrl(item.title))}`}
             >
               <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
                 <Image
@@ -180,12 +177,12 @@ export default function Rightbar({
                 </React.Fragment>
               )
             );
-          case "article tags":
-            return (
-              tag_list.length > 0 && (
-                <React.Fragment key={item.name}>{renderTags()}</React.Fragment>
-              )
-            );
+          // case "article tags":
+          //   return (
+          //     tag_list.length > 0 && (
+          //       <React.Fragment key={item.name}>{renderTags()}</React.Fragment>
+          //     )
+          //   );
           case "latest posts":
             return (
               lastFiveBlogs.length > 0 && (

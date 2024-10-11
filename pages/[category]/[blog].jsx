@@ -241,15 +241,11 @@ export async function getServerSideProps({ req, query }) {
   const blog_list = await callBackendApi({ domain, type: "blog_list" });
 
   const isValidBlog = blog_list?.data[0]?.value?.find(
-    (item) =>
-      sanitizeUrl(item.title)?.toLowerCase()?.replaceAll(" ", "-") ===
-      sanitizeUrl(blog)?.toLowerCase()?.replaceAll(" ", "-")
+    (item) => sanitizeUrl(item.title) === sanitizeUrl(blog)
   );
 
   const categoryExists = categories?.data[0]?.value?.some(
-    (cat) =>
-      cat?.title?.toLowerCase()?.replaceAll(" ", "-") ===
-      sanitizeUrl(category)?.toLowerCase()?.replaceAll(" ", "-")
+    (cat) => sanitizeUrl(cat?.title) === sanitizeUrl(category)
   );
 
   if (!categoryExists || !isValidBlog) {

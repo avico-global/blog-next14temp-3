@@ -12,11 +12,9 @@ export default function PopularPosts({ blog_list, imagePath }) {
             <Blog
               key={index}
               title={item.title}
-              href={`/${item.article_category
-                ?.toLowerCase()
-                ?.replaceAll(" ", "-")}/${item?.title
-                ?.replaceAll(" ", "-")
-                ?.toLowerCase()}`}
+              href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                item?.title
+              )}`}
               image={
                 item.image ? `${imagePath}/${item.image}` : "/no-image.png"
               }

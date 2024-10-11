@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Badge } from "../ui/badge";
 import Container from "../common/Container";
 import FullContainer from "../common/FullContainer";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function MostPopular({ blog_list = [], imagePath }) {
   const popularBlogs = blog_list.filter((item) => item.isPopular);
@@ -26,11 +27,9 @@ export default function MostPopular({ blog_list = [], imagePath }) {
                 description={item.articleContent}
                 image={`${imagePath}/${item.image || "no-image.png"}`}
                 href={
-                  `/${item.article_category
-                    ?.toLowerCase()
-                    ?.replaceAll(" ", "-")}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}` || "#"
+                  `/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                    item?.title
+                  )}` || "#"
                 }
                 category={item.article_category}
                 imageTitle={item.imageTitle}
@@ -74,7 +73,7 @@ function BlogCard({
         />
       </Link>
 
-      <Link href={`/${category?.toLowerCase().replaceAll(" ", "-")}`}>
+      <Link href={`/${sanitizeUrl(category)}`}>
         <Badge className="text-center whitespace-nowrap my-2">{category}</Badge>
       </Link>
       <Link href={href || ""}>

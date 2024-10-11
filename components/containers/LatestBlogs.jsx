@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { sanitizeUrl } from "@/lib/myFun";
 import Container from "../common/Container";
 import FullContainer from "../common/FullContainer";
 
@@ -28,11 +29,9 @@ export default function LatestBlogs({ blogs, imagePath }) {
               image={
                 item.image ? `${imagePath}/${item.image}` : "/no-image.png"
               }
-              href={`/${item.article_category
-                ?.toLowerCase()
-                ?.replaceAll(" ", "-")}/${item?.title
-                ?.replaceAll(" ", "-")
-                ?.toLowerCase()}`}
+              href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                item?.title
+              )}`}
               imageTitle={item.imageTitle}
               altImage={item.altImage}
             />
