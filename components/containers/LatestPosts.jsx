@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function LatestPosts({ blog_list, imagePath }) {
   return (
