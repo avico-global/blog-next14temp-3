@@ -122,7 +122,7 @@ const Navbar = ({
         return null;
     }
   };
-console.log("THIS IS NQAVBAR TYPE",nav_type.active)
+
   return (
     <>
       {renderActiveStyle()}

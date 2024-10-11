@@ -167,13 +167,31 @@ export default function Rightbar({
 
         switch (item.name?.toLowerCase()) {
           case "about":
-            return renderAbout();
+            return (
+              <React.Fragment key={item.name}>{renderAbout()}</React.Fragment>
+            );
           case "categories":
-            return categories.length > 0 && renderCategories();
+            return (
+              categories.length > 0 && (
+                <React.Fragment key={item.name}>
+                  {renderCategories()}
+                </React.Fragment>
+              )
+            );
           case "article tags":
-            return tag_list.length > 0 && renderTags();
+            return (
+              tag_list.length > 0 && (
+                <React.Fragment key={item.name}>{renderTags()}</React.Fragment>
+              )
+            );
           case "latest posts":
-            return lastFiveBlogs.length > 0 && renderLatestPosts();
+            return (
+              lastFiveBlogs.length > 0 && (
+                <React.Fragment key={item.name}>
+                  {renderLatestPosts()}
+                </React.Fragment>
+              )
+            );
           default:
             return null;
         }

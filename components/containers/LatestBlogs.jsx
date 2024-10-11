@@ -53,7 +53,7 @@ function BlogCard({ title, image, tagline, href, imageTitle, altImage }) {
     <div>
       <Link
         title={imageTitle || title || "Article Thumbnail"}
-        href={href || ""}
+        href={href || "#"}
       >
         <div className="relative overflow-hidden w-full h-80 hover:opacity-80 transition-all">
           <Image

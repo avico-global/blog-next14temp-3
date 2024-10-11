@@ -2,10 +2,6 @@ import React from "react";
 import FullContainer from "../common/FullContainer";
 import Image from "next/image";
 import Container from "../common/Container";
-import { cn } from "@/lib/utils";
-import { Cormorant } from "next/font/google";
-
-const myFont = Cormorant({ subsets: ["cyrillic"] });
 
 export default function AboutBanner({ image }) {
   return (
@@ -20,12 +16,7 @@ export default function AboutBanner({ image }) {
         className="-z-10 w-full h-full object-cover absolute top-0"
       />
       <Container className="gap-6">
-        <h1
-          className={cn(
-            "font-extrabold text-6xl capitalize max-w-screen-md",
-            myFont.className
-          )}
-        >
+        <h1 className="font-extrabold text-6xl capitalize max-w-screen-md">
           About Us
         </h1>
       </Container>
