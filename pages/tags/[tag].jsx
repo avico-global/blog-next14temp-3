@@ -364,8 +364,6 @@ export async function getServerSideProps({ req, query }) {
       tag?.toLowerCase()?.replaceAll(" ", "-")
   );
 
-  console.log("Tag", tag?.toLowerCase()?.replaceAll(" ", "-"));
-
   if (!tagExists) {
     return {
       notFound: true,

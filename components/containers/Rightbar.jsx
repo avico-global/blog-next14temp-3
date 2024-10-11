@@ -141,8 +141,8 @@ export default function Rightbar({
               <Link
                 title={item.title || "Article Link"}
                 href={`/${encodeURI(
-                  item.article_category?.toLowerCase()?.replaceAll(" ", "-")
-                )}/${encodeURI(item.title.replace(/ /g, "-").toLowerCase())}`}
+                  sanitizeUrl(item.article_category)
+                )}/${encodeURI(sanitizeUrl(item.title))}`}
               >
                 <p className="font-semibold leading-tight hover:underline">
                   {item.title}

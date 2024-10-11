@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function Style4({
   staticPages,
@@ -64,11 +65,7 @@ export default function Style4({
                       key={index}
                       className="px-4 py-2 hover:bg-gray-200 whitespace-nowrap border-b last:border-none font-semibold hover:text-black transition-all"
                     >
-                      <Link
-                        href={`/${item?.title
-                          ?.toLowerCase()
-                          ?.replaceAll(" ", "-")}`}
-                      >
+                      <Link href={`/${sanitizeUrl(item?.title)}`}>
                         {item?.title}
                       </Link>
                     </li>
@@ -86,11 +83,9 @@ export default function Style4({
                 <Link
                   key={index}
                   title={item.title}
-                  href={`/${item.article_category
-                    ?.toLowerCase()
-                    ?.replaceAll(" ", "-")}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`}
+                  href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                    item?.title
+                  )}`}
                 >
                   <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                     {item.title}

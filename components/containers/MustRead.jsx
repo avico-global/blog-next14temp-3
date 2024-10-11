@@ -1,10 +1,10 @@
 import React from "react";
-import FullContainer from "../common/FullContainer";
-import Container from "../common/Container";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import { Badge } from "../ui/badge";
 import { sanitizeUrl } from "@/lib/myFun";
+import Container from "../common/Container";
+import FullContainer from "../common/FullContainer";
 
 export default function MustRead({ blog_list = [], imagePath }) {
   const mustReadBlogs = blog_list.filter((item) => item.isMustRead);
@@ -29,7 +29,7 @@ export default function MustRead({ blog_list = [], imagePath }) {
                     item?.title
                   )}` || "#"
                 }
-                category={item.article_category}
+                category={sanitizeUrl(item.article_category) || "#"}
                 imageTitle={item.imageTitle}
                 altImage={item.altImage}
               />
@@ -70,7 +70,7 @@ function BlogCard({
           style={{ objectFit: "cover" }}
         />
       </Link>
-      <Link href={`/${category?.toLowerCase().replaceAll(" ", "-")}`}>
+      <Link href={category}>
         <Badge className="text-center whitespace-nowrap my-2">{category}</Badge>
       </Link>
       <Link href={href || ""}>

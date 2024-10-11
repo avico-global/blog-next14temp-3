@@ -42,6 +42,7 @@ export default function Blog({
   nav_type,
   project_id,
   blog_type,
+  footer_type,
 }) {
   const router = useRouter();
   const { category, blog } = router.query;
@@ -148,11 +149,9 @@ export default function Blog({
                               Share this article:
                             </h3>
                             <SocialShare
-                              url={`http://${domain}${myblog?.article_category
-                                ?.replaceAll(" ", "-")
-                                ?.toLowerCase()}/${myblog?.title
-                                ?.replaceAll(" ", "-")
-                                ?.toLowerCase()}`}
+                              url={`http://${domain}${sanitizeUrl(
+                                myblog?.article_category
+                              )}/${sanitizeUrl(myblog?.title)}`}
                               title={myblog?.value.title}
                             />
                           </div>
@@ -186,6 +185,7 @@ export default function Blog({
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
+                    footer_type={footer_type}
                   />
                 );
               default:
@@ -205,8 +205,6 @@ export default function Blog({
                 "@id": myblog
                   ? `http://${domain}${sanitizeUrl(
                       myblog?.article_category
-                        ?.replaceAll(" ", "-")
-                        ?.toLowerCase()
                     )}/${sanitizeUrl(myblog?.value?.title)}`
                   : "",
               },
@@ -266,6 +264,8 @@ export async function getServerSideProps({ req, query }) {
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const blog_type = await callBackendApi({ domain, type: "blog_type" });
+  const footer_type = await callBackendApi({ domain, type: "footer_type" });
+
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = await getImagePath(project_id, domain);
 
@@ -284,6 +284,7 @@ export async function getServerSideProps({ req, query }) {
       favicon: favicon?.data[0]?.file_name || null,
       nav_type: nav_type?.data[0]?.value || {},
       blog_type: blog_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
       project_id,
     },
   };

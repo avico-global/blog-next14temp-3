@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import Footer from "@/components/containers/Footer";
-import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
+import {
+  callBackendApi,
+  getDomain,
+  getImagePath,
+  sanitizeUrl,
+} from "@/lib/myFun";
 import GoogleTagManager from "@/lib/GoogleTagManager";
 import JsonLd from "@/components/json/JsonLd";
 import Image from "next/image";
@@ -35,6 +40,7 @@ export default function Categories({
   layout,
   tag_list,
   nav_type,
+  footer_type,
 }) {
   const router = useRouter();
   const { category } = router.query;
@@ -42,8 +48,11 @@ export default function Categories({
   const breadcrumbs = useBreadcrumbs();
 
   const filteredBlogList = blog_list.filter((item) => {
-    const searchContent = category?.replaceAll("-", " ")?.toLowerCase();
-    return item.article_category.toLowerCase().includes(searchContent);
+    const searchContent = sanitizeUrl(category);
+    // console.log("Search Content:", searchContent);
+    // console.log("Item category:", sanitizeUrl(item.article_category));
+
+    return sanitizeUrl(item.article_category) === searchContent;
   });
 
   useEffect(() => {
@@ -65,12 +74,7 @@ export default function Categories({
   const page = layout?.find((page) => page.page === "category");
 
   return (
-    <div
-      className={cn(
-        myFont.className,
-        "flex flex-col min-h-screen justify-between"
-      )}
-    >
+    <div className={cn(myFont.className, "flex flex-col min-h-screen")}>
       <Head>
         <meta charSet="UTF-8" />
         <title>
@@ -164,11 +168,9 @@ export default function Categories({
                               <div key={index}>
                                 <Link
                                   title={item?.title || "Article Link"}
-                                  href={`/${category
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}/${item?.title
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}`}
+                                  href={`/${sanitizeUrl(
+                                    item.article_category
+                                  )}/${sanitizeUrl(item?.title)}`}
                                 >
                                   <div className="overflow-hidden relative min-h-40 rounded lg:min-h-52 w-full bg-black flex-1">
                                     <Image
@@ -187,11 +189,9 @@ export default function Categories({
                                 </Link>
                                 <Link
                                   title={item?.title || "Article Link"}
-                                  href={`/${category
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}/${item?.title
-                                    ?.replaceAll(" ", "-")
-                                    ?.toLowerCase()}`}
+                                  href={`/${sanitizeUrl(
+                                    item.article_category
+                                  )}/${sanitizeUrl(item?.title)}`}
                                 >
                                   <p className="mt-2 lg:mt-4 font-bold text-lg text-inherit leading-tight hover:underline">
                                     {item.title}
@@ -239,6 +239,7 @@ export default function Categories({
                     blog_list={blog_list}
                     categories={categories}
                     category={category}
+                    footer_type={footer_type}
                   />
                 );
               default:
@@ -252,17 +253,6 @@ export default function Categories({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebPage",
-              "@id": `http://${domain}/${category}`,
-              url: `http://${domain}/${category}`,
-              name: meta?.title,
-              isPartOf: {
-                "@id": `http://${domain}`,
-              },
-              description: meta?.description,
-              inLanguage: "en-US",
-            },
-            {
               "@type": "BreadcrumbList",
               itemListElement: breadcrumbs.map((breadcrumb, index) => ({
                 "@type": "ListItem",
@@ -272,32 +262,12 @@ export default function Categories({
               })),
             },
             {
-              "@type": "Organization",
-              "@id": `http://${domain}`,
-              name: domain,
-              url: `http://${domain}/`,
-              logo: {
-                "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
-              },
-              sameAs: [
-                "http://www.facebook.com",
-                "http://www.twitter.com",
-                "http://instagram.com",
-              ],
-            },
-            {
               "@type": "WebSite",
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
               name: domain,
               description: meta?.description,
               inLanguage: "en-US",
-              // potentialAction: {
-              //   "@type": "SearchAction",
-              //   target: `http://${domain}/search?q={search_term_string}`,
-              //   "query-input": "required name=search_term_string",
-              // },
               publisher: {
                 "@type": "Organization",
                 "@id": `http://${domain}`,
@@ -312,11 +282,9 @@ export default function Categories({
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category
-                    .replaceAll(" ", "-")
-                    ?.toLowerCase()}/${blog?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`,
+                  url: `http://${domain}/${sanitizeUrl(
+                    blog?.article_category.replaceAll(" ", "-")
+                  )}/${sanitizeUrl(blog?.title)}`,
                   name: blog.title,
                 },
               })),
@@ -365,6 +333,7 @@ export async function getServerSideProps({ req, query }) {
   const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
+  const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = await getImagePath(project_id, domain);
@@ -398,6 +367,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details.data[0].value,
       tag_list: tag_list?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
     },
   };
 }

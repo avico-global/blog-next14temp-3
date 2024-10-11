@@ -9,16 +9,16 @@ export default function BlogBannerStyle3({ myblog, imagePath }) {
     <FullContainer>
       <Container className="overflow-hidden relative">
         <Image
-          src={`${imagePath}/${myblog?.file_name}`}
+          fill={true}
+          loading="eager"
+          priority={true}
           alt={
             myblog?.value.imageAltText ||
             myblog?.value?.tagline ||
             "No Banner Found"
           }
+          src={`${imagePath}/${myblog?.file_name}`}
           title={myblog?.value.imageTitle || myblog?.value.title}
-          priority={true}
-          fill={true}
-          loading="eager"
           className="-z-10 w-full h-full object-cover absolute top-0"
         />
         <FullContainer

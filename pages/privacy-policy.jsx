@@ -33,6 +33,7 @@ export default function PriavcyPolicy({
   policy,
   layout,
   nav_type,
+  footer_type,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(policy || "");
@@ -130,6 +131,7 @@ export default function PriavcyPolicy({
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
+                    footer_type={footer_type}
                   />
                 );
               default:
@@ -237,6 +239,7 @@ export async function getServerSideProps({ req, query }) {
   const policy = await callBackendApi({ domain, query, type: "policy" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
+  const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -256,6 +259,7 @@ export async function getServerSideProps({ req, query }) {
       terms: terms?.data[0]?.value || "",
       policy: policy?.data[0]?.value || "",
       nav_type: nav_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
     },
   };
 }

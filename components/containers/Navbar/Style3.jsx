@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function Style3({
   staticPages,
@@ -45,7 +46,7 @@ export default function Style3({
               <Link
                 key={index}
                 title={item?.title}
-                href={`/${item?.title?.toLowerCase()?.replaceAll(" ", "-")}`}
+                href={`/${sanitizeUrl(item?.title)}`}
                 className={cn(
                   navLink,
                   (category === item.title || isActive(`/${item.title}`)) &&
@@ -63,11 +64,9 @@ export default function Style3({
                   <Link
                     key={index}
                     title={item.title}
-                    href={`/${item.article_category
-                      ?.toLowerCase()
-                      ?.replaceAll(" ", "-")}/${item?.title
-                      ?.replaceAll(" ", "-")
-                      ?.toLowerCase()}`}
+                    href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                      item?.title
+                    )}`}
                   >
                     <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                       {item.title}

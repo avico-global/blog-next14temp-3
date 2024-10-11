@@ -16,6 +16,7 @@ import {
   getDomain,
   getImagePath,
   robotsTxt,
+  sanitizeUrl,
 } from "@/lib/myFun";
 
 import { Raleway } from "next/font/google";
@@ -103,16 +104,9 @@ export default function Home({
                                       ? `${imagePath}/${item.image}`
                                       : "/no-image.png"
                                   }
-                                  href={encodeURI(
-                                    `/${item?.article_category
-                                      ?.toLowerCase()
-                                      ?.replaceAll(" ", "-")}/${item?.title
-                                      ?.replaceAll(" ", "-")
-                                      ?.replaceAll(":", "")
-                                      ?.replaceAll("/", "-")
-                                      ?.replaceAll("?", "")
-                                      ?.toLowerCase()}`
-                                  )}
+                                  href={`/${encodeURI(
+                                    sanitizeUrl(item.article_category)
+                                  )}/${encodeURI(sanitizeUrl(item.title))}`}
                                   imageHeight="h-72 md:h-[420px]"
                                   imageTitle={
                                     item.imageTitle ||
@@ -182,16 +176,9 @@ export default function Home({
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={encodeURI(
-                  `/${item?.article_category
-                    ?.toLowerCase()
-                    ?.replaceAll(" ", "-")}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.replaceAll(":", "")
-                    ?.replaceAll("/", "-")
-                    ?.replaceAll("?", "")
-                    ?.toLowerCase()}`
-                )}
+                href={`/${encodeURI(
+                  sanitizeUrl(item.article_category)
+                )}/${encodeURI(sanitizeUrl(item.title))}`}
                 imageHeight="h-72 md:h-[420px]"
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
                 altImage={item.altImage || item.tagline || "Article Thumbnail"}
@@ -213,16 +200,9 @@ export default function Home({
                 image={
                   item.image ? `${imagePath}/${item.image}` : "/no-image.png"
                 }
-                href={encodeURI(
-                  `/${item?.article_category
-                    ?.toLowerCase()
-                    ?.replaceAll(" ", "-")}/${item?.title
-                    ?.replaceAll(" ", "-")
-                    ?.replaceAll(":", "")
-                    ?.replaceAll("/", "-")
-                    ?.replaceAll("?", "")
-                    ?.toLowerCase()}`
-                )}
+                href={`/${encodeURI(
+                  sanitizeUrl(item.article_category)
+                )}/${encodeURI(sanitizeUrl(item.title))}`}
                 imageHeight={index === 0 ? "h-40" : "h-72 md:h-[410px]"}
                 imageTitle={item.imageTitle || item.title || "Blog Image Title"}
                 altImage={item.altImage || item.tagline || "Article Thumbnail"}

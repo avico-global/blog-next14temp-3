@@ -29,10 +29,10 @@ export default function About({
   domain,
   meta,
   contact_details,
-  copyright,
   favicon,
   layout,
   nav_type,
+  footer_type,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(about_me?.value);
@@ -141,6 +141,7 @@ export default function About({
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
+                    footer_type={footer_type}
                   />
                 );
 
@@ -155,65 +156,16 @@ export default function About({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebPage",
-              "@id": `http://${domain}/`,
-              url: `http://${domain}/`,
-              name: meta?.title,
-              isPartOf: {
-                "@id": `http://${domain}`,
-              },
-              description: meta?.description,
-              inLanguage: "en-US",
-            },
-            {
-              "@type": "Organization",
-              "@id": `http://${domain}`,
-              name: domain,
-              url: `http://${domain}/`,
-              logo: {
-                "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
-              },
-              sameAs: [
-                "http://www.facebook.com",
-                "http://www.twitter.com",
-                "http://instagram.com",
-              ],
-            },
-            {
               "@type": "WebSite",
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
               name: domain,
               description: meta?.description,
               inLanguage: "en-US",
-              // potentialAction: {
-              //   "@type": "SearchAction",
-              //   target: `http://${domain}/search?q={search_term_string}`,
-              //   "query-input": "required name=search_term_string",
-              // },
               publisher: {
                 "@type": "Organization",
                 "@id": `http://${domain}`,
               },
-            },
-            {
-              "@type": "ItemList",
-              url: `http://${domain}`,
-              name: "blog",
-              itemListElement: blog_list?.map((blog, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                item: {
-                  "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}/${blog.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`,
-                  name: blog.title,
-                },
-              })),
             },
             {
               "@type": "BreadcrumbList",
@@ -255,6 +207,7 @@ export async function getServerSideProps({ req, query }) {
   });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
+  const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -274,6 +227,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details.data[0].value,
       copyright: copyright?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
     },
   };
 }

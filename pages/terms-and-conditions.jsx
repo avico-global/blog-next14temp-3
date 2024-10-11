@@ -20,17 +20,18 @@ const myFont = Raleway({
 });
 
 export default function Terms({
-  domain,
-  imagePath,
-  logo,
-  favicon,
   blog_list,
-  categories,
+  imagePath,
+  favicon,
+  domain,
+  logo,
   meta,
-  contact_details,
   terms,
   layout,
   nav_type,
+  categories,
+  footer_type,
+  contact_details,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(terms || "");
@@ -131,6 +132,7 @@ export default function Terms({
                     imagePath={imagePath}
                     blog_list={blog_list}
                     categories={categories}
+                    footer_type={footer_type}
                   />
                 );
               default:
@@ -144,32 +146,6 @@ export default function Terms({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebPage",
-              "@id": `http://${domain}/`,
-              url: `http://${domain}/`,
-              name: meta?.title,
-              isPartOf: {
-                "@id": `http://${domain}`,
-              },
-              description: meta?.description,
-              inLanguage: "en-US",
-            },
-            {
-              "@type": "Organization",
-              "@id": `http://${domain}`,
-              name: domain,
-              url: `http://${domain}/`,
-              logo: {
-                "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
-              },
-              sameAs: [
-                "http://www.facebook.com",
-                "http://www.twitter.com",
-                "http://instagram.com",
-              ],
-            },
-            {
               "@type": "WebSite",
               "@id": `http://${domain}/#website`,
               url: `http://${domain}/`,
@@ -180,24 +156,6 @@ export default function Terms({
                 "@type": "Organization",
                 "@id": `http://${domain}`,
               },
-            },
-            {
-              "@type": "ItemList",
-              url: `http://${domain}`,
-              name: "blog",
-              itemListElement: blog_list?.map((blog, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                item: {
-                  "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category
-                    .replaceAll(" ", "-")
-                    ?.toLowerCase()}/${blog.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`,
-                  name: blog.title,
-                },
-              })),
             },
             {
               "@type": "BreadcrumbList",
@@ -235,6 +193,7 @@ export async function getServerSideProps({ req, query }) {
   const terms = await callBackendApi({ domain, query, type: "terms" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
+  const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
@@ -253,6 +212,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details?.data[0]?.value || null,
       terms: terms?.data[0]?.value || "",
       nav_type: nav_type?.data[0]?.value || {},
+      footer_type: footer_type?.data[0]?.value || {},
     },
   };
 }

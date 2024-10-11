@@ -5,6 +5,7 @@ import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
 import SocialShare from "@/components/common/SocialShare";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function Style5({
   staticPages,
@@ -25,21 +26,6 @@ export default function Style5({
 
   return (
     <>
-      {/* <div className=" border-b ">
-        <div className=" flex items-center justify-between mx-auto  max-w-[1400px] p-2     ">
-          <p className="text-xs lg:text-lg">
-            {" "}
-            Latest Posts: Latest New Ideas For Mens fashion
-          </p>
-          <SocialShare
-            url={`http://${domain}${
-              myblog?.article_category
-            }/${myblog?.title?.replaceAll(" ", "-")?.toLowerCase()}`}
-            title={myblog?.value.title}
-          />
-        </div>
-      </div> */}
-
       <div className="p-10 lg:my-4 w-full border-b">
         <Logo logo={logo} imagePath={imagePath} />
       </div>
@@ -63,7 +49,7 @@ export default function Style5({
               <Link
                 key={index}
                 title={item?.title}
-                href={`/${item?.title?.toLowerCase()?.replaceAll(" ", "-")}`}
+                href={`/${sanitizeUrl(item?.title)}`}
                 className={cn(
                   navLink,
                   (category === item.title || isActive(`/${item.title}`)) &&
@@ -81,11 +67,9 @@ export default function Style5({
                   <Link
                     key={index}
                     title={item.title}
-                    href={`/${item.article_category
-                      ?.toLowerCase()
-                      ?.replaceAll(" ", "-")}/${item?.title
-                      ?.replaceAll(" ", "-")
-                      ?.toLowerCase()}`}
+                    href={`/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                      item?.title
+                    )}`}
                   >
                     <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                       {item.title}

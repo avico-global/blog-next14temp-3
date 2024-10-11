@@ -4,6 +4,7 @@ import { Menu, Search } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import Logo from "./Logo";
+import { sanitizeUrl } from "@/lib/myFun";
 
 export default function Style1({
   staticPages,
@@ -48,7 +49,7 @@ export default function Style1({
               <Link
                 key={index}
                 title={item?.title}
-                href={`/${item?.title?.toLowerCase()?.replaceAll(" ", "-")}`}
+                href={`/${sanitizeUrl(item?.title)}`}
                 className={cn(
                   "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black w-fit",
                   (category === item?.title || isActive(`/${item.title}`)) &&
@@ -87,11 +88,9 @@ export default function Style1({
                         <Link
                           key={index}
                           title={item.title}
-                          href={`/${item.article_category
-                            ?.toLowerCase()
-                            ?.replaceAll(" ", "-")}/${item?.title
-                            ?.replaceAll(" ", "-")
-                            ?.toLowerCase()}`}
+                          href={`/${sanitizeUrl(
+                            item.article_category
+                          )}/${sanitizeUrl(item?.title)}`}
                         >
                           <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                             {item.title}
