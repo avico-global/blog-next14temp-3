@@ -26,20 +26,20 @@ const myFont = Raleway({
 });
 
 export default function Home({
-  logo,
-  blog_list,
-  imagePath,
+  footer_type,
   categories,
-  domain,
-  meta,
+  imagePath,
   about_me,
-  contact_details,
   banner,
-  favicon,
+  domain,
+  logo,
+  meta,
   page,
+  favicon,
   tag_list,
   nav_type,
-  footer_type,
+  blog_list,
+  contact_details,
 }) {
 
   const renderSections = () => {
@@ -370,7 +370,11 @@ export async function getServerSideProps({ req }) {
   const all_data = await callBackendApi({ domain, type: "" });
   const imagePath = await getImagePath(project_id, domain);
 
-  const page = layout?.data[0]?.value?.find((page) => page.page === "home");
+  let page;
+  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
+    const valueData = layoutPages[0].value;
+    page = valueData?.find((page) => page.page === "home");
+  }
 
   if (!page?.enable) {
     return {

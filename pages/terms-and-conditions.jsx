@@ -193,7 +193,11 @@ export async function getServerSideProps({ req, query }) {
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  const page = layout?.data[0]?.value?.find((page) => page.page === "terms");
+  let page;
+  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
+    const valueData = layoutPages[0].value;
+    page = valueData?.find((page) => page.page === "terms");
+  }
 
   if (!page?.enable) {
     return {

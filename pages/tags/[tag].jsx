@@ -23,18 +23,18 @@ const myFont = Raleway({
 });
 
 export default function Categories({
-  logo,
-  blog_list,
-  imagePath,
-  meta,
-  domain,
   categories,
+  imagePath,
+  blog_list,
   about_me,
-  contact_details,
+  domain,
+  logo,
+  meta,
+  page,
   favicon,
-  layout,
   tag_list,
   nav_type,
+  contact_details,
 }) {
   const router = useRouter();
   const { tag } = router.query;
@@ -61,8 +61,6 @@ export default function Categories({
       router.replace("/about");
     }
   }, [tag, router]);
-
-  const page = layout?.find((page) => page.page === "Tag Page");
 
   return (
     <div
@@ -370,6 +368,18 @@ export async function getServerSideProps({ req, query }) {
     };
   }
 
+  let page;
+  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
+    const valueData = layoutPages[0].value;
+    page = valueData?.find((page) => page.page === "Tag Page");
+  }
+
+  if (!page?.enable) {
+    return {
+      notFound: true,
+    };
+  }
+
   return {
     props: {
       domain,
@@ -388,6 +398,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details.data[0].value,
       tag_list: tag_list?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
+      page,
     },
   };
 }

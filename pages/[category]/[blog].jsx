@@ -264,7 +264,11 @@ export async function getServerSideProps({ req, query }) {
   const blog_type = await callBackendApi({ domain, type: "blog_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  const page = layout?.data[0]?.value?.find((page) => page.page === "blog page");
+  let page;
+  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
+    const valueData = layoutPages[0].value;
+    page = valueData?.find((page) => page.page === "blog page");
+  }
 
   if (!page?.enable) {
     return {

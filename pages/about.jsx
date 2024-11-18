@@ -25,10 +25,10 @@ export default function About({
   categories,
   imagePath,
   about_me,
-  domain,
   logo,
   meta,
   page,
+  domain,
   favicon,
   nav_type,
   blog_list,
@@ -207,7 +207,11 @@ export async function getServerSideProps({ req, query }) {
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  const page = layout?.data[0]?.value?.find((page) => page.page === "about");
+  let page;
+  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
+    const valueData = layoutPages[0].value;
+    page = valueData?.find((page) => page.page === "about");
+  }
 
   if (!page?.enable) {
     return {
@@ -234,6 +238,7 @@ export async function getServerSideProps({ req, query }) {
       copyright: copyright?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
       footer_type: footer_type?.data[0]?.value || {},
+      page,
     },
   };
 }
