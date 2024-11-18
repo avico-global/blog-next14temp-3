@@ -402,7 +402,7 @@ export async function getServerSideProps({ req }) {
       footer_type: footer_type?.data[0]?.value || {},
       tag_list: tag_list?.data[0]?.value || null,
       all_data,
-      page,
+      // page,
     },
   };
 }
