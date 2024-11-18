@@ -370,17 +370,17 @@ export async function getServerSideProps({ req }) {
   const all_data = await callBackendApi({ domain, type: "" });
   const imagePath = await getImagePath(project_id, domain);
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
-    page = valueData?.find((page) => page.page === "home");
-  }
+  // let page;
+  // if (Array.isArray(layoutPages) && layoutPages.length > 0) {
+  //   const valueData = layoutPages[0].value;
+  //   page = valueData?.find((page) => page.page === "home");
+  // }
 
-  if (!page?.enable) {
-    return {
-      notFound: true,
-    };
-  }
+  // if (!page?.enable) {
+  //   return {
+  //     notFound: true,
+  //   };
+  // }
 
   robotsTxt({ domain });
 
@@ -402,7 +402,7 @@ export async function getServerSideProps({ req }) {
       footer_type: footer_type?.data[0]?.value || {},
       tag_list: tag_list?.data[0]?.value || null,
       all_data,
-      page,
+      // page,
     },
   };
 }
