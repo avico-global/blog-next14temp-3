@@ -21,23 +21,21 @@ const myFont = Raleway({
 });
 
 export default function About({
-  logo,
-  about_me,
-  imagePath,
-  categories,
-  blog_list,
-  domain,
-  meta,
   contact_details,
+  categories,
+  imagePath,
+  about_me,
+  domain,
+  logo,
+  meta,
+  page,
   favicon,
-  layout,
   nav_type,
+  blog_list,
   footer_type,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt?.render(about_me?.value);
-
-  const page = layout?.find((page) => page.page === "about");
 
   const reversedLastFiveBlogs = useMemo(() => {
     const lastFiveBlogs = blog_list?.slice(-5);
@@ -86,69 +84,69 @@ export default function About({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-            if (!item.enable) return null;
-            switch (item.section?.toLowerCase()) {
-              case "navbar":
-                return (
-                  <Navbar
-                    key={index}
-                    logo={logo}
-                    nav_type={nav_type}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    contact_details={contact_details}
-                  />
-                );
-              case "banner":
-                return (
-                  <AboutBanner image={`${imagePath}/${about_me.file_name}`} />
-                );
-              case "breadcrumbs":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-7" />
-                    </Container>
-                  </FullContainer>
-                );
-              case "text":
-                return (
-                  <FullContainer>
-                    <Container className="pb-16 pt-8">
-                      <div className="grid grid-cols-about gap-16 w-full">
-                        <div
-                          className="markdown-content about_me prose max-w-full"
-                          dangerouslySetInnerHTML={{ __html: content }}
-                        />
-                        <Rightbar
-                          about_me={about_me}
-                          imagePath={imagePath}
-                          blog_list={blog_list}
-                          categories={categories}
-                          contact_details={contact_details}
-                          lastFiveBlogs={reversedLastFiveBlogs}
-                          widgets={page?.widgets}
-                        />
-                      </div>
-                    </Container>
-                  </FullContainer>
-                );
-              case "footer":
-                return (
-                  <Footer
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    footer_type={footer_type}
-                  />
-                );
+          if (!item.enable) return null;
+          switch (item.section?.toLowerCase()) {
+            case "navbar":
+              return (
+                <Navbar
+                  key={index}
+                  logo={logo}
+                  nav_type={nav_type}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  contact_details={contact_details}
+                />
+              );
+            case "banner":
+              return (
+                <AboutBanner image={`${imagePath}/${about_me.file_name}`} />
+              );
+            case "breadcrumbs":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-7" />
+                  </Container>
+                </FullContainer>
+              );
+            case "text":
+              return (
+                <FullContainer>
+                  <Container className="pb-16 pt-8">
+                    <div className="grid grid-cols-about gap-16 w-full">
+                      <div
+                        className="markdown-content about_me prose max-w-full"
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      />
+                      <Rightbar
+                        about_me={about_me}
+                        imagePath={imagePath}
+                        blog_list={blog_list}
+                        categories={categories}
+                        contact_details={contact_details}
+                        lastFiveBlogs={reversedLastFiveBlogs}
+                        widgets={page?.widgets}
+                      />
+                    </div>
+                  </Container>
+                </FullContainer>
+              );
+            case "footer":
+              return (
+                <Footer
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  footer_type={footer_type}
+                />
+              );
 
-              default:
-                return null;
-            }
-          })
+            default:
+              return null;
+          }
+        })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -208,6 +206,14 @@ export async function getServerSideProps({ req, query }) {
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
+
+  const page = layout?.data[0]?.value?.find((page) => page.page === "about");
+
+  if (!page?.enable) {
+    return {
+      notFound: true,
+    };
+  }
 
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;

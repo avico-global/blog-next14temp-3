@@ -22,18 +22,18 @@ const myFont = Raleway({
 });
 
 export default function PriavcyPolicy({
-  domain,
-  imagePath,
-  logo,
-  favicon,
-  blog_list,
   categories,
-  meta,
-  contact_details,
+  imagePath,
+  favicon,
   policy,
-  layout,
+  logo,
+  meta,
+  page,
+  domain,
   nav_type,
+  blog_list,
   footer_type,
+  contact_details,
 }) {
   const markdownIt = new MarkdownIt();
   const content = markdownIt.render(policy || "");
@@ -46,8 +46,6 @@ export default function PriavcyPolicy({
       router.replace("/privacy-policy");
     }
   }, [currentPath, router]);
-
-  const page = layout?.find((page) => page.page === "privacy policy");
 
   return (
     <div
@@ -91,53 +89,53 @@ export default function PriavcyPolicy({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-            if (!item.enable) return null;
-            switch (item.section?.toLowerCase()) {
-              case "navbar":
-                return (
-                  <Navbar
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    logo={logo}
-                    contact_details={contact_details}
-                    nav_type={nav_type}
-                  />
-                );
-              case "breadcrumbs":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-                    </Container>
-                  </FullContainer>
-                );
-              case "text":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <div
-                        className="prose max-w-full w-full mb-5"
-                        dangerouslySetInnerHTML={{ __html: content }}
-                      />
-                    </Container>
-                  </FullContainer>
-                );
-              case "footer":
-                return (
-                  <Footer
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    footer_type={footer_type}
-                  />
-                );
-              default:
-                return null;
-            }
-          })
+          if (!item.enable) return null;
+          switch (item.section?.toLowerCase()) {
+            case "navbar":
+              return (
+                <Navbar
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  logo={logo}
+                  contact_details={contact_details}
+                  nav_type={nav_type}
+                />
+              );
+            case "breadcrumbs":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                  </Container>
+                </FullContainer>
+              );
+            case "text":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <div
+                      className="prose max-w-full w-full mb-5"
+                      dangerouslySetInnerHTML={{ __html: content }}
+                    />
+                  </Container>
+                </FullContainer>
+              );
+            case "footer":
+              return (
+                <Footer
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  footer_type={footer_type}
+                />
+              );
+            default:
+              return null;
+          }
+        })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -241,6 +239,14 @@ export async function getServerSideProps({ req, query }) {
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
+  const page = layout?.data[0]?.value?.find((page) => page.page === "privacy policy");
+
+  if (!page?.enable) {
+    return {
+      notFound: true,
+    };
+  }
+
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
   imagePath = await getImagePath(project_id, domain);
@@ -260,6 +266,7 @@ export async function getServerSideProps({ req, query }) {
       policy: policy?.data[0]?.value || "",
       nav_type: nav_type?.data[0]?.value || {},
       footer_type: footer_type?.data[0]?.value || {},
+      page,
     },
   };
 }

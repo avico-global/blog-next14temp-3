@@ -26,8 +26,8 @@ export default function Terms({
   domain,
   logo,
   meta,
+  page,
   terms,
-  layout,
   nav_type,
   categories,
   footer_type,
@@ -44,8 +44,6 @@ export default function Terms({
       router.replace("/privacy-policy");
     }
   }, [currentPath, router]);
-
-  const page = layout?.find((page) => page.page === "terms");
 
   return (
     <div
@@ -92,53 +90,53 @@ export default function Terms({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-            if (!item.enable) return null;
-            switch (item.section?.toLowerCase()) {
-              case "navbar":
-                return (
-                  <Navbar
-                    key={index}
-                    logo={logo}
-                    nav_type={nav_type}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    contact_details={contact_details}
-                  />
-                );
-              case "breadcrumbs":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-                    </Container>
-                  </FullContainer>
-                );
-              case "text":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <div
-                        className="prose max-w-full w-full mb-5"
-                        dangerouslySetInnerHTML={{ __html: content }}
-                      />
-                    </Container>
-                  </FullContainer>
-                );
-              case "footer":
-                return (
-                  <Footer
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    footer_type={footer_type}
-                  />
-                );
-              default:
-                return null;
-            }
-          })
+          if (!item.enable) return null;
+          switch (item.section?.toLowerCase()) {
+            case "navbar":
+              return (
+                <Navbar
+                  key={index}
+                  logo={logo}
+                  nav_type={nav_type}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  contact_details={contact_details}
+                />
+              );
+            case "breadcrumbs":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                  </Container>
+                </FullContainer>
+              );
+            case "text":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <div
+                      className="prose max-w-full w-full mb-5"
+                      dangerouslySetInnerHTML={{ __html: content }}
+                    />
+                  </Container>
+                </FullContainer>
+              );
+            case "footer":
+              return (
+                <Footer
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  footer_type={footer_type}
+                />
+              );
+            default:
+              return null;
+          }
+        })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -195,6 +193,14 @@ export async function getServerSideProps({ req, query }) {
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
+  const page = layout?.data[0]?.value?.find((page) => page.page === "terms");
+
+  if (!page?.enable) {
+    return {
+      notFound: true,
+    };
+  }
+
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = null;
   imagePath = await getImagePath(project_id, domain);
@@ -213,6 +219,7 @@ export async function getServerSideProps({ req, query }) {
       terms: terms?.data[0]?.value || "",
       nav_type: nav_type?.data[0]?.value || {},
       footer_type: footer_type?.data[0]?.value || {},
+      page,
     },
   };
 }

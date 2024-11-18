@@ -1,17 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
 import Footer from "@/components/containers/Footer";
-import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
 import GoogleTagManager from "@/lib/GoogleTagManager";
-import JsonLd from "@/components/json/JsonLd";
-import FullContainer from "@/components/common/FullContainer";
-import Container from "@/components/common/Container";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import Breadcrumbs from "@/components/common/Breadcrumbs";
+import FullContainer from "@/components/common/FullContainer";
+import { callBackendApi, getDomain, getImagePath } from "@/lib/myFun";
+import Container from "@/components/common/Container";
 import Navbar from "@/components/containers/Navbar";
 import useBreadcrumbs from "@/lib/useBreadcrumbs";
+import JsonLd from "@/components/json/JsonLd";
+import { useRouter } from "next/router";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 // Font
 import { Raleway } from "next/font/google";
@@ -30,7 +30,7 @@ export default function Tags({
   about_me,
   contact_details,
   favicon,
-  layout,
+  page,
   tag_list,
   nav_type,
 }) {
@@ -58,8 +58,6 @@ export default function Tags({
       ))}
     </div>
   );
-
-  const page = layout?.find((page) => page.page === "tags");
 
   return (
     <div
@@ -117,65 +115,65 @@ export default function Tags({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-            if (!item.enable) return null;
-            switch (item.section?.toLowerCase()) {
-              case "navbar":
-                return (
-                  <Navbar
-                    key={index}
-                    logo={logo}
-                    nav_type={nav_type}
-                    category={category}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    contact_details={contact_details}
-                  />
-                );
-              case "breadcrumbs":
-                return (
-                  <FullContainer key={index}>
-                    <Container>
-                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-8" />
-                    </Container>
-                  </FullContainer>
-                );
-              case "tags":
-                return (
-                  <FullContainer key={index} className="mb-12">
-                    <Container>
-                      <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
-                        {meta?.title}
-                      </h1>
-                      <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                        <div> {renderTags()}</div>
-                        <Rightbar
-                          about_me={about_me}
-                          tag_list={tag_list}
-                          blog_list={blog_list}
-                          imagePath={imagePath}
-                          categories={categories}
-                          contact_details={contact_details}
-                          widgets={page?.widgets}
-                        />
-                      </div>
-                    </Container>
-                  </FullContainer>
-                );
-              case "footer":
-                return (
-                  <Footer
-                    key={index}
-                    imagePath={imagePath}
-                    blog_list={blog_list}
-                    categories={categories}
-                    category={category}
-                  />
-                );
-              default:
-                return null;
-            }
-          })
+          if (!item.enable) return null;
+          switch (item.section?.toLowerCase()) {
+            case "navbar":
+              return (
+                <Navbar
+                  key={index}
+                  logo={logo}
+                  nav_type={nav_type}
+                  category={category}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  contact_details={contact_details}
+                />
+              );
+            case "breadcrumbs":
+              return (
+                <FullContainer key={index}>
+                  <Container>
+                    <Breadcrumbs breadcrumbs={breadcrumbs} className="py-8" />
+                  </Container>
+                </FullContainer>
+              );
+            case "tags":
+              return (
+                <FullContainer key={index} className="mb-12">
+                  <Container>
+                    <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
+                      {meta?.title}
+                    </h1>
+                    <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+                      <div> {renderTags()}</div>
+                      <Rightbar
+                        about_me={about_me}
+                        tag_list={tag_list}
+                        blog_list={blog_list}
+                        imagePath={imagePath}
+                        categories={categories}
+                        contact_details={contact_details}
+                        widgets={page?.widgets}
+                      />
+                    </div>
+                  </Container>
+                </FullContainer>
+              );
+            case "footer":
+              return (
+                <Footer
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  category={category}
+                />
+              );
+            default:
+              return null;
+          }
+        })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -246,8 +244,8 @@ export default function Tags({
                   url: `http://${domain}/${blog?.article_category
                     .replaceAll(" ", "-")
                     ?.toLowerCase()}/${blog?.title
-                    ?.replaceAll(" ", "-")
-                    ?.toLowerCase()}`,
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}`,
                   name: blog.title,
                 },
               })),
@@ -296,6 +294,14 @@ export async function getServerSideProps({ req, query }) {
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
+  const page = layout?.data[0]?.value?.find((page) => page.page === "tags");
+
+  if (!page?.enable) {
+    return {
+      notFound: true,
+    };
+  }
+
   let project_id = logo?.data[0]?.project_id || null;
   let imagePath = await getImagePath(project_id, domain);
 
@@ -317,6 +323,7 @@ export async function getServerSideProps({ req, query }) {
       contact_details: contact_details.data[0].value,
       tag_list: tag_list?.data[0]?.value || null,
       nav_type: nav_type?.data[0]?.value || {},
+      page,
     },
   };
 }
