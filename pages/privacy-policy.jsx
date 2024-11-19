@@ -89,53 +89,53 @@ export default function PriavcyPolicy({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-          if (!item.enable) return null;
-          switch (item.section?.toLowerCase()) {
-            case "navbar":
-              return (
-                <Navbar
-                  key={index}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  logo={logo}
-                  contact_details={contact_details}
-                  nav_type={nav_type}
-                />
-              );
-            case "breadcrumbs":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-                  </Container>
-                </FullContainer>
-              );
-            case "text":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <div
-                      className="prose max-w-full w-full mb-5"
-                      dangerouslySetInnerHTML={{ __html: content }}
-                    />
-                  </Container>
-                </FullContainer>
-              );
-            case "footer":
-              return (
-                <Footer
-                  key={index}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  footer_type={footer_type}
-                />
-              );
-            default:
-              return null;
-          }
-        })
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    logo={logo}
+                    contact_details={contact_details}
+                    nav_type={nav_type}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                    </Container>
+                  </FullContainer>
+                );
+              case "text":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <div
+                        className="prose max-w-full w-full mb-5"
+                        dangerouslySetInnerHTML={{ __html: content }}
+                      />
+                    </Container>
+                  </FullContainer>
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    footer_type={footer_type}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -217,31 +217,34 @@ export default function PriavcyPolicy({
   );
 }
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-  const meta = await callBackendApi({ domain, query, type: "meta_privacy" });
-  const logo = await callBackendApi({ domain, query, type: "logo" });
-  const favicon = await callBackendApi({ domain, query, type: "favicon" });
-  const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
+
+  let layoutPages = await callBackendApi({
+    domain,
+    type: "layout",
+  });
+
+  const meta = await callBackendApi({ domain, type: "meta_privacy" });
+  const logo = await callBackendApi({ domain, type: "logo" });
+  const favicon = await callBackendApi({ domain, type: "favicon" });
+  const blog_list = await callBackendApi({ domain, type: "blog_list" });
   const categories = await callBackendApi({
     domain,
-    query,
     type: "categories",
   });
   const contact_details = await callBackendApi({
     domain,
-    query,
     type: "contact_details",
   });
-  const terms = await callBackendApi({ domain, query, type: "terms" });
-  const policy = await callBackendApi({ domain, query, type: "policy" });
-  const layout = await callBackendApi({ domain, type: "layout" });
+  const terms = await callBackendApi({ domain, type: "terms" });
+  const policy = await callBackendApi({ domain, type: "policy" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
+  let page = null;
+  if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
+    const valueData = layoutPages.data[0].value;
     page = valueData?.find((page) => page.page === "privacy policy");
   }
 
@@ -261,7 +264,6 @@ export async function getServerSideProps({ req, query }) {
       imagePath,
       favicon: favicon?.data[0]?.file_name || null,
       logo: logo?.data[0] || null,
-      layout: layout?.data[0]?.value || null,
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       meta: meta?.data[0]?.value || null,

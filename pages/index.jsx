@@ -41,122 +41,121 @@ export default function Home({
   blog_list,
   contact_details,
 }) {
-
   const renderSections = () => {
     return page?.enable
       ? page.sections.map((item, index) => {
-        if (!item.enable) return null;
+          if (!item.enable) return null;
 
-        switch (item.section?.toLowerCase()) {
-          case "navbar":
-            return (
-              <Navbar
-                key={index}
-                logo={logo}
-                imagePath={imagePath}
-                blog_list={blog_list}
-                categories={categories}
-                nav_type={nav_type}
-                contact_details={contact_details}
-              />
-            );
-          case "banner":
-            return (
-              <Banner
-                key={index}
-                data={banner.value}
-                image={`${imagePath}/${banner?.file_name}`}
-                blog_list={blog_list}
-              />
-            );
-          case "most popular":
-            return (
-              <MostPopular
-                key={index}
-                blog_list={blog_list}
-                imagePath={imagePath}
-              />
-            );
-          case "articles":
-            return (
-              <FullContainer key={index} className="pt-5">
-                <Container>
-                  <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                    <div className="flex flex-col gap-10 w-full">
-                      {blog_list?.map(
-                        (item, index) =>
-                          item.isFeatured && (
-                            <div key={index}>
-                              <div className="flex items-center justify-between gap-5 mb-6 -mt-3">
-                                <h2 className="font-bold text-xl">
-                                  Featured Article
-                                </h2>
-                                <div className="flex-1 h-[1px] bg-gray-200"></div>
+          switch (item.section?.toLowerCase()) {
+            case "navbar":
+              return (
+                <Navbar
+                  key={index}
+                  logo={logo}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  nav_type={nav_type}
+                  contact_details={contact_details}
+                />
+              );
+            case "banner":
+              return (
+                <Banner
+                  key={index}
+                  data={banner.value}
+                  image={`${imagePath}/${banner?.file_name}`}
+                  blog_list={blog_list}
+                />
+              );
+            case "most popular":
+              return (
+                <MostPopular
+                  key={index}
+                  blog_list={blog_list}
+                  imagePath={imagePath}
+                />
+              );
+            case "articles":
+              return (
+                <FullContainer key={index} className="pt-5">
+                  <Container>
+                    <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+                      <div className="flex flex-col gap-10 w-full">
+                        {blog_list?.map(
+                          (item, index) =>
+                            item.isFeatured && (
+                              <div key={index}>
+                                <div className="flex items-center justify-between gap-5 mb-6 -mt-3">
+                                  <h2 className="font-bold text-xl">
+                                    Featured Article
+                                  </h2>
+                                  <div className="flex-1 h-[1px] bg-gray-200"></div>
+                                </div>
+                                <BlogCard
+                                  key={index}
+                                  title={item.title}
+                                  published_at={item.published_at}
+                                  tagline={item.tagline}
+                                  image={
+                                    item.image
+                                      ? `${imagePath}/${item.image}`
+                                      : "/no-image.png"
+                                  }
+                                  href={`/${encodeURI(
+                                    sanitizeUrl(item.article_category)
+                                  )}/${encodeURI(sanitizeUrl(item.title))}`}
+                                  imageHeight="h-72 md:h-[420px]"
+                                  imageTitle={
+                                    item.imageTitle ||
+                                    item.title ||
+                                    "Blog Image Title"
+                                  }
+                                  altImage={
+                                    item.altImage ||
+                                    item.tagline ||
+                                    "Article Thumbnail"
+                                  }
+                                />
                               </div>
-                              <BlogCard
-                                key={index}
-                                title={item.title}
-                                published_at={item.published_at}
-                                tagline={item.tagline}
-                                image={
-                                  item.image
-                                    ? `${imagePath}/${item.image}`
-                                    : "/no-image.png"
-                                }
-                                href={`/${encodeURI(
-                                  sanitizeUrl(item.article_category)
-                                )}/${encodeURI(sanitizeUrl(item.title))}`}
-                                imageHeight="h-72 md:h-[420px]"
-                                imageTitle={
-                                  item.imageTitle ||
-                                  item.title ||
-                                  "Blog Image Title"
-                                }
-                                altImage={
-                                  item.altImage ||
-                                  item.tagline ||
-                                  "Article Thumbnail"
-                                }
-                              />
-                            </div>
-                          )
-                      )}
-                      {renderBlogList(blog_list)}
+                            )
+                        )}
+                        {renderBlogList(blog_list)}
+                      </div>
+                      <Rightbar
+                        widgets={page?.widgets}
+                        about_me={about_me}
+                        tag_list={tag_list}
+                        blog_list={blog_list}
+                        imagePath={imagePath}
+                        categories={categories}
+                      />
                     </div>
-                    <Rightbar
-                      widgets={page?.widgets}
-                      about_me={about_me}
-                      tag_list={tag_list}
-                      blog_list={blog_list}
-                      imagePath={imagePath}
-                      categories={categories}
-                    />
-                  </div>
-                </Container>
-              </FullContainer>
-            );
-          case "must read":
-            return (
-              <MustRead
-                key={index}
-                blog_list={blog_list}
-                imagePath={imagePath}
-              />
-            );
-          case "footer":
-            return (
-              <Footer
-                key={index}
-                imagePath={imagePath}
-                blog_list={blog_list}
-                categories={categories}
-                footer_type={footer_type}
-              />
-            );
-          default:
-            return null;
-        }
-      })
+                  </Container>
+                </FullContainer>
+              );
+            case "must read":
+              return (
+                <MustRead
+                  key={index}
+                  blog_list={blog_list}
+                  imagePath={imagePath}
+                />
+              );
+            case "footer":
+              return (
+                <Footer
+                  key={index}
+                  imagePath={imagePath}
+                  blog_list={blog_list}
+                  categories={categories}
+                  footer_type={footer_type}
+                />
+              );
+            default:
+              return null;
+          }
+        })
       : "Page Disabled, under maintenance";
   };
 
@@ -335,8 +334,8 @@ export default function Home({
                     "@id": `http://${domain}/${blog?.article_category
                       ?.replaceAll(" ", "-")
                       ?.toLowerCase()}/${blog.title
-                        ?.replaceAll(" ", "-")
-                        ?.toLowerCase()}`,
+                      ?.replaceAll(" ", "-")
+                      ?.toLowerCase()}`,
                   },
                 },
               })),
@@ -350,6 +349,12 @@ export default function Home({
 
 export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
+
+  let layoutPages = await callBackendApi({
+    domain,
+    type: "layout",
+  });
+
   const meta = await callBackendApi({ domain, type: "meta_home" });
   const logo = await callBackendApi({ domain, type: "logo" });
   const favicon = await callBackendApi({ domain, type: "favicon" });
@@ -363,16 +368,15 @@ export async function getServerSideProps({ req }) {
   const about_me = await callBackendApi({ domain, type: "about_me" });
   const copyright = await callBackendApi({ domain, type: "copyright" });
   const banner = await callBackendApi({ domain, type: "banner" });
-  const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
   const all_data = await callBackendApi({ domain, type: "" });
   const imagePath = await getImagePath(project_id, domain);
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
+  let page = null;
+  if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
+    const valueData = layoutPages.data[0].value;
     page = valueData?.find((page) => page.page === "home");
   }
 
@@ -391,7 +395,6 @@ export async function getServerSideProps({ req }) {
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       logo: logo?.data[0] || null,
-      layout: layout?.data[0]?.value || null,
       blog_list: blog_list?.data[0]?.value || [],
       categories: categories?.data[0]?.value || null,
       copyright: copyright?.data[0].value || null,
@@ -402,7 +405,7 @@ export async function getServerSideProps({ req }) {
       footer_type: footer_type?.data[0]?.value || {},
       tag_list: tag_list?.data[0]?.value || null,
       all_data,
-      // page,
+      page,
     },
   };
 }

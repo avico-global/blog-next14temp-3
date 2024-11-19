@@ -96,100 +96,100 @@ export default function Blog({
       {/* Conditional rendering based on page layout */}
       {page?.enable
         ? page?.sections?.map((item, index) => {
-          if (!item.enable) return null;
-          switch (item.section?.toLowerCase()) {
-            case "navbar":
-              return (
-                <Navbar
-                  key={index}
-                  blog_list={blog_list}
-                  category={category}
-                  categories={categories}
-                  logo={logo}
-                  imagePath={imagePath}
-                  contact_details={contact_details}
-                  nav_type={nav_type}
-                />
-              );
-            case "banner":
-              return (
-                <BlogBanner
-                  key={index}
-                  myblog={myblog}
-                  imagePath={imagePath}
-                  blog_type={blog_type}
-                />
-              );
-            case "breadcrumbs":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <Breadcrumbs
-                      breadcrumbs={breadcrumbs}
-                      className="pt-7 pb-5"
-                    />
-                  </Container>
-                </FullContainer>
-              );
-            case "blog text":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
-                      <div className="">
-                        <article className="prose lg:prose-xl max-w-full">
-                          <div
-                            dangerouslySetInnerHTML={{ __html: content }}
-                          />
-                        </article>
-                        <div className="mt-12">
-                          <h3 className="text-lg font-semibold">
-                            Share this article:
-                          </h3>
-                          <SocialShare
-                            url={`http://${domain}${sanitizeUrl(
-                              myblog?.article_category
-                            )}/${sanitizeUrl(myblog?.title)}`}
-                            title={myblog?.value.title}
-                          />
-                        </div>
-                      </div>
-                      <Rightbar
-                        imagePath={imagePath}
-                        tag_list={tag_list}
-                        about_me={about_me}
-                        categories={categories}
-                        category={category}
-                        contact_details={contact_details}
-                        blog_list={blog_list}
-                        widgets={page?.widgets}
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    blog_list={blog_list}
+                    category={category}
+                    categories={categories}
+                    logo={logo}
+                    imagePath={imagePath}
+                    contact_details={contact_details}
+                    nav_type={nav_type}
+                  />
+                );
+              case "banner":
+                return (
+                  <BlogBanner
+                    key={index}
+                    myblog={myblog}
+                    imagePath={imagePath}
+                    blog_type={blog_type}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs
+                        breadcrumbs={breadcrumbs}
+                        className="pt-7 pb-5"
                       />
-                    </div>
-                  </Container>
-                </FullContainer>
-              );
-            case "latest posts":
-              return (
-                <LatestBlogs
-                  key={index}
-                  blogs={blog_list}
-                  imagePath={imagePath}
-                />
-              );
-            case "footer":
-              return (
-                <Footer
-                  key={index}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  footer_type={footer_type}
-                />
-              );
-            default:
-              return null;
-          }
-        })
+                    </Container>
+                  </FullContainer>
+                );
+              case "blog text":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
+                        <div className="">
+                          <article className="prose lg:prose-xl max-w-full">
+                            <div
+                              dangerouslySetInnerHTML={{ __html: content }}
+                            />
+                          </article>
+                          <div className="mt-12">
+                            <h3 className="text-lg font-semibold">
+                              Share this article:
+                            </h3>
+                            <SocialShare
+                              url={`http://${domain}${sanitizeUrl(
+                                myblog?.article_category
+                              )}/${sanitizeUrl(myblog?.title)}`}
+                              title={myblog?.value.title}
+                            />
+                          </div>
+                        </div>
+                        <Rightbar
+                          imagePath={imagePath}
+                          tag_list={tag_list}
+                          about_me={about_me}
+                          categories={categories}
+                          category={category}
+                          contact_details={contact_details}
+                          blog_list={blog_list}
+                          widgets={page?.widgets}
+                        />
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
+              case "latest posts":
+                return (
+                  <LatestBlogs
+                    key={index}
+                    blogs={blog_list}
+                    imagePath={imagePath}
+                  />
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    footer_type={footer_type}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -202,8 +202,8 @@ export default function Blog({
                 "@type": "WebPage",
                 "@id": myblog
                   ? `http://${domain}${sanitizeUrl(
-                    myblog?.article_category
-                  )}/${sanitizeUrl(myblog?.value?.title)}`
+                      myblog?.article_category
+                    )}/${sanitizeUrl(myblog?.value?.title)}`
                   : "",
               },
               headline: myblog?.value?.title,
@@ -233,6 +233,11 @@ export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
   const { category, blog } = query;
 
+  let layoutPages = await callBackendApi({
+    domain,
+    type: "layout",
+  });
+
   const categories = await callBackendApi({ domain, type: "categories" });
   const blog_list = await callBackendApi({ domain, type: "blog_list" });
 
@@ -259,14 +264,13 @@ export async function getServerSideProps({ req, query }) {
     domain,
     type: "contact_details",
   });
-  const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const blog_type = await callBackendApi({ domain, type: "blog_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
+  let page = null;
+  if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
+    const valueData = layoutPages.data[0].value;
     page = valueData?.find((page) => page.page === "blog page");
   }
 
@@ -285,7 +289,6 @@ export async function getServerSideProps({ req, query }) {
       imagePath,
       logo: logo?.data[0] || null,
       myblog: myblog?.data[0] || {},
-      layout: layout?.data[0]?.value || null,
       blog_list: blog_list.data[0]?.value || null,
       tag_list: tag_list?.data[0]?.value || null,
       categories: categories?.data[0]?.value || null,
@@ -296,6 +299,7 @@ export async function getServerSideProps({ req, query }) {
       blog_type: blog_type?.data[0]?.value || {},
       footer_type: footer_type?.data[0]?.value || {},
       project_id,
+      page,
     },
   };
 }

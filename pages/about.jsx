@@ -84,69 +84,69 @@ export default function About({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-          if (!item.enable) return null;
-          switch (item.section?.toLowerCase()) {
-            case "navbar":
-              return (
-                <Navbar
-                  key={index}
-                  logo={logo}
-                  nav_type={nav_type}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  contact_details={contact_details}
-                />
-              );
-            case "banner":
-              return (
-                <AboutBanner image={`${imagePath}/${about_me.file_name}`} />
-              );
-            case "breadcrumbs":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-7" />
-                  </Container>
-                </FullContainer>
-              );
-            case "text":
-              return (
-                <FullContainer>
-                  <Container className="pb-16 pt-8">
-                    <div className="grid grid-cols-about gap-16 w-full">
-                      <div
-                        className="markdown-content about_me prose max-w-full"
-                        dangerouslySetInnerHTML={{ __html: content }}
-                      />
-                      <Rightbar
-                        about_me={about_me}
-                        imagePath={imagePath}
-                        blog_list={blog_list}
-                        categories={categories}
-                        contact_details={contact_details}
-                        lastFiveBlogs={reversedLastFiveBlogs}
-                        widgets={page?.widgets}
-                      />
-                    </div>
-                  </Container>
-                </FullContainer>
-              );
-            case "footer":
-              return (
-                <Footer
-                  key={index}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  footer_type={footer_type}
-                />
-              );
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    logo={logo}
+                    nav_type={nav_type}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    contact_details={contact_details}
+                  />
+                );
+              case "banner":
+                return (
+                  <AboutBanner image={`${imagePath}/${about_me.file_name}`} />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-7" />
+                    </Container>
+                  </FullContainer>
+                );
+              case "text":
+                return (
+                  <FullContainer>
+                    <Container className="pb-16 pt-8">
+                      <div className="grid grid-cols-about gap-16 w-full">
+                        <div
+                          className="markdown-content about_me prose max-w-full"
+                          dangerouslySetInnerHTML={{ __html: content }}
+                        />
+                        <Rightbar
+                          about_me={about_me}
+                          imagePath={imagePath}
+                          blog_list={blog_list}
+                          categories={categories}
+                          contact_details={contact_details}
+                          lastFiveBlogs={reversedLastFiveBlogs}
+                          widgets={page?.widgets}
+                        />
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    footer_type={footer_type}
+                  />
+                );
 
-            default:
-              return null;
-          }
-        })
+              default:
+                return null;
+            }
+          })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -181,35 +181,31 @@ export default function About({
   );
 }
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-  const logo = await callBackendApi({ domain, query, type: "logo" });
-  const favicon = await callBackendApi({ domain, query, type: "favicon" });
-  const about_me = await callBackendApi({ domain, query, type: "about_me" });
-  const categories = await callBackendApi({
+
+  let layoutPages = await callBackendApi({
     domain,
-    query,
-    type: "categories",
+    type: "layout",
   });
-  const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
-  const meta = await callBackendApi({ domain, query, type: "meta_about" });
+
+  const logo = await callBackendApi({ domain, type: "logo" });
+  const favicon = await callBackendApi({ domain, type: "favicon" });
+  const about_me = await callBackendApi({ domain, type: "about_me" });
+  const categories = await callBackendApi({ domain, type: "categories" });
+  const blog_list = await callBackendApi({ domain, type: "blog_list" });
+  const meta = await callBackendApi({ domain, type: "meta_about" });
   const contact_details = await callBackendApi({
     domain,
-    query,
     type: "contact_details",
   });
-  const copyright = await callBackendApi({
-    domain,
-    query,
-    type: "copyright",
-  });
-  const layout = await callBackendApi({ domain, type: "layout" });
+  const copyright = await callBackendApi({ domain, type: "copyright" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
+  let page = null;
+  if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
+    const valueData = layoutPages.data[0].value;
     page = valueData?.find((page) => page.page === "about");
   }
 
@@ -219,25 +215,23 @@ export async function getServerSideProps({ req, query }) {
     };
   }
 
-  let project_id = logo?.data[0]?.project_id || null;
-  let imagePath = null;
-  imagePath = await getImagePath(project_id, domain);
+  let project_id = logo?.data?.[0]?.project_id || null;
+  const imagePath = await getImagePath(project_id, domain);
 
   return {
     props: {
       domain,
       imagePath,
-      meta: meta?.data[0]?.value || null,
-      favicon: favicon?.data[0]?.file_name || null,
-      logo: logo.data[0] || null,
-      layout: layout?.data[0]?.value || null,
-      about_me: about_me.data[0] || null,
-      blog_list: blog_list.data[0].value,
-      categories: categories?.data[0]?.value || null,
-      contact_details: contact_details.data[0].value,
-      copyright: copyright?.data[0]?.value || null,
-      nav_type: nav_type?.data[0]?.value || {},
-      footer_type: footer_type?.data[0]?.value || {},
+      meta: meta?.data?.[0]?.value || null,
+      favicon: favicon?.data?.[0]?.file_name || null,
+      logo: logo?.data?.[0] || null,
+      about_me: about_me?.data?.[0] || null,
+      blog_list: blog_list?.data?.[0]?.value,
+      categories: categories?.data?.[0]?.value || null,
+      contact_details: contact_details?.data?.[0]?.value,
+      copyright: copyright?.data?.[0]?.value || null,
+      nav_type: nav_type?.data?.[0]?.value || {},
+      footer_type: footer_type?.data?.[0]?.value || {},
       page,
     },
   };

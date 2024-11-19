@@ -32,7 +32,6 @@ export default function Contact({
   blog_list,
   footer_type,
 }) {
-
   const breadcrumbs = useBreadcrumbs();
 
   return (
@@ -75,82 +74,82 @@ export default function Contact({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-          if (!item.enable) return null;
-          switch (item.section) {
-            case "navbar":
-              return (
-                <Navbar
-                  logo={logo}
-                  nav_type={nav_type}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  contact_details={contact_details}
-                />
-              );
-            case "breadcrumbs":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
-                    <h1 className="w-full text-3xl font-bold border-b mb-10">
-                      Contact Us
-                    </h1>
-                  </Container>
-                </FullContainer>
-              );
-            case "map":
-              return (
-                <FullContainer>
-                  <Container>
-                    {contact_details?.mapDetails?.mapUrl ? (
-                      <LoadScript
-                        // googleMapsApiKey={process.env.NEXT_MAP_API_KEY}
-                        googleMapsApiKey="AIzaSyAPeJFoV41Bq2QOImPkf3Dai8hP6aZ7MFg"
-                      >
-                        <GoogleMap
-                          mapContainerClassName="h-[500px] w-full rouded-md"
-                          center={contact_details?.mapDetails?.center}
-                          zoom={12}
+            if (!item.enable) return null;
+            switch (item.section) {
+              case "navbar":
+                return (
+                  <Navbar
+                    logo={logo}
+                    nav_type={nav_type}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    contact_details={contact_details}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-7" />
+                      <h1 className="w-full text-3xl font-bold border-b mb-10">
+                        Contact Us
+                      </h1>
+                    </Container>
+                  </FullContainer>
+                );
+              case "map":
+                return (
+                  <FullContainer>
+                    <Container>
+                      {contact_details?.mapDetails?.mapUrl ? (
+                        <LoadScript
+                          // googleMapsApiKey={process.env.NEXT_MAP_API_KEY}
+                          googleMapsApiKey="AIzaSyAPeJFoV41Bq2QOImPkf3Dai8hP6aZ7MFg"
                         >
-                          <Marker
-                            position={contact_details?.mapDetails?.center}
-                          />
-                        </GoogleMap>
-                      </LoadScript>
-                    ) : (
-                      <Map location="united states" />
-                    )}
-                  </Container>
-                </FullContainer>
-              );
-            case "contact info":
-              return (
-                <FullContainer key={index}>
-                  <Container className="mt-10 text-center text-gray-500 text-xs gap-3">
-                    <p className="text-xl mt-3 font-bold text-black">
-                      {contact_details?.name}
-                    </p>
-                    <p>{contact_details?.email}</p>
-                    <p>{contact_details?.address}</p>
-                    <p>{contact_details?.phone}</p>
-                  </Container>
-                </FullContainer>
-              );
-            case "footer":
-              return (
-                <Footer
-                  key={index}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  footer_type={footer_type}
-                />
-              );
-            default:
-              return null;
-          }
-        })
+                          <GoogleMap
+                            mapContainerClassName="h-[500px] w-full rouded-md"
+                            center={contact_details?.mapDetails?.center}
+                            zoom={12}
+                          >
+                            <Marker
+                              position={contact_details?.mapDetails?.center}
+                            />
+                          </GoogleMap>
+                        </LoadScript>
+                      ) : (
+                        <Map location="united states" />
+                      )}
+                    </Container>
+                  </FullContainer>
+                );
+              case "contact info":
+                return (
+                  <FullContainer key={index}>
+                    <Container className="mt-10 text-center text-gray-500 text-xs gap-3">
+                      <p className="text-xl mt-3 font-bold text-black">
+                        {contact_details?.name}
+                      </p>
+                      <p>{contact_details?.email}</p>
+                      <p>{contact_details?.address}</p>
+                      <p>{contact_details?.phone}</p>
+                    </Container>
+                  </FullContainer>
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    footer_type={footer_type}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -185,29 +184,33 @@ export default function Contact({
   );
 }
 
-export async function getServerSideProps({ req, query }) {
+export async function getServerSideProps({ req }) {
   const domain = getDomain(req?.headers?.host);
-  const logo = await callBackendApi({ domain, query, type: "logo" });
-  const favicon = await callBackendApi({ domain, query, type: "favicon" });
-  const blog_list = await callBackendApi({ domain, query, type: "blog_list" });
+
+  let layoutPages = await callBackendApi({
+    domain,
+    type: "layout",
+  });
+
+  const logo = await callBackendApi({ domain, type: "logo" });
+  const favicon = await callBackendApi({ domain, type: "favicon" });
+  const blog_list = await callBackendApi({ domain, type: "blog_list" });
   const contact_details = await callBackendApi({
     domain,
-    query,
     type: "contact_details",
   });
   const categories = await callBackendApi({
     domain,
-    query,
     type: "categories",
   });
-  const meta = await callBackendApi({ domain, query, type: "meta_contact" });
+  const meta = await callBackendApi({ domain, type: "meta_contact" });
   const layout = await callBackendApi({ domain, type: "layout" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
   const footer_type = await callBackendApi({ domain, type: "footer_type" });
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
+  let page = null;
+  if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
+    const valueData = layoutPages.data[0].value;
     page = valueData?.find((page) => page.page === "contact");
   }
 

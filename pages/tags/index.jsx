@@ -115,65 +115,65 @@ export default function Tags({
 
       {page?.enable
         ? page?.sections?.map((item, index) => {
-          if (!item.enable) return null;
-          switch (item.section?.toLowerCase()) {
-            case "navbar":
-              return (
-                <Navbar
-                  key={index}
-                  logo={logo}
-                  nav_type={nav_type}
-                  category={category}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  contact_details={contact_details}
-                />
-              );
-            case "breadcrumbs":
-              return (
-                <FullContainer key={index}>
-                  <Container>
-                    <Breadcrumbs breadcrumbs={breadcrumbs} className="py-8" />
-                  </Container>
-                </FullContainer>
-              );
-            case "tags":
-              return (
-                <FullContainer key={index} className="mb-12">
-                  <Container>
-                    <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
-                      {meta?.title}
-                    </h1>
-                    <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
-                      <div> {renderTags()}</div>
-                      <Rightbar
-                        about_me={about_me}
-                        tag_list={tag_list}
-                        blog_list={blog_list}
-                        imagePath={imagePath}
-                        categories={categories}
-                        contact_details={contact_details}
-                        widgets={page?.widgets}
-                      />
-                    </div>
-                  </Container>
-                </FullContainer>
-              );
-            case "footer":
-              return (
-                <Footer
-                  key={index}
-                  imagePath={imagePath}
-                  blog_list={blog_list}
-                  categories={categories}
-                  category={category}
-                />
-              );
-            default:
-              return null;
-          }
-        })
+            if (!item.enable) return null;
+            switch (item.section?.toLowerCase()) {
+              case "navbar":
+                return (
+                  <Navbar
+                    key={index}
+                    logo={logo}
+                    nav_type={nav_type}
+                    category={category}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    contact_details={contact_details}
+                  />
+                );
+              case "breadcrumbs":
+                return (
+                  <FullContainer key={index}>
+                    <Container>
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="py-8" />
+                    </Container>
+                  </FullContainer>
+                );
+              case "tags":
+                return (
+                  <FullContainer key={index} className="mb-12">
+                    <Container>
+                      <h1 className="text-2xl font-semibold border-l-4 border-primary capitalize px-4 py-1 mb-7 w-full">
+                        {meta?.title}
+                      </h1>
+                      <div className="grid grid-cols-1 md:grid-cols-home gap-12 w-full">
+                        <div> {renderTags()}</div>
+                        <Rightbar
+                          about_me={about_me}
+                          tag_list={tag_list}
+                          blog_list={blog_list}
+                          imagePath={imagePath}
+                          categories={categories}
+                          contact_details={contact_details}
+                          widgets={page?.widgets}
+                        />
+                      </div>
+                    </Container>
+                  </FullContainer>
+                );
+              case "footer":
+                return (
+                  <Footer
+                    key={index}
+                    imagePath={imagePath}
+                    blog_list={blog_list}
+                    categories={categories}
+                    category={category}
+                  />
+                );
+              default:
+                return null;
+            }
+          })
         : "Page Disabled, under maintenance"}
 
       <JsonLd
@@ -244,8 +244,8 @@ export default function Tags({
                   url: `http://${domain}/${blog?.article_category
                     .replaceAll(" ", "-")
                     ?.toLowerCase()}/${blog?.title
-                      ?.replaceAll(" ", "-")
-                      ?.toLowerCase()}`,
+                    ?.replaceAll(" ", "-")
+                    ?.toLowerCase()}`,
                   name: blog.title,
                 },
               })),
@@ -259,6 +259,11 @@ export default function Tags({
 
 export async function getServerSideProps({ req, query }) {
   const domain = getDomain(req?.headers?.host);
+
+  let layoutPages = await callBackendApi({
+    domain,
+    type: "layout",
+  });
 
   const logo = await callBackendApi({
     domain,
@@ -290,13 +295,12 @@ export async function getServerSideProps({ req, query }) {
   });
   const meta = await callBackendApi({ domain, query, type: "meta_tags" });
   const about_me = await callBackendApi({ domain, query, type: "about_me" });
-  const layout = await callBackendApi({ domain, type: "layout" });
   const tag_list = await callBackendApi({ domain, type: "tag_list" });
   const nav_type = await callBackendApi({ domain, type: "nav_type" });
 
-  let page;
-  if (Array.isArray(layoutPages) && layoutPages.length > 0) {
-    const valueData = layoutPages[0].value;
+  let page = null;
+  if (Array.isArray(layoutPages?.data) && layoutPages.data.length > 0) {
+    const valueData = layoutPages.data[0].value;
     page = valueData?.find((page) => page.page === "tags");
   }
 
@@ -316,7 +320,6 @@ export async function getServerSideProps({ req, query }) {
       meta: meta?.data[0]?.value || null,
       favicon: favicon?.data[0]?.file_name || null,
       logo: logo?.data[0],
-      layout: layout?.data[0]?.value || null,
       banner: banner.data[0] || null,
       blog_list: blog_list.data[0].value,
       categories: categories?.data[0]?.value || null,
