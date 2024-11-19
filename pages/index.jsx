@@ -256,64 +256,64 @@ export default function Home({
           "@graph": [
             {
               "@type": "WebPage",
-              "@id": `http://${domain}/`,
-              url: `http://${domain}/`,
+              "@id": `https://${domain}/`,
+              url: `https://${domain}/`,
               name: meta?.title,
               isPartOf: {
-                "@id": `http://${domain}`,
+                "@id": `https://${domain}`,
               },
               description: meta?.description,
               inLanguage: "en-US",
               primaryImageOfPage: {
                 "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${banner?.file_name}`,
+                url: `${imagePath}/${banner?.file_name}`,
                 width: 1920,
                 height: 1080,
               },
               mainEntityOfPage: {
                 "@type": "WebPage",
-                "@id": `http://${domain}/`,
+                "@id": `https://${domain}`,
               },
             },
             {
               "@type": "WebSite",
-              "@id": `http://${domain}/#website`,
-              url: `http://${domain}/`,
+              "@id": `https://${domain}`,
+              url: `https://${domain}`,
               name: domain,
               description: meta?.description,
               inLanguage: "en-US",
               publisher: {
                 "@type": "Organization",
-                "@id": `http://${domain}`,
+                "@id": `https://${domain}`,
               },
             },
             {
               "@type": "Organization",
-              "@id": `http://${domain}`,
+              "@id": `https://${domain}`,
               name: domain,
-              url: `http://${domain}/`,
+              url: `https://${domain}`,
               logo: {
                 "@type": "ImageObject",
-                url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${logo.file_name}`,
+                url: `${imagePath}/${logo.file_name}`,
                 width: logo.width,
                 height: logo.height,
               },
               sameAs: [
-                "http://www.facebook.com",
-                "http://www.twitter.com",
-                "http://instagram.com",
+                "https://www.facebook.com",
+                "https://www.twitter.com",
+                "https://instagram.com",
               ],
             },
             {
               "@type": "ItemList",
-              url: `http://${domain}`,
+              url: `https://${domain}`,
               name: "blog",
               itemListElement: blog_list?.map((blog, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${blog?.article_category}/${blog.key}`,
+                  url: `https://${domain}/${blog?.article_category}/${blog.key}`,
                   name: blog.title,
                   author: {
                     "@type": "Person",
@@ -323,7 +323,7 @@ export default function Home({
                   dateModified: blog.dateModified,
                   image: {
                     "@type": "ImageObject",
-                    url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${blog.imagePath}/${blog.imageFileName}`,
+                    url: `${imagePath}/${blog.image}`,
                     width: blog.imageWidth,
                     height: blog.imageHeight,
                   },
@@ -331,11 +331,9 @@ export default function Home({
                   description: blog.description,
                   mainEntityOfPage: {
                     "@type": "WebPage",
-                    "@id": `http://${domain}/${blog?.article_category
-                      ?.replaceAll(" ", "-")
-                      ?.toLowerCase()}/${blog.title
-                      ?.replaceAll(" ", "-")
-                      ?.toLowerCase()}`,
+                    "@id": `https://${domain}/${sanitizeUrl(
+                      blog?.article_category
+                    )}/${sanitizeUrl(blog.title)}`,
                   },
                 },
               })),

@@ -254,31 +254,31 @@ export default function Categories({
                 "@type": "ListItem",
                 position: index + 1,
                 name: breadcrumb.label,
-                item: `http://${domain}${breadcrumb.url}`,
+                item: `https://${domain}${breadcrumb.url}`,
               })),
             },
             {
               "@type": "WebSite",
-              "@id": `http://${domain}/#website`,
-              url: `http://${domain}/`,
-              name: domain,
+              "@id": `https://${domain}/${category}`,
+              url: `https://${domain}/${category}`,
+              name: meta?.title,
               description: meta?.description,
               inLanguage: "en-US",
               publisher: {
                 "@type": "Organization",
-                "@id": `http://${domain}`,
+                "@id": `https://${domain}`,
               },
             },
             {
               "@type": "ItemList",
-              url: `http://${domain}`,
+              url: `https://${domain}/${category}`,
               name: "blog",
               itemListElement: blog_list?.map((blog, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `http://${domain}/${sanitizeUrl(
+                  url: `https://${domain}/${sanitizeUrl(
                     blog?.article_category.replaceAll(" ", "-")
                   )}/${sanitizeUrl(blog?.title)}`,
                   name: blog.title,

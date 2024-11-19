@@ -201,25 +201,46 @@ export default function Blog({
               mainEntityOfPage: {
                 "@type": "WebPage",
                 "@id": myblog
-                  ? `http://${domain}${sanitizeUrl(
-                      myblog?.article_category
-                    )}/${sanitizeUrl(myblog?.value?.title)}`
+                  ? `https://${domain}${sanitizeUrl(
+                      myblog.article_category
+                    )}/${sanitizeUrl(myblog.value.title)}`
+                  : "",
+                url: myblog
+                  ? `https://${domain}${sanitizeUrl(
+                      myblog.article_category
+                    )}/${sanitizeUrl(myblog.value.title)}`
                   : "",
               },
-              headline: myblog?.value?.title,
-              description: myblog?.value?.articleContent,
-              datePublished: myblog?.value?.published_at,
-              author: myblog?.value?.author,
-              image: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/images/${imagePath}/${myblog?.file_name}`,
-              publisher: "Site Manager",
+              headline: myblog?.value?.title || "Default Title",
+              description:
+                myblog?.value?.articleContent || "Default Description",
+              datePublished:
+                myblog?.value?.published_at || new Date().toISOString(),
+              author: {
+                "@type": "Person",
+                name: myblog?.value?.author || "Unknown Author",
+              },
+              image: myblog?.file_name
+                ? `${imagePath}/${myblog.file_name}`
+                : `${imagePath}/default-image.jpg`,
+              publisher: {
+                "@type": "Organization",
+                name: "Site Manager",
+                logo: {
+                  "@type": "ImageObject",
+                  url: `${imagePath}/${logo?.file_name}`,
+                },
+              },
             },
             {
               "@type": "BreadcrumbList",
               itemListElement: breadcrumbs.map((breadcrumb, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
-                name: breadcrumb.label,
-                item: `http://${domain}${breadcrumb.url}`,
+                name: breadcrumb.label || `Breadcrumb ${index + 1}`,
+                item: breadcrumb.url
+                  ? `https://${domain}${breadcrumb.url}`
+                  : `https://${domain}`,
               })),
             },
           ],
