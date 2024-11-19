@@ -35,7 +35,7 @@ export default function Rightbar({
       <div className="relative overflow-hidden w-full h-[150px] mt-8">
         <Image
           src={`${imagePath}/${about_me.file_name}`}
-          title={`${content.slice(0, 100)}...`}
+          title={`${about_me.value.slice(0, 70)}...`}
           alt={`${content.slice(0, 100)}...`}
           priority
           width={241}
