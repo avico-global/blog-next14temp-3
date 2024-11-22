@@ -157,7 +157,7 @@ export default function Contact({
           "@context": "https://schema.org",
           "@graph": [
             {
-              "@type": "WebSite",
+              "@type": "WebPage",
               "@id": `https://${domain}/contact`,
               url: `https://${domain}/contact`,
               name: meta?.title,
