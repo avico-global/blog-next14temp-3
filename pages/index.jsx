@@ -294,7 +294,7 @@ export default function Home({
             },
             {
               "@type": "ItemList",
-              url: `https://${domain}/${category}`,
+              url: `https://${domain}`,
               name: "blog",
               itemListElement: blog_list?.map((blog, index) => ({
                 "@type": "ListItem",
@@ -302,9 +302,9 @@ export default function Home({
                 item: {
                   "@type": "Article",
                   url: `https://${domain}/${sanitizeUrl(
-                    blog?.article_category.replaceAll(" ", "-")
+                    blog?.article_category
                   )}/${sanitizeUrl(blog?.title)}`,
-                  name: blog.title,
+                  name: blog?.title,
                 },
               })),
             },

@@ -285,7 +285,7 @@ export default function Categories({
                 item: {
                   "@type": "Article",
                   url: `https://${domain}/${sanitizeUrl(
-                    blog?.article_category.replaceAll(" ", "-")
+                    blog?.article_category
                   )}/${sanitizeUrl(blog?.title)}`,
                   name: blog.title,
                 },
