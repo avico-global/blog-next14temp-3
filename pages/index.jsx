@@ -276,18 +276,6 @@ export default function Home({
               },
             },
             {
-              "@type": "WebSite",
-              "@id": `https://${domain}`,
-              url: `https://${domain}`,
-              name: domain,
-              description: meta?.description,
-              inLanguage: "en-US",
-              publisher: {
-                "@type": "Organization",
-                "@id": `https://${domain}`,
-              },
-            },
-            {
               "@type": "Organization",
               "@id": `https://${domain}`,
               name: domain,
@@ -306,35 +294,17 @@ export default function Home({
             },
             {
               "@type": "ItemList",
-              url: `https://${domain}`,
+              url: `https://${domain}/${category}`,
               name: "blog",
               itemListElement: blog_list?.map((blog, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
                 item: {
                   "@type": "Article",
-                  url: `https://${domain}/${blog?.article_category}/${blog.key}`,
+                  url: `https://${domain}/${sanitizeUrl(
+                    blog?.article_category.replaceAll(" ", "-")
+                  )}/${sanitizeUrl(blog?.title)}`,
                   name: blog.title,
-                  author: {
-                    "@type": "Person",
-                    name: blog.author,
-                  },
-                  datePublished: blog.datePublished,
-                  dateModified: blog.dateModified,
-                  image: {
-                    "@type": "ImageObject",
-                    url: `${imagePath}/${blog.image}`,
-                    width: blog.imageWidth,
-                    height: blog.imageHeight,
-                  },
-                  headline: blog.title,
-                  description: blog.description,
-                  mainEntityOfPage: {
-                    "@type": "WebPage",
-                    "@id": `https://${domain}/${sanitizeUrl(
-                      blog?.article_category
-                    )}/${sanitizeUrl(blog.title)}`,
-                  },
                 },
               })),
             },
