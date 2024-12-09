@@ -255,7 +255,7 @@ export default function Home({
           "@context": "https://www.schema.org",
           "@graph": [
             {
-              "@type": "WebPage",
+              "@type": "WebSite",
               "@id": `https://${domain}/`,
               url: `https://${domain}/`,
               name: meta?.title,
@@ -269,10 +269,6 @@ export default function Home({
                 url: `${imagePath}/${banner?.file_name}`,
                 width: 1920,
                 height: 1080,
-              },
-              mainEntityOfPage: {
-                "@type": "WebPage",
-                "@id": `https://${domain}`,
               },
             },
             {
