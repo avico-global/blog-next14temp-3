@@ -27,7 +27,7 @@ export default function Style3({
         <Logo logo={logo} imagePath={imagePath} />
       </div>
       <div className="border-b text-gray-500 sticky top-0 z-20 bg-white">
-        <div className="w-10/12 max-w-screen-lg flex items-center justify-between mx-auto">
+        <div className=" w-11/12 max-w-screen-xl flex items-center justify-between mx-auto">
           <div className="flex items-center">
             {staticPages.map((item, index) => (
               <Link
