@@ -24,8 +24,24 @@ export default function Style3({
   return (
     <>
       <div className="p-10 flex justify-between w-full border-b">
-        <div className="w-11/12 max-w-screen-xl mx-auto flex justify-between ">
+        <div className="w-11/12 max-w-screen-xl mx-auto flex justify-between items-center ">
           <Logo logo={logo} imagePath={imagePath} />
+          <div>
+
+          {staticPages.map((item, index) => (
+              <Link
+                key={index}
+                title={item.page}
+                href={item.href}
+                className={cn(
+                  navLink,
+                  isActive(item.href) && "border-black text-black"
+                )}
+              >
+                {item.page}
+              </Link>
+            ))}
+          </div>
 
           <div className="flex items-center justify-end gap-3 relative">
             {searchQuery && (
@@ -62,6 +78,7 @@ export default function Style3({
       <div className="border-b text-gray-500 sticky top-0 z-20 bg-white">
         <div className=" w-11/12 mx-auto">
           <div className="flex items-center justify-center text-center">
+           
             {categories?.map((item, index) => (
               <Link
                 key={index}
@@ -77,6 +94,7 @@ export default function Style3({
               </Link>
             ))}
           </div>
+         
         </div>
       </div>
     </>
