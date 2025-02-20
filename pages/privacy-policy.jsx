@@ -153,15 +153,6 @@ export default function PriavcyPolicy({
               },
               inLanguage: "en-US",
             },
-            {
-              "@type": "BreadcrumbList",
-              itemListElement: breadcrumbs.map((breadcrumb, index) => ({
-                "@type": "ListItem",
-                position: index + 1,
-                name: breadcrumb.label,
-                item: `https://${domain}${breadcrumb.url}`,
-              })),
-            },
           ],
         }}
       />
