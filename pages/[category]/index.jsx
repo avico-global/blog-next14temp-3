@@ -76,14 +76,24 @@ export default function Categories({
         <title>
           {meta?.title?.replaceAll(
             "##category##",
-            category?.replaceAll("-", " ")
+            category?.replace(/[-&]+/g, " ")
+              .replace(/\s+/g, " ")
+              .trim()
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ')
           )}
         </title>
         <meta
           name="description"
           content={meta?.description.replaceAll(
             "##category##",
-            category?.replaceAll("-", " ")
+            category?.replace(/[-&]+/g, " ")
+              .replace(/\s+/g, " ")
+              .trim()
+              .split(' ')
+              .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(' ')
           )}
         />
         <link rel="author" href={`https://www.${domain}`} />
@@ -263,11 +273,21 @@ export default function Categories({
               url: `https://${domain}/${category}`,
               name: meta?.title?.replaceAll(
                 "##category##",
-                category?.replaceAll("-", " ")
+                category?.replace(/[-&]+/g, " ")
+                  .replace(/\s+/g, " ")
+                  .trim()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')
               ),
               description: meta?.description?.replaceAll(
                 "##category##",
-                category?.replaceAll("-", " ")
+                category?.replace(/[-&]+/g, " ")
+                  .replace(/\s+/g, " ")
+                  .trim()
+                  .split(' ')
+                  .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                  .join(' ')
               ),
               inLanguage: "en-US",
               publisher: {
