@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Logo from "./Logo";
 import { sanitizeUrl } from "@/lib/myFun";
 
@@ -20,6 +20,21 @@ export default function Style3({
 }) {
   const navLink =
     "font-semibold capitalize border-t-2 border-transparent hover:text-black hover:border-black transition-all p-3";
+  
+  const searchRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        handleSearchChange({ target: { value: '' } });
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <>
@@ -27,8 +42,7 @@ export default function Style3({
         <div className="w-11/12 max-w-screen-xl mx-auto flex justify-between items-center ">
           <Logo logo={logo} imagePath={imagePath} />
           <div>
-
-          {staticPages.map((item, index) => (
+            {staticPages.map((item, index) => (
               <Link
                 key={index}
                 title={item.page}
@@ -43,9 +57,9 @@ export default function Style3({
             ))}
           </div>
 
-          <div className="flex items-center justify-end gap-3 relative">
+          <div className="flex items-center justify-end gap-3 relative" ref={searchRef}>
             {searchQuery && (
-              <div className="absolute top-full p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
+              <div className="absolute top-full p-3 right-0 z-50 bg-white shadow-2xl rounded-md mt-1 w-[calc(100vw-40px)] lg:w-[650px]">
                 {filteredBlogs?.map((item, index) => (
                   <Link
                     key={index}
