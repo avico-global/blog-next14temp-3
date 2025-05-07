@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import Logo from "./Logo";
 import { sanitizeUrl } from "@/lib/myFun";
 
@@ -23,6 +23,24 @@ export default function Style2({
 }) {
   const navLink =
     "font-semibold capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all p-3";
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        if (openSearch) {
+          handleSearchToggle();
+        }
+        if (searchQuery) {
+          handleSearchChange({ target: { value: '' } });
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openSearch, searchQuery]);
 
   return (
     <>
@@ -69,6 +87,10 @@ export default function Style2({
                       href={`/${sanitizeUrl(
                         item.article_category
                       )}/${sanitizeUrl(item?.title)}`}
+                      onClick={() => {
+                        handleSearchChange({ target: { value: '' } });
+                        handleSearchToggle();
+                      }}
                     >
                       <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                         {item.title}
@@ -83,6 +105,7 @@ export default function Style2({
                 onChange={handleSearchChange}
                 className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
                 placeholder="Search..."
+                autoFocus
               />
             </>
           ) : (

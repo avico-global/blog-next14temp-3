@@ -24,6 +24,7 @@ const Navbar = ({
   categories,
   category,
 }) => {
+  
   const [searchQuery, setSearchQuery] = useState("");
   const [openSearch, setOpenSearch] = useState(false);
   const [sidebar, setSidebar] = useState(false);
