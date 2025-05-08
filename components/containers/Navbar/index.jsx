@@ -44,7 +44,8 @@ const Navbar = ({
   const handleClickOutside = (event) => {
     if (
       searchContainerRef.current &&
-      !searchContainerRef.current.contains(event.target)
+      !searchContainerRef.current.contains(event.target) &&
+      !event.target.closest('.search-dropdown')
     ) {
       setOpenSearch(false);
       setSearchQuery("");
@@ -74,7 +75,7 @@ const Navbar = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideSidebar);
     };
-  }, [sidebar]);
+  }, []);
 
   const filteredBlogs = blog_list?.filter((item) =>
     item?.title?.toLowerCase()?.includes(searchQuery.toLowerCase())

@@ -2,7 +2,7 @@ import FullContainer from "@/components/common/FullContainer";
 import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Logo from "./Logo";
 import { sanitizeUrl } from "@/lib/myFun";
 
@@ -23,27 +23,6 @@ export default function Style1({
 }) {
   const searchInputRef = useRef(null);
   const searchDropdownRef = useRef(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        searchDropdownRef.current &&
-        !searchDropdownRef.current.contains(event.target)
-      ) {
-        if (openSearch) {
-          handleSearchToggle();
-        }
-        if (searchQuery) {
-          handleSearchChange({ target: { value: '' } });
-        }
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside, true);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside, true);
-    };
-  }, [openSearch, searchQuery]);
 
   const handleSearchInputClick = (e) => {
     e.stopPropagation();
@@ -72,6 +51,7 @@ export default function Style1({
         </div>
         <Logo logo={logo} imagePath={imagePath} />
         <div
+          ref={searchContainerRef}
           className="flex items-center justify-end gap-3 text-gray-500 relative"
         >
           <div className="hidden lg:flex items-center justify-end">
@@ -107,7 +87,7 @@ export default function Style1({
             <>
               <div 
                 ref={searchDropdownRef}
-                className="fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0"
+                className="search-dropdown fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 <input
