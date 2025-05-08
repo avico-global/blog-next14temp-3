@@ -2,7 +2,7 @@ import FullContainer from "@/components/common/FullContainer";
 import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
 import Logo from "./Logo";
 import { sanitizeUrl } from "@/lib/myFun";
 
@@ -21,6 +21,24 @@ export default function Style1({
   category,
   searchQuery,
 }) {
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+        if (openSearch) {
+          handleSearchToggle();
+        }
+        if (searchQuery) {
+          handleSearchChange({ target: { value: '' } });
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [openSearch, searchQuery]);
+
   return (
     <FullContainer className="sticky top-0 z-20 bg-white shadow py-2 lg:py-0">
       <div className="flex justify-between lg:grid grid-cols-nav w-11/12 md:w-10/12 mx-auto items-center">
@@ -91,6 +109,10 @@ export default function Style1({
                           href={`/${sanitizeUrl(
                             item.article_category
                           )}/${sanitizeUrl(item?.title)}`}
+                          onClick={() => {
+                            handleSearchChange({ target: { value: '' } });
+                            handleSearchToggle();
+                          }}
                         >
                           <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                             {item.title}
