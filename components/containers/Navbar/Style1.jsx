@@ -2,7 +2,7 @@ import FullContainer from "@/components/common/FullContainer";
 import { cn } from "@/lib/utils";
 import { Menu, Search } from "lucide-react";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import Logo from "./Logo";
 import { sanitizeUrl } from "@/lib/myFun";
 
@@ -21,6 +21,8 @@ export default function Style1({
   category,
   searchQuery,
 }) {
+  const searchInputRef = useRef(null);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
@@ -33,11 +35,17 @@ export default function Style1({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside, true);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside, true);
     };
   }, [openSearch, searchQuery]);
+
+  const handleSearchInputClick = () => {
+    if (!openSearch) {
+      handleSearchToggle();
+    }
+  };
 
   return (
     <FullContainer className="sticky top-0 z-20 bg-white shadow py-2 lg:py-0">
@@ -59,7 +67,7 @@ export default function Style1({
         </div>
         <Logo logo={logo} imagePath={imagePath} />
         <div
-          className="flex items-center justify-end gap-3 text-gray-500 relative "
+          className="flex items-center justify-end gap-3 text-gray-500 relative"
           ref={searchContainerRef}
         >
           <div className="hidden lg:flex items-center justify-end">
@@ -92,9 +100,11 @@ export default function Style1({
             <>
               <div className="fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0">
                 <input
+                  ref={searchInputRef}
                   type="text"
                   value={searchQuery}
                   onChange={handleSearchChange}
+                  onClick={handleSearchInputClick}
                   className="lg:text-xl border border-gray-300 inputField rounded-md outline-none bg-white shadow-xl p-2 px-3 mx-auto transition-opacity duration-300 ease-in-out opacity-100 w-5/6 lg:w-[650px] focus:ring-2 focus:ring-yellow-500"
                   placeholder="Search..."
                   autoFocus
