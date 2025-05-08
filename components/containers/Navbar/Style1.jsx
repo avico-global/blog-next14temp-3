@@ -22,10 +22,14 @@ export default function Style1({
   searchQuery,
 }) {
   const searchInputRef = useRef(null);
+  const searchDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target)) {
+      if (
+        searchDropdownRef.current &&
+        !searchDropdownRef.current.contains(event.target)
+      ) {
         if (openSearch) {
           handleSearchToggle();
         }
@@ -41,7 +45,8 @@ export default function Style1({
     };
   }, [openSearch, searchQuery]);
 
-  const handleSearchInputClick = () => {
+  const handleSearchInputClick = (e) => {
+    e.stopPropagation();
     if (!openSearch) {
       handleSearchToggle();
     }
@@ -68,7 +73,6 @@ export default function Style1({
         <Logo logo={logo} imagePath={imagePath} />
         <div
           className="flex items-center justify-end gap-3 text-gray-500 relative"
-          ref={searchContainerRef}
         >
           <div className="hidden lg:flex items-center justify-end">
             {categories?.map((item, index) => (
@@ -89,7 +93,10 @@ export default function Style1({
           <div className="flex items-center justify-end gap-2">
             <Search
               className="w-5 md:w-4 text-black cursor-pointer"
-              onClick={handleSearchToggle}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSearchToggle();
+              }}
             />
             <Menu
               onClick={toggleSidebar}
@@ -98,7 +105,11 @@ export default function Style1({
           </div>
           {openSearch && (
             <>
-              <div className="fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0">
+              <div 
+                ref={searchDropdownRef}
+                className="fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <input
                   ref={searchInputRef}
                   type="text"
