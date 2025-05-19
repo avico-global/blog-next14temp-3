@@ -14,14 +14,6 @@ export default async function handler(req, res) {
     const config = {
       method: "post",
       url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/contact_us`,
-      headers: {
-        "Content-Type": "application/json",
-        host: host,
-        origin: req.headers.origin,
-        referer: req.headers.referer,
-        "x-forwarded-host": host,
-        "x-forwarded-proto": req.headers["x-forwarded-proto"] || "https",
-      },
       data: {
         first_name,
         last_name,
