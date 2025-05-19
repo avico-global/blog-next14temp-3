@@ -9,7 +9,9 @@ export default async function handler(req, res) {
     const { first_name, last_name, email, phone, message, user_ip } = req.body;
 
     // Get the host from headers or use the domain directly
-    const host = req.headers.host;
+    let host = req.headers.host;
+    // Clean the host by removing www. and https://
+    host = host.replace(/^www\./, "").replace(/^https?:\/\//, "");
 
     const config = {
       method: "post",
