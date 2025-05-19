@@ -1,16 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method not allowed" });
   }
 
   try {
     const { first_name, last_name, email, phone, message, user_ip } = req.body;
 
     // Get the host from headers or use the domain directly
-    const host = req.headers.host || 'www.custom-wheels-car-rims.com';
-    
+    const host = req.headers.host;
+
     const config = {
       method: "post",
       url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/contact_us`,
@@ -20,7 +20,7 @@ export default async function handler(req, res) {
         origin: req.headers.origin,
         referer: req.headers.referer,
         "x-forwarded-host": host,
-        "x-forwarded-proto": req.headers["x-forwarded-proto"] || "https"
+        "x-forwarded-proto": req.headers["x-forwarded-proto"] || "https",
       },
       data: {
         first_name,
@@ -32,15 +32,15 @@ export default async function handler(req, res) {
       },
     };
 
-    console.log('Request headers:', req.headers); // Debug log
-    console.log('API config:', config); // Debug log
+    console.log("Request headers:", req.headers); // Debug log
+    console.log("API config:", config); // Debug log
 
     const response = await axios.request(config);
     res.status(200).json(response.data);
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error("Contact form error:", error);
     res.status(error.response?.status || 500).json({
-      message: error.response?.data?.message || 'Something went wrong',
+      message: error.response?.data?.message,
     });
   }
-} 
+}
