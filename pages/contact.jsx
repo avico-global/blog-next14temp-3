@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
+import axios from "axios";
 
 import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
@@ -33,6 +34,68 @@ export default function Contact({
   footer_type,
 }) {
   const breadcrumbs = useBreadcrumbs();
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
+    try {
+      const data = {
+        first_name: formData.firstName,
+        last_name: formData.lastName,
+        email: formData.email,
+        phone: formData.phone,
+        message: formData.message,
+        user_ip: "127.0.0.1", // You might want to get the actual IP from the server
+      };
+
+      const config = {
+        method: "post",
+        url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/contact_us`,
+        headers: {
+          "Content-Type": "application/json",
+          host: domain,
+        },
+        data: data,
+      };
+
+      const response = await axios.request(config);
+      setSuccess("Message sent successfully!");
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        message: "",
+      });
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Something went wrong. Please try again."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={myFont.className}>
@@ -90,7 +153,17 @@ export default function Contact({
       </FullContainer>
 
       <div className="bg-white rounded-3xl  p-8 md:p-12">
-        <form className="space-y-8 max-w-5xl mx-auto">
+        {error && (
+          <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl">
+            {error}
+          </div>
+        )}
+        {success && (
+          <div className="mb-6 p-4 bg-green-50 text-green-700 rounded-xl">
+            {success}
+          </div>
+        )}
+        <form onSubmit={handleSubmit} className="space-y-8 max-w-5xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <label
@@ -103,6 +176,8 @@ export default function Contact({
                 type="text"
                 id="firstName"
                 name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 className="w-full px-4 py-3.5 rounded-xl text-gray-900 border border-gray-200 hover:border-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200 bg-gray-50/50"
                 placeholder="John"
                 required
@@ -119,6 +194,8 @@ export default function Contact({
                 type="text"
                 id="lastName"
                 name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 className="w-full px-4 py-3.5 rounded-xl text-gray-900 border border-gray-200 hover:border-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200 bg-gray-50/50"
                 placeholder="Doe"
                 required
@@ -138,6 +215,8 @@ export default function Contact({
                 type="email"
                 id="email"
                 name="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full px-4 py-3.5 rounded-xl text-gray-900 border border-gray-200 hover:border-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200 bg-gray-50/50"
                 placeholder="john@example.com"
                 required
@@ -154,6 +233,8 @@ export default function Contact({
                 type="tel"
                 id="phone"
                 name="phone"
+                value={formData.phone}
+                onChange={handleChange}
                 className="w-full px-4 py-3.5 rounded-xl text-gray-900 border border-gray-200 hover:border-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200 bg-gray-50/50"
                 placeholder="+1 (555) 000-0000"
                 required
@@ -171,6 +252,8 @@ export default function Contact({
             <textarea
               id="message"
               name="message"
+              value={formData.message}
+              onChange={handleChange}
               rows={5}
               className="w-full px-4 py-3.5 rounded-xl text-gray-900 border border-gray-200 hover:border-primary focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all duration-200 bg-gray-50/50 resize-none"
               placeholder="How can we help you?"
@@ -180,9 +263,10 @@ export default function Contact({
 
           <button
             type="submit"
-            className="w-full bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/20 active:translate-y-0"
+            disabled={loading}
+            className="w-full bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-primary/20 active:translate-y-0 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Send Message
+            {loading ? "Sending..." : "Send Message"}
           </button>
         </form>
       </div>
