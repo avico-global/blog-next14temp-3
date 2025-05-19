@@ -21,6 +21,7 @@ export default async function handler(req, res) {
         phone,
         message,
         user_ip,
+        domain_name: host,
       },
     };
 
