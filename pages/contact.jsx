@@ -69,17 +69,9 @@ export default function Contact({
         user_ip: "127.0.0.1", // You might want to get the actual IP from the server
       };
 
-      const config = {
-        method: "post",
-        url: `${process.env.NEXT_PUBLIC_SITE_MANAGER}/api/public/contact_us`,
-        headers: {
-          "Content-Type": "application/json",
-          host: domain,
-        },
-        data: data,
-      };
+      // Call our internal API route instead of the external API directly
+      const response = await axios.post("/api/contact", data);
 
-      const response = await axios.request(config);
       setSuccess("Message sent successfully!");
       setFormData({
         firstName: "",

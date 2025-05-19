@@ -6,8 +6,15 @@ import Container from "../common/Container";
 import FullContainer from "../common/FullContainer";
 import { sanitizeUrl } from "@/lib/myFun";
 
+// Helper function to get category name
+const getCategoryName = (category) => {
+  if (!category) return '';
+  return typeof category === 'string' ? category : category?.name || '';
+};
+
 export default function MostPopular({ blog_list = [], imagePath }) {
   const popularBlogs = blog_list.filter((item) => item.isPopular);
+  console.log("Popular Blogs", popularBlogs);
 
   return (
     popularBlogs?.length > 0 && (
@@ -27,11 +34,11 @@ export default function MostPopular({ blog_list = [], imagePath }) {
                 description={item.articleContent}
                 image={`${imagePath}/${item.image || "no-image.png"}`}
                 href={
-                  `/${sanitizeUrl(item.article_category)}/${sanitizeUrl(
+                  `/${sanitizeUrl(getCategoryName(item.article_category))}/${sanitizeUrl(
                     item?.title
                   )}` || "#"
                 }
-                category={item.article_category}
+                category={getCategoryName(item.article_category)}
                 imageTitle={item.imageTitle}
                 altImage={item.altImage}
               />
