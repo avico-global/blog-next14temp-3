@@ -103,7 +103,7 @@ export default function Style7({
                 className="flex items-center gap-1 hover:bg-black text-black lg:text-white hover:text-white transition-all rounded-md font-semibold p-2"
                 onClick={handleSearchToggle}
               >
-                <Search className="w-5 md:w-4 cursor-pointer" />
+                <Search className="w-5 h-5 text-gray-600 hover:text-black transition-colors cursor-pointer" />
                 Search
               </button>
             )}

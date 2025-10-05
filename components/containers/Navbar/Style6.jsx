@@ -27,9 +27,13 @@ export default function Style6({
 
   return (
     <>
-      <div className=" bg-white lg:bg-black   sticky top-0 z-20  ">
-        <div className="flex justify-between items-center mx-auto max-w-[1700px] shadow-sm  w-full py-3 text-white">
-          <div className=" hidden lg:flex ">
+      <div className="p-10 border-b">
+        <Logo logo={logo} imagePath={imagePath} />
+      </div>
+      
+      <div className="bg-white lg:bg-black sticky top-0 z-20">
+        <div className="flex justify-between items-center mx-auto max-w-[1700px] shadow-sm w-full py-3 text-white">
+          <div className="hidden lg:flex">
             {staticPages.map((item, index) => (
               <Link
                 key={index}
@@ -52,7 +56,7 @@ export default function Style6({
                 className={cn(
                   navLink,
                   (category === item.title || isActive(`/${item.title}`)) &&
-                    "border-black text-white"
+                    "border-white text-white"
                 )}
               >
                 {item.title}
@@ -61,11 +65,9 @@ export default function Style6({
           </div>
 
           <div
-            className="flex  items-center justify-end  gap-56  lg:gap-3  relative"
+            className="flex items-center justify-end gap-3 relative"
             ref={searchContainerRef}
           >
-            <div></div>
-
             {openSearch ? (
               <>
                 {searchQuery && (
@@ -77,6 +79,10 @@ export default function Style6({
                         href={`/${sanitizeUrl(
                           item.article_category
                         )}/${sanitizeUrl(item?.title)}`}
+                        onClick={() => {
+                          handleSearchChange({ target: { value: '' } });
+                          handleSearchToggle();
+                        }}
                       >
                         <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
                           {item.title}
@@ -91,14 +97,15 @@ export default function Style6({
                   onChange={handleSearchChange}
                   className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
                   placeholder="Search..."
+                  autoFocus
                 />
               </>
             ) : (
               <button
-                className="flex items-center gap-1 hover:bg-black text-black lg:text-white hover:text-white transition-all rounded-md font-semibold p-2"
+                className="flex items-center gap-1 hover:bg-white hover:text-black text-white transition-all rounded-md font-semibold p-2"
                 onClick={handleSearchToggle}
               >
-                <Search className="w-5 md:w-4 cursor-pointer" />
+                <Search className="w-5 h-5 text-gray-600 hover:text-black transition-colors cursor-pointer" />
                 Search
               </button>
             )}
@@ -108,10 +115,6 @@ export default function Style6({
             />
           </div>
         </div>
-      </div>
-
-      <div className="p-10 border-b">
-        <Logo logo={logo} imagePath={imagePath} />
       </div>
     </>
   );

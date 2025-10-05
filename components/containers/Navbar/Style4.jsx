@@ -95,7 +95,7 @@ export default function Style4({
             </div>
           )}
           <div className="hidden lg:flex items-center border border-gray-300 rounded-md px-2 gap-1">
-            <Search className="w-4 h-4" />
+            <Search className="w-5 h-5 text-gray-600 hover:text-black transition-colors" />
             <input
               type="text"
               value={searchQuery}

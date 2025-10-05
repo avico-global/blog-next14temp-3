@@ -70,66 +70,46 @@ export default function Style1({
               </Link>
             ))}
           </div>
-          <div className="flex items-center justify-end gap-2">
-            <Search
-              className="w-5 md:w-4 text-black cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleSearchToggle();
-              }}
+          <div className="flex items-center justify-end gap-3 relative" ref={searchDropdownRef}>
+            {searchQuery && (
+              <div className="absolute top-full p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-[calc(100vw-40px)] lg:w-[650px]">
+                {filteredBlogs?.length > 0 ? (
+                  filteredBlogs.map((item, index) => (
+                    <Link
+                      key={index}
+                      title={item.title}
+                      href={`/${sanitizeUrl(
+                        item.article_category
+                      )}/${sanitizeUrl(item?.title)}`}
+                      onClick={() => {
+                        handleSearchChange({ target: { value: '' } });
+                      }}
+                    >
+                      <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
+                        {item.title}
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <div className="p-2 text-gray-600">
+                    No articles found.
+                  </div>
+                )}
+              </div>
+            )}
+            <input
+              ref={searchInputRef}
+              type="text"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
+              placeholder="Search..."
             />
             <Menu
               onClick={toggleSidebar}
               className="w-6 h-6 ml-1 text-black lg:hidden"
             />
           </div>
-          {openSearch && (
-            <>
-              <div 
-                ref={searchDropdownRef}
-                className="search-dropdown fixed lg:absolute top-16 lg:right-0 lg:ml-auto w-full lg:w-fit flex flex-col items-start justify-center lg:justify-end left-0"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  onClick={handleSearchInputClick}
-                  className="lg:text-xl border border-gray-300 inputField rounded-md outline-none bg-white shadow-xl p-2 px-3 mx-auto transition-opacity duration-300 ease-in-out opacity-100 w-5/6 lg:w-[650px] focus:ring-2 focus:ring-yellow-500"
-                  placeholder="Search..."
-                  autoFocus
-                />
-                {searchQuery && (
-                  <div className="lg:absolute top-full p-1 lg:p-3 right-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-5/6 lg:w-[650px]">
-                    {filteredBlogs?.length > 0 ? (
-                      filteredBlogs.map((item, index) => (
-                        <Link
-                          key={index}
-                          title={item.title}
-                          href={`/${sanitizeUrl(
-                            item.article_category
-                          )}/${sanitizeUrl(item?.title)}`}
-                          onClick={() => {
-                            handleSearchChange({ target: { value: '' } });
-                            handleSearchToggle();
-                          }}
-                        >
-                          <div className="p-2 hover:bg-gray-200 border-b text-gray-600">
-                            {item.title}
-                          </div>
-                        </Link>
-                      ))
-                    ) : (
-                      <div className="p-2 text-gray-600">
-                        No articles found.
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </>
-          )}
         </div>
       </div>
     </FullContainer>

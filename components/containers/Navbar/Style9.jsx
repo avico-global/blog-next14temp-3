@@ -22,12 +22,30 @@ export default function Style9({
     "font-semibold capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all p-2 whitespace-nowrap";
 
   const searchInputRef = useRef(null);
+  const dropdownRef = useRef(null);
 
   useEffect(() => {
     if (openSearch && searchInputRef.current) {
       searchInputRef.current.focus();
     }
   }, [openSearch]);
+
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setHoveredCategory(false);
+      }
+    };
+
+    if (hoveredCategory) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [hoveredCategory]);
 
   return (
     <div className="border-b text-gray-500 sticky top-0 z-20 bg-white py-2">
@@ -36,7 +54,7 @@ export default function Style9({
           <Logo logo={logo} imagePath={imagePath} />
         </div>
 
-        <div className="hidden lg:flex items-center justify-center">
+        <div className="hidden lg:flex items-center justify-center gap-6">
           {staticPages.map((item, index) => (
             <Link
               key={index}
@@ -52,25 +70,25 @@ export default function Style9({
           ))}
 
           <div
+            ref={dropdownRef}
             className="relative"
             onMouseEnter={() => setHoveredCategory(true)}
-            onMouseLeave={() => setHoveredCategory(false)}
           >
             <button className={navLink}>Categories</button>
             {hoveredCategory && (
-              <div className="absolute right-0 w-auto bg-white border rounded shadow-lg">
-                <ul>
+              <div className="absolute left-0 top-full mt-1 w-48 bg-white border border-gray-200 rounded-lg shadow-xl z-50 overflow-hidden">
+                <div className="py-2">
                   {categories?.map((item, index) => (
                     <Link
                       key={index}
                       title={item?.title}
                       href={`/${sanitizeUrl(item?.title)}`}
-                      className="px-4 py-2 hover:bg-gray-200 whitespace-nowrap border-b last:border-none font-semibold hover:text-black transition-all"
+                      className="block px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-gray-900 transition-all duration-200 ease-in-out border-b border-gray-100 last:border-b-0"
                     >
                       {item.title}
                     </Link>
                   ))}
-                </ul>
+                </div>
               </div>
             )}
           </div>
@@ -95,7 +113,7 @@ export default function Style9({
             </div>
           )}
           <div className="hidden lg:flex items-center border border-gray-300 rounded-md px-2 gap-1">
-            <Search className="w-4 h-4" />
+            <Search className="w-5 h-5 text-gray-600 hover:text-black transition-colors" />
             <input
               type="text"
               value={searchQuery}
