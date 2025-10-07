@@ -95,8 +95,8 @@ export default function FooterStyle1({
         <div className="mt-12 pt-6 border-t border-gray-200 text-xs flex items-center justify-between">
           <p>© 2025 YourBrand — All Rights Reserved</p>
           <div className="flex items-center gap-3 opacity-70">
-            <span>•</span>
-            <span>Follow us</span>
+          
+            
           </div>
         </div>
       </Container>
