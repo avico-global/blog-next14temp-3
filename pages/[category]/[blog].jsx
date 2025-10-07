@@ -137,12 +137,14 @@ export default function Blog({
                     <Container>
                       <div className="grid grid-cols-1 md:grid-cols-home gap-14 w-full">
                         <div className="">
-                          <article className="prose lg:prose-xl max-w-full">
-                            <div
-                              dangerouslySetInnerHTML={{ __html: content }}
-                            />
-                          </article>
-                          <div className="mt-12">
+                          <div className="bg-white rounded-2xl shadow-sm ring-1 ring-gray-300 p-6 md:p-10">
+                            <article className="prose lg:prose-xl max-w-full prose-headings:font-semibold prose-p:leading-relaxed prose-img:rounded-xl prose-a:underline-offset-4 hover:prose-a:underline">
+                              <div
+                                dangerouslySetInnerHTML={{ __html: content }}
+                              />
+                            </article>
+                          </div>
+                          <div className="mt-10 pt-6 border-t border-gray-300">
                             <h3 className="text-lg font-semibold">
                               Share this article:
                             </h3>
