@@ -5,6 +5,11 @@ import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 
 export default function BlogBannerStyle3({ myblog, imagePath }) {
+  const bannerSrc = myblog?.value?.banner?.file_name
+    ? `${imagePath}/${myblog?.value?.banner?.file_name}`
+    : myblog?.file_name
+    ? `${imagePath}/${myblog?.file_name}`
+    : "/no-image.png";
   return (
     <FullContainer>
       <Container className="overflow-hidden relative rounded-xl mt-5">
@@ -17,7 +22,7 @@ export default function BlogBannerStyle3({ myblog, imagePath }) {
             myblog?.value?.tagline ||
             "No Banner Found"
           }
-          src={`${imagePath}/${myblog?.file_name}`}
+          src={bannerSrc}
           title={myblog?.value.imageTitle || myblog?.value.title}
           className="-z-10 w-full h-full object-cover absolute top-0"
         />

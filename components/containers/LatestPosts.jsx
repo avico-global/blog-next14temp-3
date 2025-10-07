@@ -6,7 +6,7 @@ import { sanitizeUrl } from "@/lib/myFun";
 export default function LatestPosts({ blog_list, imagePath }) {
   return (
     <div className="flex flex-col">
-      <p className="font-bold">Latest Posts</p>
+      <p className="font-bold text-lg tracking-wide mb-4">Latest Posts</p>
       {blog_list
         ?.slice(-3)
         .reverse()
@@ -40,11 +40,11 @@ function Blog({
   tagline,
 }) {
   return (
-    <div className="flex items-center gap-3 mt-5 cursor-pointer">
+    <div className="flex items-center gap-4 mt-4 p-2 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
       <Link
         title={title || "Article Thumbnail"}
         href={href || "#"}
-        className="relative overflow-hidden w-2/6 h-20"
+        className="relative overflow-hidden w-2/6 h-20 rounded-md ring-1 ring-gray-100"
       >
         <Image
           src={image}
@@ -54,17 +54,17 @@ function Blog({
           sizes="200px, 150px"
           title={imageTitle || title || "Article"}
           alt={altImage || tagline || "No Thumbnail Found"}
-          className="w-full h-full object-cover absolute top-0 hover:scale-110 transition-all"
+          className="w-full h-full object-cover absolute top-0 rounded-md hover:scale-110 transition-transform duration-300"
         />
       </Link>
       <div className="flex-1">
         <Link title={title || "Article Link"} href={href || "#"}>
-          <p className="font-bold text-sm hover:underline">{title}</p>
+          <p className="font-semibold text-sm leading-snug hover:underline">{title}</p>
         </Link>
-        <div className="flex items-center gap-2">
-          <p className="text-xs mt-2 text-gray-400">{author}</p>
-          <span className="text-xs text-gray-400">_</span>
-          <p className="text-xs mt-2 text-gray-400">{date}</p>
+        <div className="flex items-center gap-2 mt-1 text-gray-400 text-xs">
+          <p className="truncate">{author}</p>
+          <span>·</span>
+          <p className="whitespace-nowrap">{date}</p>
         </div>
       </div>
     </div>

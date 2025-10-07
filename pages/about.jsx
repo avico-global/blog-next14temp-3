@@ -44,6 +44,23 @@ export default function About({
 
   const breadcrumbs = useBreadcrumbs();
 
+  // Simple reveal on scroll
+  React.useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+          }
+        });
+      },
+      { threshold: 0.08 }
+    );
+
+    document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div className={myFont.className}>
       <Head>
@@ -106,28 +123,34 @@ export default function About({
                 return (
                   <FullContainer key={index}>
                     <Container>
-                      <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-7" />
+                      <Breadcrumbs breadcrumbs={breadcrumbs} className="mt-10" />
                     </Container>
                   </FullContainer>
                 );
               case "text":
                 return (
                   <FullContainer>
-                    <Container className="pb-16 pt-8">
-                      <div className="grid grid-cols-about gap-16 w-full">
-                        <div
-                          className="markdown-content about_me prose max-w-full"
-                          dangerouslySetInnerHTML={{ __html: content }}
-                        />
-                        <Rightbar
-                          about_me={about_me}
-                          imagePath={imagePath}
-                          blog_list={blog_list}
-                          categories={categories}
-                          contact_details={contact_details}
-                          lastFiveBlogs={reversedLastFiveBlogs}
-                          widgets={page?.widgets}
-                        />
+                    <Container className="pb-24 pt-12">
+                      <div className="grid grid-cols-about gap-12 w-full">
+                        {/* Content card */}
+                        <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12 reveal" id="about-content">
+                          <div
+                            className="markdown-content about_me prose max-w-full"
+                            dangerouslySetInnerHTML={{ __html: content }}
+                          />
+                        </div>
+                        {/* Sidebar */}
+                        <div className="reveal" id="about-sidebar">
+                          <Rightbar
+                            about_me={about_me}
+                            imagePath={imagePath}
+                            blog_list={blog_list}
+                            categories={categories}
+                            contact_details={contact_details}
+                            lastFiveBlogs={reversedLastFiveBlogs}
+                            widgets={page?.widgets}
+                          />
+                        </div>
                       </div>
                     </Container>
                   </FullContainer>

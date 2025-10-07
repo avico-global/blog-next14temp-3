@@ -104,7 +104,9 @@ const Navbar = ({
       categories,
     };
 
-    switch (nav_type?.active) {
+    const activeStyle = nav_type?.active || "style_1";
+
+    switch (activeStyle) {
       case "style_1":
         return <Style1 {...props} />;
       case "style_2":
@@ -124,7 +126,8 @@ const Navbar = ({
       case "style_9":
         return <Style9 {...props} />;
       default:
-        return null;
+        console.log('No navbar style matched, using default Style1');
+        return <Style1 {...props} />;
     }
   };
 
@@ -143,7 +146,7 @@ const Navbar = ({
           >
             <div className="flex items-center justify-end gap-2">
               <Search
-                className="w-5 md:w-4 text-black cursor-pointer"
+                className="w-5 h-5 text-gray-600 hover:text-black transition-colors cursor-pointer"
                 onClick={handleSearchToggle}
               />
               <Menu
@@ -201,7 +204,7 @@ const Navbar = ({
       >
         <div className="flex items-center justify-end gap-3 h-[52px]">
           <Search
-            className="w-5 md:w-4 text-black cursor-pointer"
+            className="w-5 h-5 text-gray-600 hover:text-black transition-colors cursor-pointer"
             onClick={() => {
               toggleSidebar();
               handleSearchToggle();
