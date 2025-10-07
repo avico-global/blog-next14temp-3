@@ -29,10 +29,10 @@ export default function Rightbar({
     <Link
       title="About"
       href="/about"
-      className="border p-5 flex flex-col items-center text-center"
+      className="border border-gray-200 rounded-2xl shadow-md p-6 flex flex-col items-center text-center bg-white hover:shadow-lg transition-shadow"
     >
       <h2 className="bg-white px-5 font-bold text-lg -mt-9">About</h2>
-      <div className="relative overflow-hidden w-full h-[150px] mt-8">
+      <div className="relative overflow-hidden w-full h-[150px] mt-6 rounded-lg ring-1 ring-gray-100">
         <Image
           src={`${imagePath}/${about_me.file_name}`}
           title={`${about_me.value.slice(0, 70)}...`}
@@ -41,30 +41,30 @@ export default function Rightbar({
           width={241}
           height={150}
           loading="eager"
-          className="-z-10 object-cover"
+          className="-z-10 object-cover hover:scale-105 transition-transform duration-300"
         />
       </div>
       <div
-        className="mt-3"
+        className="mt-3 text-gray-600 text-sm"
         dangerouslySetInnerHTML={{ __html: `${content.slice(0, 100)}...` }}
       />
-      <p className="mt-3 underline font-bold">More about Us?</p>
+      <p className="mt-3 underline font-semibold">More about Us?</p>
     </Link>
   );
 
   const renderCategories = () => (
-    <div className="border p-5 flex flex-col items-center text-center">
+    <div className="border border-gray-200 rounded-2xl shadow-md p-6 flex flex-col items-center text-center bg-white">
       <h2 className="bg-white px-5 font-bold text-lg -mt-9">Categories</h2>
-      <div className="flex flex-col w-full text-left px-2 py-4">
+      <div className="flex flex-col w-full text-left px-2 py-2 divide-y divide-gray-200">
         {categories.map((item, index) => (
           <Link
             key={index}
             title={item?.title}
             href={`/${encodeURI(sanitizeUrl(item.title))}`}
             className={cn(
-              "text-gray-500 capitalize w-full flex items-center gap-2 hover:text-black transition-all p-2 border-b-2 border-gray-100 hover:border-black",
+              "text-gray-700 capitalize w-full flex items-center gap-2 hover:text-black transition-colors p-3",
               (category === item.title || isActive(`/${item.title}`)) &&
-                "border-black text-black"
+                "text-black"
             )}
           >
             <Circle className="w-2 h-2 text-blue-800" />
@@ -106,15 +106,15 @@ export default function Rightbar({
   );
 
   const renderLatestPosts = () => (
-    <div className="border pt-5 px-4 flex flex-col items-center">
+    <div className="border border-gray-200 rounded-2xl shadow-md pt-6 px-5 flex flex-col items-center bg-white">
       <h2 className="bg-white px-5 font-bold text-lg -mt-9 text-center">
         Latest Posts
       </h2>
-      <div className="flex flex-col my-3">
+      <div className="flex flex-col my-4 w-full">
         {lastFiveBlogs.map((item, index) => (
           <div
             key={index}
-            className="grid grid-cols-widget gap-3 py-3 border-b last:border-none"
+            className="grid grid-cols-widget gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors border-b last:border-none"
           >
             <Link
               title={item.title || "Article"}
@@ -122,7 +122,7 @@ export default function Rightbar({
                 sanitizeUrl(item.article_category)
               )}/${encodeURI(sanitizeUrl(item.title))}`}
             >
-              <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded">
+              <div className="overflow-hidden relative min-h-20 w-full bg-black flex-1 rounded-md ring-1 ring-gray-100">
                 <Image
                   title={item?.imageTitle || item?.title || "Article Thumbnail"}
                   alt={item?.tagline || item?.altText || "Article Thumbnail"}
@@ -131,7 +131,7 @@ export default function Rightbar({
                   }
                   fill
                   loading="lazy"
-                  className="object-cover hover:scale-125 transition-all"
+                  className="object-cover hover:scale-110 transition-transform duration-300"
                   style={{ objectFit: "cover" }}
                 />
               </div>
@@ -144,11 +144,11 @@ export default function Rightbar({
                   sanitizeUrl(item.article_category)
                 )}/${encodeURI(sanitizeUrl(item.title))}`}
               >
-                <p className="font-semibold leading-tight hover:underline">
+                <p className="font-semibold leading-tight text-gray-800 hover:underline">
                   {item.title}
                 </p>
               </Link>
-              <div className="flex items-center gap-2 mt-1 justify-between text-gray-500">
+              <div className="flex items-center gap-2 mt-2 justify-between text-gray-500 text-xs">
                 <p className="text-xs">{item.author}</p>
                 <p className="text-xs whitespace-nowrap">{item.published_at}</p>
               </div>
