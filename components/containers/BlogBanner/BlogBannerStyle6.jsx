@@ -5,6 +5,11 @@ import Image from "next/image";
 import React from "react";
 
 export default function BlogBannerStyle6({ myblog, imagePath }) {
+  const bannerSrc = myblog?.value?.banner?.file_name
+    ? `${imagePath}/${myblog?.value?.banner?.file_name}`
+    : myblog?.file_name
+    ? `${imagePath}/${myblog?.file_name}`
+    : "/no-image.png";
   return (
     <>
       <div
@@ -15,7 +20,7 @@ export default function BlogBannerStyle6({ myblog, imagePath }) {
       >
         <FullContainer className="min-h-[63vh] flex flex-col justify-start items-start p-10">
           <Image
-            src={`${imagePath}/${myblog?.file_name}`}
+            src={bannerSrc}
             alt={
               myblog?.value.imageAltText ||
               myblog?.value?.tagline ||

@@ -5,6 +5,11 @@ import Image from "next/image";
 import React from "react";
 
 export default function BlogBannerStyle8({ myblog, imagePath }) {
+  const bannerSrc = myblog?.value?.banner?.file_name
+    ? `${imagePath}/${myblog?.value?.banner?.file_name}`
+    : myblog?.file_name
+    ? `${imagePath}/${myblog?.file_name}`
+    : "/no-image.png";
   return (
     <>
       <div
@@ -48,7 +53,7 @@ export default function BlogBannerStyle8({ myblog, imagePath }) {
           <div className="w-full flex justify-center lg:justify-end">
             <div className="relative w-[300px] h-[300px] lg:w-[500px] lg:h-[500px] border-4 rounded-full">
               <Image
-                src={`${imagePath}/${myblog?.file_name}`}
+                src={bannerSrc}
                 alt={
                   myblog?.value.imageAltText ||
                   myblog?.value?.tagline ||

@@ -4,6 +4,11 @@ import { Badge } from "@/components/ui/badge";
 import Container from "@/components/common/Container";
 
 export default function BlogBannerStyle2({ myblog, imagePath }) {
+  const bannerSrc = myblog?.value?.banner?.file_name
+    ? `${imagePath}/${myblog?.value?.banner?.file_name}`
+    : myblog?.file_name
+    ? `${imagePath}/${myblog?.file_name}`
+    : "/no-image.png";
   return (
     <div>
       <div className="flex flex-col items-center justify-center text-center gap-5 py-10">
@@ -21,7 +26,7 @@ export default function BlogBannerStyle2({ myblog, imagePath }) {
       </div>
       <Container className="h-[550px] mx-auto overflow-hidden relative text-left">
         <Image
-          src={`${imagePath}/${myblog?.file_name}`}
+          src={bannerSrc}
           alt={
             myblog?.value.imageAltText ||
             myblog?.value?.tagline ||

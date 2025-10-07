@@ -5,11 +5,16 @@ import Container from "@/components/common/Container";
 import FullContainer from "@/components/common/FullContainer";
 
 export default function BlogBannerStyle10({ myblog, imagePath }) {
+  const bannerSrc = myblog?.value?.banner?.file_name
+    ? `${imagePath}/${myblog?.value?.banner?.file_name}`
+    : myblog?.file_name
+    ? `${imagePath}/${myblog?.file_name}`
+    : "/no-image.png";
   return (
     <FullContainer className="min-h-[63vh] overflow-hidden p-0  grid grid-cols-1 lg:grid-cols-2 items-center gap-0">
       <div className="relative w-full h-full">
         <Image
-          src={`${imagePath}/${myblog?.file_name}`}
+          src={bannerSrc}
           alt={
             myblog?.value.imageAltText ||
             myblog?.value?.tagline ||

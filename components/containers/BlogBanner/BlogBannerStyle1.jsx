@@ -13,6 +13,11 @@ const bannerTitleFont = Playfair_Display({
 });
 
 export default function BlogBannerStyle1({ myblog, imagePath }) {
+  const bannerSrc = myblog?.value?.banner?.file_name
+    ? `${imagePath}/${myblog?.value?.banner?.file_name}`
+    : myblog?.file_name
+    ? `${imagePath}/${myblog?.file_name}`
+    : "/no-image.png";
   return (
     <FullContainer
       className="min-h-[60vh] mx-auto max-w[1200px] overflow-hidden p-10 text-center"
@@ -22,7 +27,7 @@ export default function BlogBannerStyle1({ myblog, imagePath }) {
       }}
     >
       <Image
-        src={`${imagePath}/${myblog?.file_name}`}
+        src={bannerSrc}
         alt={
           myblog?.value?.imageAltText ||
           myblog?.value?.tagline ||
