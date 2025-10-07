@@ -104,8 +104,7 @@ const Navbar = ({
       categories,
     };
 
-    // Temporary override to force Style 6
-    const activeStyle = "style_9"; // Override: was nav_type?.active
+    const activeStyle = nav_type?.active || "style_1";
 
     switch (activeStyle) {
       case "style_1":
