@@ -81,38 +81,6 @@
     @apply border-border text-[15px];
   }
   body {
-    @apply bg-background text-foreground antialiased leading-relaxed tracking-[0.01em];
+    @apply bg-background text-foreground;
   }
-}
-
-/* Smooth scrolling and consistent transitions */
-html { scroll-behavior: smooth; }
-
-@layer components {
-  /* Consistent, subtle transition for interactive elements */
-  .transition-base { @apply transition-all duration-200 ease-out; }
-
-  /* Card surface styling for consistent elevation */
-  .card {
-    @apply bg-white rounded-xl ring-1 ring-gray-100 shadow-sm;
-  }
-  .card-hover {
-    @apply hover:shadow-lg hover:ring-gray-200 transition-base;
-  }
-
-  /* Typography helpers */
-  .heading {
-    @apply font-semibold tracking-tight;
-  }
-  .subtle {
-    @apply text-gray-600;
-  }
-
-  /* Link and button defaults */
-  a, button { @apply transition-base; }
-  a:hover { @apply opacity-90; }
-
-  /* Image smoothing */
-  .img-zoom { @apply transition-transform duration-300 ease-out; }
-  .img-zoom:hover { @apply scale-[1.02]; }
 }
