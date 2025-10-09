@@ -34,6 +34,16 @@ const Navbar = ({
   const currentPath = router.asPath;
   const isActive = (path) => currentPath === path;
 
+  const activeStyle = nav_type?.active || "style_9";
+
+  // Use categories as provided by backend (remove hardcoded defaults)
+  const allCategories = categories || []
+
+  useEffect(() => {
+    // Expose active navbar style in console for quick visibility
+    console.log("Navbar active style:", activeStyle);
+  }, [activeStyle]);
+
   const handleSearchChange = (event) => setSearchQuery(event.target.value);
 
   const handleSearchToggle = () => {
@@ -101,10 +111,10 @@ const Navbar = ({
       handleSearchToggle,
       toggleSidebar,
       filteredBlogs,
-      categories,
+      categories: allCategories,
     };
 
-    const activeStyle = nav_type?.active || "style_1";
+    // activeStyle computed at component scope
 
     switch (activeStyle) {
       case "style_1":
@@ -133,9 +143,9 @@ const Navbar = ({
 
   return (
     <>
-      <div className="hidden lg:block">{renderActiveStyle()}</div>
+      <div className="hidden lg:block" data-active-style={activeStyle}>{renderActiveStyle()}</div>
 
-      <FullContainer className="lg:hidden sticky top-0 z-20 bg-white shadow lg:py-0">
+      <FullContainer className="lg:hidden sticky top-0 z-20 bg-white shadow lg:py-0" data-active-style={activeStyle}>
         <div className="flex justify-between lg:grid grid-cols-nav w-11/12 md:w-10/12 mx-auto items-center">
           <div className="py-2">
             <Logo logo={logo} imagePath={imagePath} />
@@ -223,7 +233,7 @@ const Navbar = ({
           >
             Home
           </Link>
-          {categories?.map((item, index) => (
+          {allCategories?.map((item, index) => (
             <Link
               key={index}
               title={item}

@@ -29,12 +29,13 @@ export default function Style7({
 
   return (
     <>
-      <div className="p-14 border-b">
-        <Logo logo={logo} imagePath={imagePath} />
-      </div>
       <div className=" bg-white lg:bg-black   sticky top-0 z-20  ">
         <div className="flex justify-between items-center mx-auto max-w-[1500px] shadow-sm  w-full py-2 text-white">
-          <div className=" hidden lg:flex ">
+          {/* Left: Logo */}
+          <div className="hidden lg:flex items-center ml-6">
+            <Logo logo={logo} imagePath={imagePath} className="text-white" forceWhite />
+          </div>
+          <div className=" hidden lg:flex ml-6 gap-2 ">
             {staticPages.map((item, index) => (
               <Link
                 key={index}

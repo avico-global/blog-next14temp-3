@@ -45,26 +45,53 @@ export default function Style8({
       </div> */}
       <div className="border-b text-gray-500 sticky top-0 z-20 bg-white py-6">
         <div className=" flex items-center justify-between mx-auto max-w-[1300px] ">
-          <div className="flex">
+          <div className="flex ml-6">
             <div className="flex items-center">
               <Logo logo={logo} imagePath={imagePath} />
             </div>
 
             <div className="hidden lg:flex items-center justify-end">
-              {categories?.map((item, index) => (
+              {/* Static pages */}
+              {[{page:'Home',href:'/'},{page:'About Us',href:'/about'},{page:'Contact Us',href:'/contact'}].map((item, index) => (
                 <Link
                   key={index}
-                  title={item?.title}
-                  href={`/${sanitizeUrl(item?.title)}`}
+                  title={item.page}
+                  href={item.href}
                   className={cn(
-                    "font-semibold text-gray-500 capitalize hover:text-black border-transparent transition-all py-4 px-2 border-b-2 hover:border-black w-fit",
-                    (category === item?.title || isActive(`/${item?.title}`)) &&
-                      "border-black text-black"
+                    "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4",
+                    isActive(item.href) && "border-black text-black"
                   )}
                 >
-                  {item?.title}
+                  {item.page}
                 </Link>
               ))}
+
+              {/* Categories dropdown with fixed list */}
+              <div className="group relative">
+                <button
+                  type="button"
+                  className={cn(
+                    "font-semibold text-gray-500 capitalize border-b-2 border-transparent hover:text-black hover:border-black transition-all px-2 py-4 flex items-center gap-1"
+                  )}
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                >
+                  Categories
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+                <div className="absolute top-full right-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-56 p-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity">
+                  {["diy","fashion","lifestyle","travel"].map((title, index) => (
+                    <Link
+                      key={index}
+                      title={title}
+                      href={`/${sanitizeUrl(title)}`}
+                      className="block px-3 py-2 text-gray-600 hover:text-black hover:bg-gray-100 rounded capitalize"
+                    >
+                      {title}
+                    </Link>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 

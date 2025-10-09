@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
-const Logo = ({ logo, imagePath }) => {
+const Logo = ({ logo, imagePath, className, forceWhite = false }) => {
   const [hostName, setHostName] = useState("");
   const [windowWidth, setWindowWidth] = useState(1200);
 
@@ -62,7 +62,7 @@ const Logo = ({ logo, imagePath }) => {
     <Link
       title={`Logo - ${hostName}`}
       href="/"
-      className="flex items-center justify-center mr-10"
+      className={`flex items-center justify-center mr-10 ${className || ""}`}
     >
       {logoType === "image" ? (
         <Image
@@ -73,10 +73,11 @@ const Logo = ({ logo, imagePath }) => {
           alt={`${logoText || "logo"} - ${hostName}`}
           sizes="(max-width: 768px) 100px, (max-width: 1200px) 150px, 200px"
           style={logoStyle}
+          className={forceWhite ? "lg:invert" : undefined}
         />
       ) : logoType === "text" ? (
         <h2
-          className="text-4xl font-extrabold py-1 whitespace-nowrap"
+          className={`text-4xl font-extrabold py-1 whitespace-nowrap ${forceWhite ? "text-white" : ""}`}
           style={{
             fontSize: `${fontSize}px`,
             fontWeight: isBold ? "bold" : "normal",

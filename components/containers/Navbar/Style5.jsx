@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { Menu, Search } from "lucide-react";
+import { Menu, Search, ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -45,20 +45,32 @@ export default function Style5({
                 {item.page}
               </Link>
             ))}
-            {categories?.map((item, index) => (
-              <Link
-                key={index}
-                title={item?.title}
-                href={`/${sanitizeUrl(item?.title)}`}
+            {/* Categories dropdown with fixed list */}
+            <div className="group relative">
+              <button
+                type="button"
                 className={cn(
                   navLink,
-                  (category === item.title || isActive(`/${item.title}`)) &&
-                    "border-black text-black"
+                  "flex items-center gap-1"
                 )}
+                aria-haspopup="menu"
+                aria-expanded="false"
               >
-                {item.title}
-              </Link>
-            ))}
+                Categories <ChevronDown className="w-4 h-4" />
+              </button>
+              <div className="absolute top-full left-0 bg-white shadow-2xl rounded-md mt-1 z-10 w-56 p-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-opacity">
+                {["diy","fashion","lifestyle","travel"].map((title, index) => (
+                  <Link
+                    key={index}
+                    title={title}
+                    href={`/${sanitizeUrl(title)}`}
+                    className="block px-3 py-2 text-gray-600 hover:text-black hover:bg-gray-100 rounded capitalize"
+                  >
+                    {title}
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="  flex justify-between items-center gap-28  lg:gap-0 my-2">
             {searchQuery && (
@@ -78,13 +90,27 @@ export default function Style5({
                 ))}
               </div>
             )}
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={handleSearchChange}
-              className="border border-gray-300 rounded-md p-1 transition-opacity duration-300 ease-in-out opacity-100"
-              placeholder="Search..."
-            />
+            <div className="relative">
+              <button
+                type="button"
+                aria-label="Search"
+                onClick={() => {
+                  const input = document.getElementById('style5-search-input');
+                  if (input) input.focus();
+                }}
+                className="absolute left-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-gray-400 hover:text-black transition-colors"
+              >
+                <Search className="w-4 h-4" />
+              </button>
+              <input
+                id="style5-search-input"
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                className="border border-gray-300 rounded-md p-1 pl-8 transition-opacity duration-300 ease-in-out opacity-100 focus:ring-2 focus:ring-yellow-500"
+                placeholder="Search..."
+              />
+            </div>
             <Menu
               onClick={toggleSidebar}
               className="w-6 h-6 ml-1 text-black lg:hidden"

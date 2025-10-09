@@ -10,13 +10,14 @@ import BlogBannerStyle9 from "./BlogBannerStyle9";
 import BlogBannerStyle10 from "./BlogBannerStyle10";
 
 export default function BlogBanner({ myblog, imagePath, blog_type }) {
+  const activeStyle = blog_type?.active || "style_3";
   const renderActiveStyle = () => {
     const props = {
       myblog,
       imagePath,
     };
 
-    switch (blog_type?.active) {
+    switch (activeStyle) {
       case "style_1":
         return <BlogBannerStyle1 {...props} />;
       case "style_2":
@@ -42,5 +43,9 @@ export default function BlogBanner({ myblog, imagePath, blog_type }) {
     }
   };
 
-  return <>{renderActiveStyle()}</>;
+  if (typeof window !== 'undefined') {
+    console.log('BlogBanner active style:', activeStyle);
+  }
+
+  return <div data-active-banner-style={activeStyle}>{renderActiveStyle()}</div>;
 }
