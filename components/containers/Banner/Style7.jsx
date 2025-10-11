@@ -32,20 +32,24 @@ export default function Style1({ image, data }) {
                (max-width: 3840px) 3840px,
                100vw"
       />
-      <Container className="gap-8">
-        <h1
-          style={{ fontSize: data.titleFontSize || 48 }}
-          className="font-bold capitalize max-w-screen-md"
-        >
-          {data.title}
-        </h1>
-        {data.tagline && (
-          <p
-            style={{ fontSize: data.taglineFontSize || 18 }}
-            className="leading-tight md:leading-none"
+      <Container className="gap-6">
+        <div className="inline-block rounded-xl bg-white/80 md:bg-white/75 px-4 py-2 text-black backdrop-blur-[2px] ring-1 ring-gray-300">
+          <h1
+            style={{ fontSize: data.titleFontSize || 48 }}
+            className="font-bold capitalize max-w-screen-md"
           >
-            {data.tagline}
-          </p>
+            {data.title}
+          </h1>
+        </div>
+        {data.tagline && (
+          <div className="inline-block rounded-lg bg-white/70 md:bg-white/65 px-3 py-2 text-gray-800 backdrop-blur-[2px] ring-1 ring-gray-300">
+            <p
+              style={{ fontSize: data.taglineFontSize || 18 }}
+              className="leading-snug"
+            >
+              {data.tagline}
+            </p>
+          </div>
         )}
       </Container>
     </FullContainer>

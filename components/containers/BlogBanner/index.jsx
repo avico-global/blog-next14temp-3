@@ -11,6 +11,14 @@ import BlogBannerStyle10 from "./BlogBannerStyle10";
 
 export default function BlogBanner({ myblog, imagePath, blog_type }) {
   const activeStyle = blog_type?.active || "style_3";
+
+  // Debug: Log blog data to see what's available
+  if (typeof window !== 'undefined') {
+    console.log('BlogBanner myblog data:', myblog);
+    console.log('BlogBanner title:', myblog?.value?.title);
+    console.log('BlogBanner tagline:', myblog?.value?.tagline);
+  }
+
   const renderActiveStyle = () => {
     const props = {
       myblog,

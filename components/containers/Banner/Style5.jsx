@@ -2,7 +2,7 @@ import React from "react";
 import FullContainer from "../../common/FullContainer";
 import Image from "next/image";
 import Link from "next/link";
-import { Divide, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { sanitizeUrl } from "@/lib/myFun";
 
 export default function Style5({
@@ -19,10 +19,10 @@ export default function Style5({
         {/* Text Content - Left Side */}
         <div
           style={{
-            backgroundColor: `rgba(0, 0, 0, ${data?.opacity / 100})`,
+            backgroundColor: "#000000", // solid black background
             color: data.textColor || "white",
           }}
-          className="flex flex-col justify-center p-8 lg:p-12 text-center lg:text-left order-2 lg:order-1"
+          className="flex flex-col justify-center p-8 lg:p-12 text-center lg:text-left order-2 lg:order-1 rounded-xl transition-all duration-300"
         >
           <div className="space-y-6">
             <h1
@@ -31,6 +31,7 @@ export default function Style5({
             >
               {data.title}
             </h1>
+
             {data.tagline && (
               <h2
                 style={{ fontSize: data.taglineFontSize || 18 }}
@@ -40,9 +41,10 @@ export default function Style5({
               </h2>
             )}
 
+            {/* Search Bar */}
             <div
               ref={searchContainerRef}
-              className="relative w-full lg:w-4/5 flex items-center gap-3 py-3 px-5 bg-white rounded-full mt-6"
+              className="relative w-full lg:w-4/5 flex items-center gap-3 py-3 px-5 bg-white rounded-full mt-6 shadow-md"
             >
               <Search className="text-gray-400 w-5 h-5" />
               <input
@@ -54,7 +56,7 @@ export default function Style5({
                 autoFocus
               />
               {searchQuery && (
-                <div className="absolute top-full p-1 text-start lg:p-3 left-0 bg-white shadow-2xl rounded-md mt-1 z-10 mx-auto w-11/12 lg:w-[500px]">
+                <div className="absolute top-full left-0 w-full bg-white shadow-2xl rounded-md mt-1 z-10">
                   {filteredBlogs?.length > 0 ? (
                     filteredBlogs.map((item, index) => (
                       <Link
@@ -84,20 +86,10 @@ export default function Style5({
             src={image}
             title={data.imageTitle || data.title || "Banner"}
             alt={data.altImage || data.tagline || "No Banner Found"}
-            priority={true}
-            fill={true}
-            loading="eager"
+            priority
+            fill
             className="object-cover"
-            sizes="(max-width: 320px) 320px,
-               (max-width: 480px) 480px,
-               (max-width: 768px) 768px,
-               (max-width: 1024px) 1024px,
-               (max-width: 1280px) 1280px,
-               (max-width: 1600px) 1600px,
-               (max-width: 1920px) 1920px,
-               (max-width: 2560px) 2560px,
-               (max-width: 3840px) 3840px,
-               100vw"
+            sizes="(max-width: 768px) 100vw, 50vw"
           />
         </div>
       </div>
